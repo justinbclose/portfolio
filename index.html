@@ -145,6 +145,33 @@ section{scroll-margin-top:70px}
 .numbers p{margin-top:14px;color:var(--on-deep-muted);font-size:15px;max-width:24ch}
 .numbers .grid > div{padding-top:22px;border-top:1px solid rgba(211,168,119,.45)}
 
+/* Highlights */
+.highlights{padding-bottom:clamp(40px,5vw,72px)}
+.hl-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(20px,3vw,44px)}
+.hl{position:relative;padding:26px 0 0}
+.hl:nth-child(even){margin-top:56px}
+.hl::before{content:"";position:absolute;top:0;left:0;width:100%;height:10px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 10' preserveAspectRatio='none'%3E%3Cpath d='M0 6 C20 1 40 1 60 5 S100 9 120 4' fill='none' stroke='%23d3a877' stroke-width='1.3' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") no-repeat center/100% 100%}
+.hl-n{font:500 clamp(38px,4.4vw,60px)/1 var(--mono);letter-spacing:-.02em;color:var(--sage-ink);font-variant-numeric:tabular-nums}
+.hl-n .u{color:var(--gold-ink);font-size:.55em;letter-spacing:0}
+.hl h3{font:600 19px/1.3 var(--body);margin:16px 0 8px}
+.hl p:not(.hl-n){color:var(--muted);font-size:15.5px}
+.hl .label{display:block;margin-top:14px;font-size:10.5px}
+/* Growth rings */
+.growth{width:100%;border-top:1px solid var(--line);margin-top:22px;padding-top:26px;display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:clamp(12px,2vw,28px);align-items:end}
+.ring-chart{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px}
+.ring-chart svg{width:100%;max-width:150px;height:auto;transform:rotate(-90deg)}
+.ring-chart.big svg{max-width:200px}
+.ring-chart circle{fill:none;stroke-width:9}
+.ring-chart .track{stroke:var(--mat-2)}
+.ring-chart .bar{stroke:var(--sage-ink);stroke-linecap:round;stroke-dasharray:var(--c);stroke-dashoffset:var(--off);transition:stroke-dashoffset 1.8s var(--ease)}
+.ring-chart.big .bar{stroke:var(--gold)}
+.ring-chart .inner{position:relative;width:100%;display:grid;place-items:center}
+.ring-chart .v{position:absolute;font:500 clamp(18px,2vw,26px) var(--mono);color:var(--ink)}
+.ring-chart.big .v{font-size:clamp(24px,2.8vw,36px)}
+.ring-chart p{font-size:13.5px;color:var(--muted);line-height:1.35}
+.ring-chart p b{display:block;color:var(--ink);font:500 12.5px var(--mono)}
+@media (max-width:1000px){ .hl-list{grid-template-columns:1fr 1fr} .hl:nth-child(even){margin-top:40px} .growth{grid-template-columns:1fr 1fr;row-gap:28px} }
+@media (max-width:560px){ .hl-list{grid-template-columns:1fr} .hl:nth-child(even){margin-top:0} }
 /* ---------- Portfolio exhibits ---------- */
 .chips{position:sticky;top:76px;z-index:20;display:flex;gap:8px;overflow-x:auto;padding:12px 0;margin:0 0 clamp(36px,4vw,56px);scrollbar-width:none;background:linear-gradient(var(--cream) 70%,rgba(245,245,239,0))}
 .chips::-webkit-scrollbar{display:none}
@@ -367,7 +394,19 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
   <svg class="wave overlay" data-wave="1" data-fill="#f5f5ef" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"></svg>
 </section>
 
-<section class="sec" id="about">
+<section class="sec highlights" id="highlights" aria-labelledby="hl-title">
+  <div class="wrap">
+    <div class="chapter"><span class="label">Highlights</span><h2 id="hl-title">What I’ve done</h2></div>
+    <ol class="hl-list">
+      <li class="hl reveal"><p class="hl-n" data-count="10" data-prefix="$" data-suffix="K">$10<span class="u">K</span></p><h3>Found free Google Ads money</h3><p>A GA4 audit at Wine to Water turned up about $10,000 in Google Ad Grant credit the nonprofit was entitled to but had never used.</p><span class="label">Wine to Water · 2025</span></li>
+      <li class="hl reveal"><p class="hl-n" data-count="5" data-suffix=" mo">5<span class="u"> mo</span></p><h3>Ran marketing as acting Assistant Director</h3><p>Covered the Assistant Director of Marketing role for five months, reporting directly to the Director of Sales &amp; Marketing.</p><span class="label">La Jolla Beach &amp; Tennis Club</span></li>
+      <li class="hl reveal"><p class="hl-n" data-count="35" data-prefix="+" data-suffix="%">+35<span class="u">%</span></p><h3>Grew social across three brands</h3><p>Grew the club, hotel and restaurant accounts 35% with planned content and community management. 150K+ followers under my care.</p><span class="label">LJBTC · The Marine Room · La Jolla Shores</span></li>
+      <li class="hl reveal"><p class="hl-n">Sold<span class="u">.</span></p><h3>Started a business, then sold it</h3><p>Co-founded Tourmaline Services, built the brand, website and marketing from nothing, and sold the company.</p><span class="label">Tourmaline Services · St. George, UT</span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="sec" id="about" style="padding-top:clamp(24px,3vw,48px)">
   <div class="wrap">
     <div class="about-grid">
       <div class="about-text">
@@ -400,16 +439,6 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
   </div>
 </section>
 
-<svg class="wave" data-wave="2" data-fill="#2f3524" data-bg="#f5f5ef" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"></svg>
-<div class="deep numbers sec" style="padding-top:clamp(40px,5vw,72px);padding-bottom:clamp(48px,5vw,80px)" aria-label="Highlights">
-  <div class="wrap grid">
-    <div><p class="n" data-count="150" data-suffix="K+">150<span class="u">K+</span></p><p>Combined followers across the accounts I manage</p></div>
-    <div><p class="n" data-count="84000">84,000</p><p>Subscribers on one La Jolla Shores Hotel email send</p></div>
-    <div><p class="n" data-count="10" data-prefix="$" data-suffix="K">$10<span class="u">K</span></p><p>Unused grant funding I found for Wine to Water in an analytics audit</p></div>
-    <div><p class="n" data-count="35" data-prefix="+" data-suffix="%">+35<span class="u">%</span></p><p>Social growth across three luxury hospitality brands</p></div>
-  </div>
-</div>
-<svg class="wave" data-wave="3" data-fill="#f5f5ef" data-bg="#2f3524" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"></svg>
 
 <section class="sec" id="work" style="padding-top:clamp(40px,5vw,80px)">
   <div class="wrap">
@@ -488,8 +517,8 @@ const WORK = [
     client:"La Jolla Shores Hotel", title:"“Your Coastal Escape” eblast", ran:["Sent to","84,000 subscribers"], role:"Copy, build & send", result:"<b>84,000</b> inboxes",
     summary:"An awareness email written and built to drive direct bookings from past and prospective guests.",
     did:["Wrote the subject line, headline and body","Built the responsive email","Segmented the list and scheduled the send"], links:[] },
-  { cats:["social"], kind:"fan", shape:"wide", screens:[["img/screen-ljbtc.jpg","@ljbtc"],["img/screen-marineroom.jpg","@themarineroom"],["img/screen-shores.jpg","@ljshoreshotel"]],
-    client:"LJBTC · The Marine Room · La Jolla Shores", title:"Instagram for three luxury brands", ran:["Published on","Instagram"], role:"Content, shooting & community", result:"<b>+54%</b> reach YoY · <b>150K+</b> followers",
+  { cats:["social"], kind:"fan", shape:"wide", growth:[["big","+35%",35,"Total social growth","3 brands"],["","+14.2%",14.2,"Follower growth","@ljbtc"],["","+36.8%",36.8,"Follower growth","@themarineroom"],["","+10.4%",10.4,"Follower growth","@ljshoreshotel"]], screens:[["img/screen-ljbtc.jpg","@ljbtc"],["img/screen-marineroom.jpg","@themarineroom"],["img/screen-shores.jpg","@ljshoreshotel"]],
+    client:"LJBTC · The Marine Room · La Jolla Shores", title:"Instagram for three luxury brands", ran:["Published on","Instagram"], role:"Content, shooting & community", result:"<b>+35%</b> growth · <b>150K+</b> followers managed",
     summary:"Three audiences, three voices, one content calendar, all shot and planned in-house.",
     did:["Plan and schedule content for three accounts","Shoot and edit photo and video in-house","Report reach and follower growth year over year"], links:[] },
   { cats:["print"], kind:"image", shape:"tall", imgs:[["img/marine-ad.jpg",648,846]],
@@ -561,7 +590,7 @@ $("#exhibits").innerHTML = WORK.map((w,i) => {
   } else if(w.kind==="phones"){
     mat = `<div class="row">${w.screens.map(([src,alt]) => phone(`<img src="${src}" alt="${esc(w.client)} ${esc(alt)} screen" loading="lazy">`, "scroll")).join("")}</div>`;
   } else if(w.kind==="fan"){
-    mat = `<div class="fan">${w.screens.map(([src,alt]) => phone(`<img src="${src}" alt="Instagram profile ${esc(alt)}" loading="lazy">`)).join("")}</div><p class="label" style="text-align:center">${w.screens.map(x=>esc(x[1])).join(" · ")}</p>`;
+    mat = `<div class="fan">${w.screens.map(([src,alt]) => phone(`<img src="${src}" alt="Instagram profile ${esc(alt)}" loading="lazy">`)).join("")}</div><p class="label" style="text-align:center">${w.screens.map(x=>esc(x[1])).join(" · ")}</p>` + (w.growth ? `<div class="growth">${w.growth.map(([cls,txt,pct,lab,who]) => { const r = cls ? 52 : 44, c = (2*Math.PI*r).toFixed(1); return `<figure class="ring-chart ${cls}" data-pct="${pct}" style="--c:${c};--off:${c}"><div class="inner"><svg viewBox="0 0 ${2*r+12} ${2*r+12}" aria-hidden="true"><circle class="track" cx="${r+6}" cy="${r+6}" r="${r}"/><circle class="bar" cx="${r+6}" cy="${r+6}" r="${r}"/></svg><span class="v" data-to="${pct}">${txt}</span></div><p><b>${esc(who)}</b>${esc(lab)}</p></figure>`; }).join("")}</div>` : "");
   }
   const cls = w.shape==="tall" ? "tall" : "wide";
   const ran = w.ran ? `<div><dt>${esc(w.ran[0])}</dt><dd>${esc(w.ran[1])}</dd></div>` : "";
@@ -662,6 +691,16 @@ if(!reduce && "IntersectionObserver" in window){
       el.innerHTML = pre + v.toLocaleString("en-US") + (suf ? `<span class="u">${suf}</span>` : ""); if(p<1) requestAnimationFrame(f); })(t0); }), {threshold:.5});
   nums.forEach(el => io2.observe(el));
 }
+
+/* ---- growth rings fill when scrolled into view ---- */
+(function(){ const rings = $$(".ring-chart");
+  const fill = el => { const c = parseFloat(getComputedStyle(el).getPropertyValue("--c")), pct = +el.dataset.pct; el.style.setProperty("--off", (c * (1 - pct/100)).toFixed(1));
+    const v = el.querySelector(".v"), to = +v.dataset.to, dec = String(to).includes(".") ? 1 : 0, t0 = performance.now();
+    if(reduce) return; (function f(t){ const p = Math.min(1,(t-t0)/1800), e = 1-Math.pow(1-p,3); v.textContent = "+" + (to*e).toFixed(dec) + "%"; if(p<1) requestAnimationFrame(f); })(t0); };
+  if(reduce || !("IntersectionObserver" in window)){ rings.forEach(el => { const c = parseFloat(getComputedStyle(el).getPropertyValue("--c")); el.style.setProperty("--off", (c*(1-el.dataset.pct/100)).toFixed(1)); }); return; }
+  const io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ fill(e.target); io.unobserve(e.target); }}), {threshold:.5});
+  rings.forEach(el => io.observe(el));
+})();
 
 /* ---- tap any work image to see it full screen ---- */
 const lb = $("#lb"), lbImg = $("#lb-img");
