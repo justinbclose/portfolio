@@ -240,6 +240,17 @@ section{scroll-margin-top:70px}
 .phone.email .content{overflow:hidden;background:#f4f1ea}
 .phone.email iframe{position:absolute;top:0;left:0;width:600px;border:0;transform-origin:0 0;background:#fff}
 .scroll-hint{text-align:center}
+.ecar{width:100%}
+.ecar-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;scroll-behavior:smooth}
+.ecar-track::-webkit-scrollbar{display:none}
+.ecar-slide{flex:0 0 100%;scroll-snap-align:center;margin:0;display:flex;flex-direction:column;align-items:center;gap:14px;padding:4px 0 6px}
+.ecar-slide figcaption{text-align:center;display:flex;flex-direction:column;gap:4px;align-items:center}
+.ecar-slide .subj{font:400 20px/1.25 var(--display);letter-spacing:.02em;max-width:28ch}
+.ecar-slide .open{font-size:14px;color:var(--sage-ink);min-height:44px;display:inline-flex;align-items:center}
+.ecar-nav{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:4px}
+.ecar-dots{display:flex;gap:8px}
+.ecar-dots i{width:8px;height:8px;border-radius:50%;background:var(--line);transition:background .3s,transform .3s}
+.ecar-dots i.on{background:var(--gold-ink);transform:scale(1.25)}
 /* ---------- Reels ---------- */
 .reel-rail{display:flex;gap:clamp(12px,2vw,28px);overflow-x:auto;scroll-snap-type:x mandatory;padding:20px max(var(--gut),calc(50vw - 150px)) 30px;scrollbar-width:none}
 .reel-rail::-webkit-scrollbar{display:none}
@@ -520,16 +531,13 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
          "tabs" (one CSS phone with tappable account tabs).   shape: "tall" or "wide".
    ran: [label, value] for the "Ran in / Sent to / Published on" line. */
 const WORK = [
-  { cats:["email"], kind:"email", shape:"tall", src:"work/holidays-eblast.html", poster:"img/screen-eblast.jpg",
-    client:"La Jolla Shores Hotel", title:"“Holidays by the sea” eblast", ran:["Sent to","Hotel guest & subscriber list"], role:"Copy, design, build & send", result:"Holiday room & dining campaign",
-    summary:"The full holiday email for La Jolla Shores Hotel: rooms, holiday buffets and offers in one send. Scroll inside the phone to read the whole thing.",
-    did:["Wrote the subject line, preheader and all copy","Designed and built the responsive email","Linked every offer straight into the booking engine and OpenTable","Segmented the list and scheduled the send"],
-    links:[["Open the full email","work/holidays-eblast.html"]] },
-  { cats:["email"], kind:"email", shape:"tall", src:"work/ljbtc-reimagined-eblast.html",
-    client:"La Jolla Beach & Tennis Club", title:"“A $60M Reimagination” eblast", ran:["Sent to","Club guest & subscriber list"], role:"Copy, design, build & send", result:"Renovation launch + virtual tour",
-    summary:"The launch email for the club’s $60M renovation: ninety reimagined rooms, direct private-beach access and a virtual tour, with a personal invitation from our Director of Sales & Marketing. Scroll inside the phone to read it all.",
-    did:["Wrote the subject line and all copy around the renovation story","Designed and built the responsive email","Featured the virtual tour and a direct line to the sales team","Segmented the list and scheduled the send"],
-    links:[["Open the full email","work/ljbtc-reimagined-eblast.html"]] },
+  { cats:["email"], kind:"emails", shape:"tall",
+    slides:[["work/ljbtc-reimagined-eblast.html","La Jolla Beach & Tennis Club","“A $60M Reimagination on La Jolla’s Private Beach”"],
+            ["work/holidays-eblast.html","La Jolla Shores Hotel","“Holidays by the sea”"]],
+    client:"La Jolla Beach & Tennis Club · The Marine Room · La Jolla Shores Hotel", title:"Eblasts, rebuilt from scratch", ran:["Sent from","Ascent360 (moved from Revinate)"], role:"Template design, copy, build & send", result:"New branded email templates",
+    summary:"Here is a selection of eblasts I’ve created for La Jolla Beach & Tennis Club, The Marine Room and La Jolla Shores Hotel. When we moved from Revinate to Ascent360 and rebranded, I rebuilt these eblast templates from scratch. Swipe between emails, and scroll inside the phone to read each one.",
+    did:["Rebuilt the eblast templates from scratch after the Revinate → Ascent360 move and the rebrand","Wrote the subject lines, preheaders and copy","Built every email responsive for phone and desktop","Linked offers straight into the booking engine and OpenTable","Segmented the lists and scheduled the sends"],
+    links:[] },
   { cats:["social"], kind:"fan", shape:"wide", growth:[["big","+35%",35,"Total social growth","3 brands"],["","+14.2%",14.2,"Follower growth","@ljbtc"],["","+36.8%",36.8,"Follower growth","@themarineroom"],["","+10.4%",10.4,"Follower growth","@ljshoreshotel"]], screens:[["img/screen-ljbtc.jpg","@ljbtc"],["img/screen-marineroom.jpg","@themarineroom"],["img/screen-shores.jpg","@ljshoreshotel"]],
     client:"LJBTC · The Marine Room · La Jolla Shores", title:"Instagram for three luxury brands", ran:["Published on","Instagram"], role:"Content, shooting & community", result:"<b>+35%</b> growth · <b>150K+</b> followers managed",
     summary:"Three audiences, three voices, one content calendar, all shot and planned in-house.",
@@ -602,6 +610,9 @@ $("#exhibits").innerHTML = WORK.map((w,i) => {
     mat += w.row ? `<div class="row">${imgs}</div>` : imgs;
   } else if(w.kind==="phones"){
     mat = `<div class="row">${w.screens.map(([src,alt]) => phone(`<img src="${src}" alt="${esc(w.client)} ${esc(alt)} screen" loading="lazy">`, "scroll")).join("")}</div>`;
+  } else if(w.kind==="emails"){
+    mat = `<div class="ecar" aria-roledescription="carousel" aria-label="Eblasts"><div class="ecar-track" tabindex="0">${w.slides.map(([src,brand,subj],k) => `<figure class="ecar-slide" aria-roledescription="slide" aria-label="${k+1} of ${w.slides.length}">${phone(`<iframe src="${src}" title="${esc(brand)} email, ${esc(subj)}" loading="${k?"lazy":"eager"}"></iframe>`, "email")}<figcaption><span class="label">${esc(brand)}</span><span class="subj">${esc(subj)}</span><a class="open" href="${src}">Open full email ↗</a></figcaption></figure>`).join("")}</div>
+      <div class="ecar-nav"><button class="circle-btn ecar-prev" type="button" aria-label="Previous email"><span><svg style="transform:rotate(180deg)"><use href="#arr"/></svg></span></button><span class="ecar-dots">${w.slides.map((_,k)=>`<i class="${k?"":"on"}"></i>`).join("")}</span><button class="circle-btn ecar-next" type="button" aria-label="Next email"><span><svg><use href="#arr"/></svg></span></button></div></div>`;
   } else if(w.kind==="email"){
     mat = phone(`<iframe src="${w.src}" title="${esc(w.title)}, full email" loading="lazy" tabindex="0"></iframe>`, "email") + `<p class="label scroll-hint">Scroll inside the phone to read it all</p>`;
   } else if(w.kind==="fan"){
@@ -711,6 +722,15 @@ if(!reduce && "IntersectionObserver" in window){
 function fitEmails(){ $$(".phone.email").forEach(p => { const c = p.querySelector(".content"), f = p.querySelector("iframe"); if(!c || !f) return;
   const sc = c.clientWidth / 600; f.style.transform = `scale(${sc})`; f.style.height = (c.clientHeight / sc) + "px"; }); }
 fitEmails(); addEventListener("load", fitEmails); addEventListener("resize", fitEmails);
+
+/* ---- email carousel ---- */
+$$(".ecar").forEach(c => { const t = c.querySelector(".ecar-track"), dots = [...c.querySelectorAll(".ecar-dots i")];
+  const idx = () => Math.round(t.scrollLeft / t.clientWidth);
+  const go = d => { const i = Math.max(0, Math.min(dots.length-1, idx()+d)); t.scrollTo({left: i*t.clientWidth, behavior: reduce ? "auto" : "smooth"}); };
+  c.querySelector(".ecar-prev").onclick = () => go(-1); c.querySelector(".ecar-next").onclick = () => go(1);
+  t.addEventListener("scroll", () => { const i = idx(); dots.forEach((d,k) => d.classList.toggle("on", k===i)); fitEmails(); }, {passive:true});
+  t.addEventListener("keydown", e => { if(e.key==="ArrowRight"){ e.preventDefault(); go(1); } if(e.key==="ArrowLeft"){ e.preventDefault(); go(-1); } });
+});
 
 /* ---- growth rings fill when scrolled into view ---- */
 (function(){ const rings = $$(".ring-chart");
