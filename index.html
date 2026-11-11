@@ -380,6 +380,12 @@ form textarea{min-height:150px;resize:vertical}
 .lb button{position:fixed;top:10px;right:10px;color:var(--on-deep)}
 .mat img.piece{cursor:zoom-in}
 footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;color:var(--muted)}
+.privacy{flex-basis:100%;max-width:68ch}
+.privacy summary{cursor:pointer;font:500 11.5px/1.4 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--muted);list-style:none;display:inline-block;padding:10px 0}
+.privacy summary::-webkit-details-marker{display:none}
+.privacy summary:focus-visible{outline:2px solid #d3a877;outline-offset:4px}
+.privacy p{margin:6px 0 0;font-size:14px;line-height:1.6;color:var(--muted)}
+.privacy button{font:inherit;color:var(--ink);background:none;border:0;border-bottom:1px solid currentColor;padding:0;cursor:pointer}
 
 /* reveal */
 .reveal{transition:opacity .9s var(--ease),transform .9s var(--ease)}
@@ -638,7 +644,11 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
   </div>
 </section>
 </main>
-<footer><span>© 2026 Justin Close</span><span>Drone and reel footage shot by Justin · Work samples shown for the brands credited</span></footer>
+<footer><span>© 2026 Justin Close</span><span>Drone and reel footage shot by Justin · Work samples shown for the brands credited</span>
+<details class="privacy" id="privacy"><summary>Privacy</summary>
+<p>This site uses Google Analytics to count visits. That includes your approximate location (city level), your device and browser, how you found the page, and which sections you open. To show which organizations visit, the site also looks up the name of the network you're on (for example a company or an internet provider) through ipapi.co. Your IP address isn't stored, and nothing here identifies you by name. There are no ads, and the data is never sold or shared. If your browser sends a Global Privacy Control signal, none of this runs, and visitors in Europe aren't tracked with cookies.</p>
+<p id="optout-line"><button type="button" id="optout">Turn off analytics in this browser</button></p>
+</details></footer>
 
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Enlarged image"><button class="circle-btn" type="button" id="lb-close" aria-label="Close image"><span>✕</span></button><img id="lb-img" alt=""></div>
 <script>
@@ -899,6 +909,107 @@ $("#form").addEventListener("submit", e => { e.preventDefault();
 $$(".copy").forEach(b => b.addEventListener("click", async () => { const s = b.querySelector("span");
   try { await navigator.clipboard.writeText(b.dataset.copy); s.textContent = "✓"; } catch { s.textContent = "!"; }
   setTimeout(() => s.innerHTML = '<svg><use href="#copy"/></svg>', 1600); }));
+</script>
+<script>
+/* ---- analytics (GA4) · see the Privacy note in the footer ---- */
+(() => {
+  const GA_ID = "G-XXXXXXXXXX";                     // ← GA4 Measurement ID
+  const q = new URLSearchParams(location.search);
+  const store = (() => { try { return localStorage; } catch { return null; } })();
+  const get = k => { try { return store && store.getItem(k); } catch { return null; } };
+  const set = (k, v) => { try { v == null ? store.removeItem(k) : store.setItem(k, v); } catch {} };
+
+  // ?me=1 hides Justin's own visits on this browser; ?me=0 turns counting back on
+  if (q.get("me") === "1") set("jbc_me", "1");
+  if (q.get("me") === "0") { set("jbc_me", null); set("jbc_optout", null); }
+
+  const optBtn = document.getElementById("optout");
+  const off = () => get("jbc_me") || get("jbc_optout") || navigator.globalPrivacyControl === true;
+  const showOff = () => { const l = document.getElementById("optout-line"); if (l) l.textContent = "Analytics is off in this browser."; };
+  if (optBtn) optBtn.addEventListener("click", () => { set("jbc_optout", "1"); window["ga-disable-" + GA_ID] = true; showOff(); });
+  if (off()) { showOff(); return; }
+  if (!/^G-[A-Z0-9]{6,}$/.test(GA_ID) || GA_ID === "G-XXXXXXXXXX") return;
+
+  const tz = (Intl.DateTimeFormat().resolvedOptions().timeZone || "");
+  const europe = tz.startsWith("Europe/");
+
+  // short ?ref= codes → UTM tags GA4 understands
+  const REF = {
+    li:       ["linkedin", "social", "featured"],
+    "li-post":["linkedin", "social", "post"],
+    "li-dm":  ["linkedin", "message", "dm"],
+    resume:   ["resume", "pdf", "resume"],
+    sig:      ["email", "signature", "email-signature"],
+    canva:    ["canva", "redirect", "old-portfolio"],
+    ig:       ["instagram", "social", "bio"],
+    qr:       ["qr", "print", "qr-code"]
+  };
+  const ref = (q.get("ref") || "").toLowerCase().replace(/[^a-z0-9-]/g, "").slice(0, 60);
+  let pageLoc = location.href;
+  if (ref && !q.get("utm_source")) {
+    const m = REF[ref] || (ref.startsWith("app-") ? ["application", "job_app", ref.slice(4)] : ["ref", "link", ref]);
+    const u = new URL(location.href);
+    u.searchParams.delete("ref");
+    u.searchParams.set("utm_source", m[0]); u.searchParams.set("utm_medium", m[1]); u.searchParams.set("utm_campaign", m[2]);
+    pageLoc = u.toString();
+  }
+  // tidy the address bar so a shared link stays clean
+  if (ref || q.get("me")) { const c = new URL(location.href); c.searchParams.delete("ref"); c.searchParams.delete("me");
+    try { history.replaceState(null, "", c.pathname + (c.search === "?" ? "" : c.search) + c.hash); } catch {} }
+
+  window.dataLayer = window.dataLayer || [];
+  const gtag = window.gtag = function(){ dataLayer.push(arguments); };
+  if (europe) gtag("consent", "default", { analytics_storage: "denied", ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" });
+  else gtag("consent", "default", { ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" });
+  gtag("js", new Date());
+  gtag("config", GA_ID, { page_location: pageLoc, allow_google_signals: false, allow_ad_personalization_signals: false });
+  const s = document.createElement("script"); s.async = true; s.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_ID; document.head.appendChild(s);
+
+  const ev = (name, p) => gtag("event", name, p || {});
+  const once = new Set(); const evOnce = (name, p) => { if (!once.has(name)) { once.add(name); ev(name, p); } };
+
+  // clicks: Book a call, email, LinkedIn, work categories, lightbox, reels
+  document.addEventListener("click", e => {
+    const a = e.target.closest("a, button"); if (!a) return;
+    const href = a.getAttribute("href") || "";
+    if (href.includes("calendly.com")) ev("click_book_call", { cta_location: a.closest("#home") ? "hero" : a.closest("#contact") ? "contact" : "other" });
+    else if (href.startsWith("mailto:")) ev("click_email");
+    else if (href.includes("linkedin.com")) ev("click_linkedin");
+    else if (a.matches(".copy")) ev("copy_email");
+    else if (a.matches("#chips .chip")) ev("work_" + a.dataset.f);
+    else if (a.id === "wnext" && a.dataset.f) ev("work_" + a.dataset.f);
+    else if (a.id === "show-reels" && a.getAttribute("aria-expanded") === "false") ev("reels_open");
+    else if (href.startsWith("#") && a.closest("#links")) ev("nav_" + href.slice(1));
+  }, true);
+  document.addEventListener("click", e => { const im = e.target.closest(".mat img.piece, .ph img");
+    if (im) ev("lightbox_open", { image: (im.alt || im.src.split("/").pop()).slice(0, 90), area: im.closest(".ph") ? "photos" : "work" }); }, true);
+  const form = document.getElementById("form");
+  if (form) form.addEventListener("submit", () => {
+    const v = id => (document.getElementById(id) || {}).value || "";
+    if (v("f-first").trim() && /^\S+@\S+\.\S+$/.test(v("f-email").trim()) && v("f-msg").trim()) ev("contact_form_submit");
+  });
+
+  // scroll depth 25 / 50 / 75 / 100
+  const marks = [25, 50, 75, 100];
+  const onScroll = () => { const h = document.documentElement.scrollHeight - innerHeight; if (h <= 0) return;
+    const pct = Math.round(scrollY / h * 100); marks.forEach(m => { if (pct >= m - (m === 100 ? 2 : 0)) evOnce("scroll_" + m); }); };
+  addEventListener("scroll", () => requestAnimationFrame(onScroll), { passive: true });
+
+  // which sections people actually reach
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { evOnce("view_" + x.target.id); io.unobserve(x.target); } }), { threshold: .35 });
+    ["highlights", "about", "experience", "work", "photos", "reels", "contact"].forEach(id => { const el = document.getElementById(id); if (el) io.observe(el); });
+  }
+
+  // network organization (company or ISP), once a day per browser, never in Europe
+  if (!europe && get("jbc_org_day") !== new Date().toDateString()) {
+    fetch("https://ipapi.co/json/").then(r => r.ok ? r.json() : null).then(d => {
+      if (!d || !d.org) return;
+      set("jbc_org_day", new Date().toDateString());
+      ev("visitor_org", { visitor_org: String(d.org).slice(0, 95) });
+    }).catch(() => {});
+  }
+})();
 </script>
 </body>
 </html>

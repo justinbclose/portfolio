@@ -1,0 +1,32 @@
+name: Portfolio stats
+# Pulls GA4 numbers every 2 hours and saves them, encrypted, to the "stats" branch.
+on:
+  schedule:
+    - cron: "17 */2 * * *"
+  workflow_dispatch: {}
+permissions:
+  contents: write
+concurrency: stats
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -q google-analytics-data cryptography geonamescache
+      - name: Fetch GA4 and encrypt
+        env:
+          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
+          GA4_SA_KEY: ${{ secrets.GA4_SA_KEY }}
+          DASH_KEY: ${{ secrets.DASH_KEY }}
+          STATS_OUT: ${{ runner.temp }}/stats.enc.json
+        run: python analytics/fetch_stats.py
+      - name: Save to stats branch (one commit, replaced each run)
+        run: |
+          cd "$RUNNER_TEMP" && rm -rf out && mkdir out && cd out
+          git init -q -b stats && cp ../stats.enc.json .
+          printf '# Encrypted portfolio stats\nWritten by .github/workflows/stats.yml on main. Readable only with the dashboard passphrase.\n' > README.md
+          git add . && git -c user.name="stats-bot" -c user.email="actions@github.com" commit -qm "stats $(date -u +%FT%TZ)"
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" stats
