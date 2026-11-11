@@ -223,6 +223,12 @@ footer span{opacity:.6}
   .menu{display:block}
   .nav .wrap{justify-content:flex-end}
   .hero h1{letter-spacing:.08em}
+  .hero .role{letter-spacing:.18em;font-size:13px}
+  .hero .role::before{display:block;margin:0 0 14px}
+  .scroll-cue{display:none}
+  .hero .where{left:clamp(20px,4vw,40px);right:auto}
+  .about-card{text-align:left}
+  .about-card .ctas{justify-content:flex-start}
   .tiles{grid-template-columns:1fr}
   .facts{grid-template-columns:1fr}
   .timeline::before{left:7px}
@@ -516,7 +522,7 @@ function onScroll(){
   nav.classList.toggle("solid", scrollY > 40);
   let a = "home"; secs.forEach(s => { if(s.getBoundingClientRect().top < innerHeight*.4) a = s.id; });
   navLinks.forEach(l => l.classList.toggle("active", l.getAttribute("href")==="#"+a));
-  if(!reduce) bgs.forEach(bg => { const r = bg.parentElement.getBoundingClientRect(); if(r.bottom>0 && r.top<innerHeight) bg.style.transform = `translateY(${r.top*-0.12}px)`; });
+  if(!reduce) bgs.forEach(bg => { const r = bg.parentElement.getBoundingClientRect(); if(r.bottom>0 && r.top<innerHeight){ const p = Math.max(-1, Math.min(1, (r.top + r.height/2 - innerHeight/2) / (r.height/2 + innerHeight/2))); bg.style.transform = `translateY(${p*-50}px)`; } });
 }
 addEventListener("scroll", onScroll, {passive:true}); onScroll();
 const menu = $("#menu"), links = $("#links");
