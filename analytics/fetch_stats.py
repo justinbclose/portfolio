@@ -63,6 +63,23 @@ def event_filter(name):
     from google.analytics.data_v1beta.types import FilterExpression, Filter
     return FilterExpression(filter=Filter(field_name="eventName", string_filter=Filter.StringFilter(value=name)))
 
+def dim_filter(field, value):
+    from google.analytics.data_v1beta.types import FilterExpression, Filter
+    return FilterExpression(filter=Filter(field_name=field, string_filter=Filter.StringFilter(value=value)))
+
+def app_detail(c, prop):
+    """Per-application-link detail (last 90 days): what each company read, time spent, how many people."""
+    f = lambda: dim_filter("sessionMedium", "job_app")
+    out = {}
+    for r in run(c, prop, ["sessionCampaignName"], ["sessions", "activeUsers", "userEngagementDuration"], 90, 500, f()):
+        out[r["sessionCampaignName"]] = {"sessions": r["sessions"], "users": r["activeUsers"], "engSec": r["userEngagementDuration"], "events": {}, "places": []}
+    for r in run(c, prop, ["sessionCampaignName", "eventName"], ["eventCount"], 90, 3000, f()):
+        out.setdefault(r["sessionCampaignName"], {"sessions": 0, "users": 0, "engSec": 0, "events": {}, "places": []})["events"][r["eventName"]] = r["eventCount"]
+    for r in run(c, prop, ["sessionCampaignName", "city", "region", "countryId", "deviceCategory"], ["sessions"], 90, 2000, f()):
+        if r["sessionCampaignName"] in out:
+            out[r["sessionCampaignName"]]["places"].append({k: r[k] for k in ("city", "region", "countryId", "deviceCategory", "sessions")})
+    return out
+
 def coords():
     try:
         import geonamescache
@@ -116,7 +133,7 @@ def pull():
     apps = run(c, prop, ["date", "sessionCampaignName", "sessionMedium"], U, 90, 2000)
     apps = [r for r in apps if r["sessionMedium"] == "job_app"]
     recent = run(c, prop, ["dateHour", "city", "region", "countryId", "sessionSource", "sessionMedium", "sessionCampaignName", "deviceCategory"], ["sessions", "userEngagementDuration"], 4, 200)
-    return ranges, daily, apps, recent
+    return ranges, daily, apps, recent, app_detail(c, prop)
 
 # ---------- sample data (for testing) ----------
 def sample():
@@ -182,7 +199,18 @@ def sample():
                                             (20,"La Jolla","California","US","google","organic","(organic)","mobile"),(27,"Park City","Utah","US","canva","redirect","old-portfolio","mobile")]:
         t = dt.datetime.now() - dt.timedelta(hours=h)
         recent.append({"dateHour":t.strftime("%Y%m%d%H"),"city":city,"region":reg,"countryId":cid,"sessionSource":s,"sessionMedium":m,"sessionCampaignName":cp,"deviceCategory":dv,"sessions":1,"userEngagementDuration":random.randint(20,300)})
-    return ranges, daily, apps, recent
+    ev = lambda names, extra={}: {**{n: 1 for n in names}, **extra}
+    detail = {
+        "vail-resorts": {"sessions": 4, "users": 2, "engSec": 412, "events": ev(["view_highlights","view_about","view_experience","view_work","view_contact","work_email","work_social","scroll_25","scroll_50","scroll_75"], {"click_book_call": 1, "lightbox_open": 3}),
+                         "places": [{"city":"Broomfield","region":"Colorado","countryId":"US","deviceCategory":"desktop","sessions":3},{"city":"Denver","region":"Colorado","countryId":"US","deviceCategory":"mobile","sessions":1}]},
+        "alterra-ikon": {"sessions": 3, "users": 1, "engSec": 236, "events": ev(["view_highlights","view_about","view_work","view_photos","reels_open","work_social","scroll_25","scroll_50"]),
+                         "places": [{"city":"Denver","region":"Colorado","countryId":"US","deviceCategory":"desktop","sessions":3}]},
+        "ucsd-extended-studies": {"sessions": 2, "users": 1, "engSec": 48, "events": ev(["view_highlights","view_about","scroll_25"]),
+                         "places": [{"city":"La Jolla","region":"California","countryId":"US","deviceCategory":"desktop","sessions":2}]},
+        "big-sky": {"sessions": 1, "users": 1, "engSec": 14, "events": ev(["view_highlights"]),
+                         "places": [{"city":"Bozeman","region":"Montana","countryId":"US","deviceCategory":"mobile","sessions":1}]},
+    }
+    return ranges, daily, apps, recent, detail
 
 # ---------- encrypt ----------
 def encrypt(obj, passphrase):
@@ -200,9 +228,9 @@ if __name__ == "__main__":
     is_sample = "--sample" in sys.argv
     if not is_sample and not (os.environ.get("GA4_PROPERTY_ID") and os.environ.get("GA4_SA_KEY") and os.environ.get("DASH_KEY")):
         print("Secrets not set yet (GA4_PROPERTY_ID, GA4_SA_KEY, DASH_KEY). Skipping."); sys.exit(0)
-    ranges, daily, apps, recent = sample() if is_sample else pull()
+    ranges, daily, apps, recent, detail = sample() if is_sample else pull()
     now = dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat()
-    stats = {"generated_at": now, "sample": is_sample, "site": "justinbclose.com", "ranges": ranges, "daily": daily, "applications": apps, "recent": recent}
+    stats = {"generated_at": now, "sample": is_sample, "site": "justinbclose.com", "ranges": ranges, "daily": daily, "applications": apps, "appDetail": detail, "recent": recent}
     key = os.environ.get("DASH_KEY") or ("sample" if is_sample else None)
     if not key: sys.exit("DASH_KEY secret is missing")
     with open(OUT, "w") as f: json.dump(encrypt(stats, key), f)
