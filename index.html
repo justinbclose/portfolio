@@ -85,9 +85,9 @@ h1,h2,h3,p,figure{margin:0}
 .hero .photo{position:absolute;inset:0 0 0 auto;width:60%}
 .hero .photo img{width:100%;height:100%;object-fit:cover;object-position:50% 22%}
 .hero .photo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--deep) 0%,rgba(47,53,36,.82) 20%,rgba(47,53,36,.2) 58%,rgba(47,53,36,0) 100%),linear-gradient(180deg,rgba(35,38,28,.4),transparent 28%)}
-.hero .wrap{position:relative;z-index:2;width:100%;padding-top:120px;padding-bottom:180px}
+.hero .wrap{position:relative;z-index:2;width:100%;padding-top:clamp(88px,12svh,120px);padding-bottom:clamp(96px,15svh,180px)}
 .hero .label{color:var(--on-deep-muted)}
-.hero h1{font:400 clamp(54px,11vw,148px)/.95 var(--display);letter-spacing:.08em;text-transform:uppercase;margin:22px 0 0}
+.hero h1{font:400 clamp(54px,min(11vw,14.5svh),148px)/.95 var(--display);letter-spacing:.08em;text-transform:uppercase;margin:22px 0 0}
 .hero h1 .ln{display:block;overflow:hidden;padding-bottom:.04em}
 .hero h1 .ln > span{display:inline-block;animation:rise 1.1s var(--ease) both}
 .hero h1 .ln:nth-child(2) > span{animation-delay:.1s}
@@ -95,8 +95,8 @@ h1,h2,h3,p,figure{margin:0}
 @keyframes rise{from{transform:translateY(105%)}to{transform:none}}
 .hero h1 .dot{animation:drop .7s .95s var(--ease) both}
 @keyframes drop{0%{transform:translateY(-1.4em);opacity:0}60%{transform:translateY(0);opacity:1}78%{transform:translateY(-8px)}100%{transform:none}}
-.hero .lead{font-size:clamp(19px,2vw,23px);line-height:1.5;max-width:30ch;margin-top:30px}
-.hero .ctas{display:flex;flex-wrap:wrap;gap:14px;margin-top:38px}
+.hero .lead{font-size:clamp(19px,2vw,23px);line-height:1.5;max-width:30ch;margin-top:clamp(16px,3svh,30px)}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:14px;margin-top:clamp(20px,3.5svh,38px)}
 .rings{position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden}
 .ring{position:absolute;width:120px;height:120px;margin:-60px 0 0 -60px;border:1px solid var(--gold);border-radius:48% 52% 50% 50% / 52% 47% 53% 48%;opacity:0;animation:ring 2.4s var(--ease) forwards}
 .ring:nth-child(2){animation-delay:.3s;border-radius:51% 49% 47% 53% / 49% 53% 47% 51%}
@@ -118,8 +118,12 @@ section{scroll-margin-top:70px}
 .chapter .label{position:relative;z-index:1;margin-bottom:14px;display:block}
 
 /* About */
-.about-grid{display:grid;grid-template-columns:7fr 5fr;gap:0;align-items:start}
-.about-text{position:relative;z-index:2;padding-right:clamp(0px,2vw,24px)}
+.about-grid{display:block}
+.about-cols{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:clamp(24px,4vw,64px);align-items:start;margin-top:8px}
+.about-cols p{margin:0!important;max-width:none!important}
+@media (max-width:1000px){.about-cols{grid-template-columns:1fr 1fr}.about-cols .lead{grid-column:1/-1}}
+@media (max-width:720px){.about-cols{grid-template-columns:1fr;gap:16px}}
+.about-text{position:relative;z-index:2}
 .about-text .lead{font-size:clamp(19px,2vw,23px);line-height:1.5;max-width:34ch}
 .about-text p + p{margin-top:16px;max-width:58ch}
 .about-text .ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
@@ -127,13 +131,16 @@ section{scroll-margin-top:70px}
 .arch .frame{border-radius:999px 999px var(--r-mat) var(--r-mat);overflow:hidden;box-shadow:var(--lift);aspect-ratio:4/5}
 .arch img{width:100%;height:100%;object-fit:cover}
 .arch figcaption{margin-top:14px}
-.facts{display:grid;grid-template-columns:repeat(3,1fr);margin:clamp(56px,6vw,90px) 0 0;border-top:1px solid var(--line)}
+.facts{display:grid;grid-template-columns:repeat(2,1fr);margin:clamp(56px,6vw,90px) 0 0;border-top:1px solid var(--line)}
 .facts div{padding:20px 20px 20px 0}
 .facts dd{margin:6px 0 0}
 .kit{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(20px,3vw,48px);margin-top:clamp(40px,5vw,64px)}
 .kit h3{font:600 16px var(--body);margin-bottom:6px}
 .kit ul{list-style:none;margin:0;padding:0}
-.kit li{padding:8px 0;border-top:1px solid var(--line);font-size:15.5px}
+.kit li{padding:8px 0;border-top:1px solid var(--line);font-size:15.5px;display:flex;align-items:center;gap:11px}
+.kit li img,.kit li .ico-gen{width:20px;height:20px;border-radius:5px;flex:none;object-fit:contain}
+.kit li .ico-gen{display:grid;place-items:center;background:var(--sage-ink);color:#fff}.kit li .ico-gen svg{width:13px;height:13px}
+.edu-dd{display:flex;gap:14px;align-items:flex-start}.edu-dd img{width:40px;height:40px;border-radius:8px;flex:none;background:#fff;box-shadow:0 0 0 1px var(--line)}.edu-dd .muted{color:var(--muted)}
 .certs{display:flex;flex-wrap:wrap;gap:10px;margin-top:36px}
 .certs span{background:var(--mat);border-radius:999px;padding:10px 18px;font-size:14px;display:inline-flex;align-items:center;gap:10px}
 .certs span::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold)}
@@ -146,8 +153,8 @@ section{scroll-margin-top:70px}
 .numbers .grid > div{padding-top:22px;border-top:1px solid rgba(211,168,119,.45)}
 
 /* Highlights */
-.highlights{padding-bottom:clamp(40px,5vw,72px)}
-.hl-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(20px,3vw,44px)}
+.highlights{padding-top:clamp(24px,3vw,44px);padding-bottom:clamp(40px,5vw,72px)}
+.hl-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,44px) clamp(28px,4vw,64px)}
 .hl{position:relative;padding:26px 0 0}
 .hl:nth-child(even){margin-top:56px}
 .hl::before{content:"";position:absolute;top:0;left:0;width:100%;height:10px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 10' preserveAspectRatio='none'%3E%3Cpath d='M0 6 C20 1 40 1 60 5 S100 9 120 4' fill='none' stroke='%23d3a877' stroke-width='1.3' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") no-repeat center/100% 100%}
@@ -180,6 +187,26 @@ section{scroll-margin-top:70px}
 .chip[aria-pressed="true"]{color:var(--sage-ink);background:var(--mat-2);font-weight:600}
 .chip[aria-pressed="true"]::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--gold)}
 .chip .c{font:500 11px var(--mono);color:var(--muted)}
+/* category navigator */
+.wprompt{text-align:center;font:500 12px var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin:clamp(8px,2vw,24px) 0 18px}
+.wnav{position:static;display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(10px,1.4vw,18px);overflow:visible;padding:0;margin:0 0 clamp(48px,6vw,80px);background:none}
+.wcard{height:auto;min-height:200px;border-radius:22px;padding:22px 20px 20px;flex-direction:column;align-items:flex-start;text-align:left;gap:6px;background:var(--mat);position:relative;transition:background .3s,color .3s,transform .3s var(--ease),box-shadow .3s}
+.wcard:hover{transform:translateY(-4px);box-shadow:var(--lift);background:var(--mat-2)}
+.wcard[aria-pressed="true"]::before{display:none}
+.wcard .wc-k{font:500 11px var(--mono);letter-spacing:.2em;color:var(--muted)}
+.wcard .wc-t{font:400 clamp(26px,2.4vw,34px)/1.05 var(--display);letter-spacing:.05em;text-transform:uppercase;margin-top:6px}
+.wcard .wc-n{font:500 11.5px var(--mono);color:var(--sage-ink)}
+.wcard ul{list-style:none;margin:10px 0 34px;padding:10px 0 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:5px;font:400 13.5px/1.35 var(--body);color:var(--muted)}
+.wcard .wc-go{position:absolute;right:16px;bottom:16px;width:34px;height:34px;border-radius:50%;border:1.5px solid currentColor;display:grid;place-items:center;transition:transform .3s var(--ease),background .3s}
+.wcard .wc-go svg{width:14px;height:14px}
+.wcard[aria-pressed="true"]{background:var(--deep);color:var(--on-deep);font-weight:400}
+.wcard[aria-pressed="true"] .wc-k,.wcard[aria-pressed="true"] ul{color:var(--on-deep-muted)}
+.wcard[aria-pressed="true"] .wc-n{color:var(--gold)}
+.wcard[aria-pressed="true"] ul{border-color:rgba(245,245,239,.18)}
+.wcard[aria-pressed="true"] .wc-go{background:var(--gold);border-color:var(--gold);color:var(--deep);transform:rotate(90deg)}
+.wnext-row{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:clamp(56px,7vw,96px)}
+@media (max-width:1000px){.wnav{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:720px){.wnav{grid-template-columns:1fr 1fr}.wcard{min-height:0}.wcard ul{display:none}.wcard{padding-bottom:58px}}
 .exhibits{display:flex;flex-direction:column;gap:clamp(64px,8vw,120px)}
 .exhibit{display:grid;grid-template-columns:repeat(12,1fr);column-gap:clamp(24px,3vw,48px);align-items:center;transition:transform .9s var(--ease),opacity .9s var(--ease)}
 .exhibit.hide{display:none}
@@ -334,7 +361,7 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
 .exhibit .mat .row img.piece[data-port]{max-height:min(66svh,560px)}
 /* ---- laptop & desktop: every piece fits in one screen ---- */
 @media (min-width:1001px){
-  :root{--fit:max(500px,calc(100svh - 200px))}
+  :root{--fit:max(500px,calc(100svh - 160px))}
   .exhibit.wide .mat{grid-column:1 / span 8}
   .exhibit.wide .wall{grid-column:9 / span 4;display:block;margin-top:0}
   .exhibit.tall .mat img.piece,.exhibit.wide .mat img.piece{max-height:calc(var(--fit) - 64px);width:auto;max-width:100%}
@@ -439,7 +466,7 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
 
 <main>
 <section class="hero" id="home">
-  <div class="photo"><img src="img/portrait.jpg" alt="Justin Close smiling on a trail below the Flatirons in Boulder, Colorado" width="650" height="940"></div>
+  <div class="photo"><img src="img/portrait.jpg" alt="Justin Close smiling on a trail below the Flatirons in Boulder, Colorado" width="1294" height="1872"></div>
   <div class="rings" id="rings"></div>
   <div class="wrap">
     <span class="label">Sales &amp; Marketing Coordinator · La Jolla Beach &amp; Tennis Club</span>
@@ -458,6 +485,7 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
   <div class="wrap">
     <div class="chapter"><span class="label">Highlights</span><h2 id="hl-title">What I’ve done</h2></div>
     <ol class="hl-list">
+      <li class="hl reveal"><p class="hl-n">Led<span class="u">.</span></p><h3>Led the Revinate → Ascent360 switch</h3><p>Ran the whole marketing side of our CRM migration: moved all the guest data, rebuilt every eblast template from scratch, managed the vendor relationship with the Ascent360 team and trained coworkers on the platform.</p><span class="label">LJBTC · La Jolla Shores · The Marine Room</span></li>
       <li class="hl reveal"><p class="hl-n" data-count="10" data-prefix="$" data-suffix="K">$10<span class="u">K</span></p><h3>Found free Google Ads money</h3><p>A GA4 audit at Wine to Water turned up about $10,000 in Google Ad Grant credit the nonprofit was entitled to but had never used.</p><span class="label">Wine to Water · 2025</span></li>
       <li class="hl reveal"><p class="hl-n" data-count="5" data-suffix=" mo">5<span class="u"> mo</span></p><h3>Ran marketing as acting Assistant Director</h3><p>Covered the Assistant Director of Marketing role for five months, reporting directly to the Director of Sales &amp; Marketing.</p><span class="label">La Jolla Beach &amp; Tennis Club</span></li>
       <li class="hl reveal"><p class="hl-n" data-count="39" data-prefix="+" data-suffix="%">+39<span class="u">%</span></p><h3>Grew social across three brands</h3><p>Grew the club, hotel and restaurant accounts from 111K to 154K followers (+39%) in 12 months, with 10.4M views. The Marine Room alone grew 44%.</p><span class="label">LJBTC · The Marine Room · La Jolla Shores</span></li>
@@ -471,29 +499,26 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
     <div class="about-grid">
       <div class="about-text">
         <div class="chapter"><span class="big" aria-hidden="true">01</span><span class="label">01 — About</span><h2>Ocean days,<br>mountain roots</h2></div>
+        <div class="about-cols">
         <p class="lead">I build the strategy, then do the work: website, email, social, SEO and paid placements for three luxury brands in La Jolla.</p>
         <p>I work in GA4 and Google Tag Manager daily, run reporting and audits for our Director of Sales and Marketing, and build the decks presented to the board each quarter. I led our CRM migration end to end, and I shoot and edit my own photo, video and drone content.</p>
         <p>I’m also a two-time founder: I built and sold a service business, and I still run a property management company. I grew up between Park City, the Vail Valley and San Diego, and I’m happiest on skis.</p>
+        </div>
         <div class="ctas">
           <a class="tm" href="https://www.linkedin.com/in/justin-close/"><span class="ico"><svg><use href="#ext"/></svg></span>LinkedIn</a>
           <a class="tm" href="#work"><span class="ico"><svg><use href="#arr"/></svg></span>See my work</a>
         </div>
       </div>
-      <figure class="arch reveal">
-        <div class="frame"><img src="img/hero.jpg" alt="Drone shot Justin took of limestone cliffs dropping into turquoise water" loading="lazy" width="1366" height="1536"></div>
-        <figcaption class="label">Shot on my drone</figcaption>
-      </figure>
     </div>
     <dl class="facts">
-      <div><dt class="label">Education</dt><dd>B.S. Marketing &amp; A.B.A., Utah Tech University</dd></div>
-      <div><dt class="label">Based in</dt><dd>San Diego, California</dd></div>
+      <div><dt class="label">Education</dt><dd class="edu-dd"><img src="img/logos/utahtech.png" alt="Utah Tech University logo" width="40" height="40"><span>B.S. Marketing (Applied Business Analytics)<br>A.S. Business Administration<br><span class="muted">Utah Tech University</span></span></dd></div>
       <div><dt class="label">Now</dt><dd>Sales &amp; Marketing Coordinator, La Jolla Beach &amp; Tennis Club</dd></div>
     </dl>
     <div class="kit">
-      <div><h3>Email &amp; CRM</h3><ul><li>Ascent360</li><li>Revinate</li><li>HubSpot</li><li>Constant Contact</li><li>Shopify Email</li></ul></div>
-      <div><h3>Web &amp; search</h3><ul><li>WordPress</li><li>HTML &amp; CSS</li><li>SEO &amp; AEO</li><li>Squarespace</li><li>GitHub</li></ul></div>
-      <div><h3>Analytics &amp; ads</h3><ul><li>Google Analytics 4</li><li>Google Tag Manager</li><li>Google Ads</li><li>Meta Business Suite</li><li>Tripleseat</li></ul></div>
-      <div><h3>Content</h3><ul><li>Canva</li><li>Adobe</li><li>CapCut</li><li>Later</li><li>Drone video</li></ul></div>
+      <div><h3>Email &amp; CRM</h3><ul><li><img src="img/logos/ascent360.png" alt="" width="20" height="20" loading="lazy">Ascent360</li><li><img src="img/logos/revinate.png" alt="" width="20" height="20" loading="lazy">Revinate</li><li><img src="img/logos/hubspot.png" alt="" width="20" height="20" loading="lazy">HubSpot</li><li><img src="img/logos/constantcontact.png" alt="" width="20" height="20" loading="lazy">Constant Contact</li><li><img src="img/logos/shopify.png" alt="" width="20" height="20" loading="lazy">Shopify Email</li></ul></div>
+      <div><h3>Web &amp; search</h3><ul><li><img src="img/logos/wordpress.png" alt="" width="20" height="20" loading="lazy">WordPress</li><li><img src="img/logos/html5.svg" alt="" width="20" height="20" loading="lazy">HTML &amp; CSS</li><li><span class="ico-gen" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="m15.5 15.5 5 5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span>SEO &amp; AEO</li><li><img src="img/logos/squarespace.png" alt="" width="20" height="20" loading="lazy">Squarespace</li><li><img src="img/logos/github.png" alt="" width="20" height="20" loading="lazy">GitHub</li></ul></div>
+      <div><h3>Analytics &amp; ads</h3><ul><li><img src="img/logos/ga4.png" alt="" width="20" height="20" loading="lazy">Google Analytics 4</li><li><img src="img/logos/googletagmanager.svg" alt="" width="20" height="20" loading="lazy">Google Tag Manager</li><li><img src="img/logos/googleads.svg" alt="" width="20" height="20" loading="lazy">Google Ads</li><li><img src="img/logos/meta.png" alt="" width="20" height="20" loading="lazy">Meta Business Suite</li><li><img src="img/logos/tripleseat.png" alt="" width="20" height="20" loading="lazy">Tripleseat</li></ul></div>
+      <div><h3>Content</h3><ul><li><img src="img/logos/canva.png" alt="" width="20" height="20" loading="lazy">Canva</li><li><img src="img/logos/adobe.png" alt="" width="20" height="20" loading="lazy">Adobe</li><li><img src="img/logos/capcut.png" alt="" width="20" height="20" loading="lazy">CapCut</li><li><img src="img/logos/later.png" alt="" width="20" height="20" loading="lazy">Later</li><li><img src="img/logos/dji.png" alt="" width="20" height="20" loading="lazy">Drone video</li></ul></div>
     </div>
     <div class="certs"><span>HubSpot AEO Certified</span><span>GA4 + GTM, Analytics Mania</span><span>HubSpot Email Marketing</span><span>Google Digital Marketing &amp; E-commerce</span><span>Microsoft Office Specialist</span></div>
   </div>
@@ -513,15 +538,17 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
       <div class="job reveal"><span class="node"></span><p class="when">2022</p><h3>Tourmaline Services</h3><p class="title">Co-Founder &amp; Marketing Manager</p><p class="place">St. George, UT</p><p class="desc">Co-founded and later sold a service business. Built the brand, website and all the marketing from nothing.</p></div>
       <div class="job reveal"><span class="node"></span><p class="when">2021 — NOW</p><h3>J&amp;K Property Management</h3><p class="title">Founder &amp; Property Manager</p><p class="place">St. George, UT</p><p class="desc">Run a property management company at 95% occupancy: listings, marketing and the annual budget.</p></div>
     </div>
-    <div class="edu"><p class="label">Education</p><p>B.S. Marketing &amp; Associate of Business Administration, Utah Tech University</p></div>
+    <div class="edu"><p class="label">Education</p><p>B.S. Marketing (Applied Business Analytics) · A.S. Business Administration, Utah Tech University</p></div>
   </div>
 </section>
 <svg class="wave" data-wave="7" data-fill="#f5f5ef" data-bg="#2f3524" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"></svg>
 <section class="sec" id="work" style="padding-top:clamp(40px,5vw,80px)">
   <div class="wrap">
     <div class="chapter"><span class="big" aria-hidden="true">03</span><span class="label">03 — Selected work</span><h2>The work, in full</h2></div>
-    <div class="chips" id="chips" role="group" aria-label="Filter work"></div>
+    <p class="wprompt">Pick a category to see the work <span aria-hidden="true">↓</span></p>
+    <div class="chips wnav" id="chips" role="group" aria-label="Work categories"></div>
     <div class="exhibits" id="exhibits"></div>
+    <div class="wnext-row"><button class="tm solid" id="wnext" type="button"><span class="ico"><svg><use href="#arr"/></svg></span><span class="t">Next</span></button><button class="tm" type="button" onclick="scrollTo({top:document.getElementById('chips').getBoundingClientRect().top+scrollY-100,behavior:'smooth'})"><span class="ico"><svg style="transform:rotate(-90deg)"><use href="#arr"/></svg></span>All categories</button></div>
   </div>
 </section>
 
@@ -678,15 +705,22 @@ $("#exhibits").innerHTML = WORK.map((w,i) => {
 function layoutExhibits(){ let n = 0; $$(".exhibit.tall").forEach(x => { if(x.classList.contains("hide")) return; const odd = n++ % 2 === 1; x.classList.toggle("flip", odd); x.classList.toggle("offset", odd); }); }
 layoutExhibits();
 
-/* chips */
-const counts = {all:WORK.length}; WORK.forEach(w => w.cats.forEach(c => counts[c]=(counts[c]||0)+1));
-$("#chips").innerHTML = Object.keys(LABELS).filter(k=>counts[k]).map(k => `<button class="chip" type="button" data-f="${k}" aria-pressed="${k==="all"}">${LABELS[k]} <span class="c">${counts[k]}</span></button>`).join("");
-$("#chips").addEventListener("click", e => { const b = e.target.closest(".chip"); if(!b) return;
-  $$(".chip").forEach(x => x.setAttribute("aria-pressed", x===b));
-  $$(".exhibit").forEach(x => { x.classList.toggle("hide", !(b.dataset.f==="all" || x.dataset.cats.split(" ").includes(b.dataset.f))); x.classList.remove("pending"); });
-  layoutExhibits(); sizeButtons();
-  const y = $("#exhibits").getBoundingClientRect().top + scrollY - 150; if(scrollY > y) scrollTo({top:y, behavior: reduce ? "auto" : "smooth"});
-});
+/* category navigator: big cards, one category shown at a time */
+const ORDER = ["email","social","print","web","brand"];
+const CATS = ORDER.filter(k => WORK.some(w => w.cats.includes(k)));
+$("#chips").innerHTML = CATS.map((k,i) => { const items = WORK.filter(w => w.cats.includes(k));
+  return `<button class="chip wcard" type="button" data-f="${k}" aria-pressed="false" aria-controls="exhibits"><span class="wc-k">${String(i+1).padStart(2,"0")}</span><span class="wc-t">${LABELS[k]}</span><span class="wc-n">${items.length} ${items.length>1?"pieces":"piece"}</span><ul>${items.map(w=>`<li>${esc(w.title)}</li>`).join("")}</ul><span class="wc-go" aria-hidden="true"><svg><use href="#arr"/></svg></span></button>`; }).join("");
+function showCat(f, scroll){
+  $$("#chips .chip").forEach(x => x.setAttribute("aria-pressed", x.dataset.f===f));
+  $$(".exhibit").forEach(x => { x.classList.toggle("hide", !x.dataset.cats.split(" ").includes(f)); x.classList.remove("pending"); });
+  layoutExhibits(); sizeButtons(); if(typeof fitEmails==="function") fitEmails();
+  const i = CATS.indexOf(f), nx = CATS[(i+1) % CATS.length], nb = $("#wnext");
+  nb.dataset.f = nx; nb.querySelector(".t").textContent = `Next: ${LABELS[nx]}`;
+  if(scroll){ const y = $("#exhibits").getBoundingClientRect().top + scrollY - 110; scrollTo({top:y, behavior: reduce ? "auto" : "smooth"}); }
+}
+$("#chips").addEventListener("click", e => { const b = e.target.closest(".chip"); if(b) showCat(b.dataset.f, true); });
+$("#wnext").addEventListener("click", () => { showCat($("#wnext").dataset.f, false); const y = $("#chips").getBoundingClientRect().top + scrollY - 100; scrollTo({top:y, behavior: reduce ? "auto" : "smooth"}); });
+showCat(CATS[0], false);
 
 /* ---- reels ---- */
 const REELS = [["img/reel-1.jpg","Red canyon sand, Utah"],["img/reel-2.jpg","Beach day on the coast"],["img/reel-3.jpg","Cave view to the peaks"],["img/reel-4.jpg","Snow on red rock"],["img/reel-5.jpg","Waterfall in the pines"],["img/reel-6.jpg","Desert ridge walk"],["img/reel-7.jpg","Meadow boardwalk"],["img/reel-8.jpg","Cairns in the desert"]];
