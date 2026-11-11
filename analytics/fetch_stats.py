@@ -198,6 +198,8 @@ def encrypt(obj, passphrase):
 
 if __name__ == "__main__":
     is_sample = "--sample" in sys.argv
+    if not is_sample and not (os.environ.get("GA4_PROPERTY_ID") and os.environ.get("GA4_SA_KEY") and os.environ.get("DASH_KEY")):
+        print("Secrets not set yet (GA4_PROPERTY_ID, GA4_SA_KEY, DASH_KEY). Skipping."); sys.exit(0)
     ranges, daily, apps, recent = sample() if is_sample else pull()
     now = dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat()
     stats = {"generated_at": now, "sample": is_sample, "site": "justinbclose.com", "ranges": ranges, "daily": daily, "applications": apps, "recent": recent}

@@ -25,6 +25,7 @@ jobs:
         run: python analytics/fetch_stats.py
       - name: Save to stats branch (one commit, replaced each run)
         run: |
+          [ -f "$RUNNER_TEMP/stats.enc.json" ] || { echo "No stats file, nothing to save"; exit 0; }
           cd "$RUNNER_TEMP" && rm -rf out && mkdir out && cd out
           git init -q -b stats && cp ../stats.enc.json .
           printf '# Encrypted portfolio stats\nWritten by .github/workflows/stats.yml on main. Readable only with the dashboard passphrase.\n' > README.md
