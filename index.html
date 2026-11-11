@@ -263,6 +263,7 @@ section{scroll-margin-top:70px}
 .phone .sb svg{height:.95em;width:auto;margin-left:3px}
 .phone .content{position:relative;flex:1;overflow:hidden;background:#fff}
 .phone .screen::before{content:"";position:absolute;top:1.9%;left:50%;width:31%;height:3.4%;transform:translateX(-50%);background:#000;border-radius:999px;z-index:6}
+.phone .content > video{width:100%;height:100%;object-fit:cover;display:block}
 .phone .content > img{width:100%;height:auto;min-height:100%;object-fit:cover;object-position:top;display:block}
 .mat .row .phone{width:min(260px,46%);min-width:150px}
 .phone.scroll .content > img{animation:feed 12s var(--ease) infinite alternate;animation-play-state:paused}
@@ -588,11 +589,11 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
     <div class="chapter"><span class="big" aria-hidden="true">04</span><span class="label">04 — Photography &amp; drone</span><h2>Behind the lens</h2></div>
     <p class="ph-lead">I shoot the hotel, food, lifestyle and drone content myself on a Sony A7 IV and a DJI drone. A few favorites:</p>
     <div class="ph-grid"><figure class="ph wide"><img src="https://justinclosemedia.com/images/portfolio/coastline-resort-aerial-sm.jpg" data-full="https://justinclosemedia.com/images/portfolio/coastline-resort-aerial.jpg" alt="Drone · resort and coastline from above" loading="lazy"></figure><figure class="ph"><img src="https://justinclosemedia.com/images/portfolio/la-jolla-cove-kayaks-sm.jpg" data-full="https://justinclosemedia.com/images/portfolio/la-jolla-cove-kayaks.jpg" alt="Kayaks below the red tile roofs" loading="lazy"></figure><figure class="ph"><img src="https://justinclosemedia.com/images/portfolio/guest-tiki-adirondack-sm.jpg" data-full="https://justinclosemedia.com/images/portfolio/guest-tiki-adirondack.jpg" alt="Guest laughing with a tiki cocktail by the beach" loading="lazy"></figure><figure class="ph"><img src="https://justinclosemedia.com/images/portfolio/hotel-pool-courtyard-sm.jpg" data-full="https://justinclosemedia.com/images/portfolio/hotel-pool-courtyard.jpg" alt="Hotel pool courtyard under white umbrellas" loading="lazy"></figure><figure class="ph"><img src="https://justinclosemedia.com/images/portfolio/coupe-cocktail-toast-sm.jpg" data-full="https://justinclosemedia.com/images/portfolio/coupe-cocktail-toast.jpg" alt="Coupe cocktail with a dried lime" loading="lazy"></figure><figure class="ph wide"><img src="https://justinclosemedia.com/images/portfolio/event-tables-overhead-sm.jpg" data-full="https://justinclosemedia.com/images/portfolio/event-tables-overhead.jpg" alt="Drone · garden dinner from overhead" loading="lazy"></figure><figure class="ph"><img src="https://justinclosemedia.com/images/portfolio/arched-dining-room-sm.jpg" data-full="https://justinclosemedia.com/images/portfolio/arched-dining-room.jpg" alt="Dining room with arched windows over the ocean" loading="lazy"></figure><figure class="ph"><img src="https://justinclosemedia.com/images/portfolio/island-beach-moment-sm.jpg" data-full="https://justinclosemedia.com/images/portfolio/island-beach-moment.jpg" alt="Two people on a white sand beach below limestone cliffs" loading="lazy"></figure><figure class="ph"><img src="https://justinclosemedia.com/images/portfolio/coastal-palms-dusk-sm.jpg" data-full="https://justinclosemedia.com/images/portfolio/coastal-palms-dusk.jpg" alt="Palms and red tile roofs at dusk" loading="lazy"></figure><figure class="ph"><img src="https://justinclosemedia.com/images/portfolio/guest-spritz-laugh-sm.jpg" data-full="https://justinclosemedia.com/images/portfolio/guest-spritz-laugh.jpg" alt="Guest laughing with a spritz above the beach" loading="lazy"></figure></div>
-    <div class="ph-foot"><span class="label">Sony A7 IV · DJI drone · Lightroom</span></div>
+    <div class="ph-foot"><span class="label">Sony A7 IV · DJI drone · Lightroom</span><button class="tm" type="button" id="show-reels" aria-expanded="false" aria-controls="reels"><span class="ico"><svg style="transform:rotate(90deg)"><use href="#arr"/></svg></span>Watch reels from the road</button></div>
   </div>
 </section>
 
-<section class="deep sec" id="reels" style="padding-top:clamp(24px,3vw,48px)">
+<section class="deep sec" id="reels" hidden style="padding-top:clamp(24px,3vw,48px)">
   <div class="wrap">
     <div class="chapter"><span class="big" aria-hidden="true">05</span><span class="label">05 — Stills from reels I shot &amp; edited</span><h2>Reels from the road</h2></div>
   </div>
@@ -766,8 +767,15 @@ const REELS = [["img/reel-1.jpg","Red canyon sand, Utah"],["img/reel-2.jpg","Bea
 const heart = '<svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" fill="none" stroke="#fff" stroke-width="1.8"/></svg>';
 const bubble = '<svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 1 3.3 6.5L4 20l1.2-3.4A8 8 0 0 1 4 12z" fill="none" stroke="#fff" stroke-width="1.8"/></svg>';
 const send = '<svg viewBox="0 0 24 24"><path d="M21 4 3 11l7 2 2 7z" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/></svg>';
-$("#reel-rail").innerHTML = REELS.map(([src,cap]) => phone(`<img src="${src}" alt="Reel: ${esc(cap)}" loading="lazy"><div class="reel-ui"><div class="side">${heart}${bubble}${send}</div><p class="who"><i></i>justinbretclose</p><p class="cap">${esc(cap)}</p></div>`)).join("");
+$("#reel-rail").innerHTML = REELS.map(([src,cap,vid]) => phone(`${vid ? `<video src="${vid}" poster="${src}" muted loop playsinline preload="none" aria-label="Reel: ${esc(cap)}"></video>` : `<img src="${src}" alt="Reel: ${esc(cap)}" loading="lazy">`}<div class="reel-ui"><div class="side">${heart}${bubble}${send}</div><p class="who"><i></i>justinbretclose</p><p class="cap">${esc(cap)}</p></div>`)).join("");
 const rail = $("#reel-rail"), reelPhones = [...rail.children];
+/* reels stay tucked away until someone asks for them */
+$("#show-reels").addEventListener("click", () => { const sec = $("#reels"), open = sec.hidden; sec.hidden = !open; $("#show-reels").setAttribute("aria-expanded", open);
+  $("#show-reels").lastChild.textContent = open ? "Hide reels" : "Watch reels from the road"; sizeButtons();
+  if(open){ startReel(); sec.scrollIntoView({behavior: reduce ? "auto" : "smooth"}); } });
+/* play reels only while visible */
+const vio = new IntersectionObserver(es => es.forEach(e => { const v = e.target; if(e.isIntersecting && !reduce){ v.play().catch(()=>{}); } else v.pause(); }), {threshold:.5});
+rail.querySelectorAll("video").forEach(v => vio.observe(v));
 function centerReel(){ const mid = rail.getBoundingClientRect().left + rail.clientWidth/2; let best=null, bd=1e9;
   reelPhones.forEach(p => { const r = p.getBoundingClientRect(), d = Math.abs(r.left + r.width/2 - mid); if(d<bd){bd=d;best=p;} });
   reelPhones.forEach(p => p.classList.toggle("center", p===best)); return best; }
