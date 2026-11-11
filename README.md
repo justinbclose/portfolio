@@ -2,5 +2,5 @@
 
 Source for my portfolio website, hosted on GitHub Pages.
 
-- `index.html` — the whole site. Projects live in the `CASES` list near the bottom.
+- `index.html` — the whole site. Projects live in the `WORK` list near the bottom.
 - `img/` — photos and work samples.

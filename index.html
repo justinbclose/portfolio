@@ -44,7 +44,7 @@ h1,h2,h3,p,figure{margin:0}
 .deep{background:var(--deep);color:var(--on-deep)}
 
 /* ---------- Trail Marker button ---------- */
-.tm{--fill:8;position:relative;display:inline-flex;align-items:center;gap:14px;height:54px;padding:0 26px 0 6px;border-radius:999px;border:1.5px solid currentColor;overflow:hidden;isolation:isolate;text-decoration:none;color:inherit;background:transparent;cursor:pointer;font:500 12px var(--mono);letter-spacing:.18em;text-transform:uppercase;transition:color .3s .08s,border-color .3s,transform .2s}
+.tm{--fill:8;position:relative;display:inline-flex;align-items:center;gap:14px;height:54px;padding:0 26px 0 6px;border-radius:999px;border:1.5px solid currentColor;overflow:hidden;isolation:isolate;text-decoration:none;color:inherit;background:transparent;cursor:pointer;font:500 15px var(--body);letter-spacing:.01em;transition:color .3s .08s,border-color .3s,transform .2s}
 .tm::before{content:"";position:absolute;left:6px;top:50%;width:42px;height:42px;margin-top:-21px;border-radius:50%;background:var(--gold);z-index:-1;transition:transform .52s var(--ease)}
 .tm .ico{width:42px;height:42px;display:grid;place-items:center;color:var(--on-accent);flex:none}
 .tm .ico svg{width:16px;height:16px;transition:transform .52s var(--ease)}
@@ -75,7 +75,7 @@ h1,h2,h3,p,figure{margin:0}
 .nav nav a:not(.tm):hover{opacity:1}
 .nav nav a.active{opacity:1}
 .nav nav a.active::after{content:"";position:absolute;left:50%;bottom:2px;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:var(--gold)}
-.nav .tm{height:46px;font-size:11px}
+.nav .tm{height:46px;font-size:14px}
 .nav .tm::before{width:34px;height:34px;margin-top:-17px}
 .nav .tm .ico{width:34px;height:34px}
 .menu-btn{display:none;height:46px;padding:0 18px;border-radius:999px;border:1.5px solid currentColor;background:none;color:inherit;font:500 11px var(--mono);letter-spacing:.2em;text-transform:uppercase;cursor:pointer}
@@ -112,8 +112,8 @@ h1,h2,h3,p,figure{margin:0}
 section{scroll-margin-top:70px}
 .sec{padding:clamp(72px,9vw,140px) 0}
 .chapter{position:relative;margin-bottom:clamp(40px,5vw,72px)}
-.chapter .big{position:absolute;left:-.04em;top:50%;transform:translateY(-58%);font:400 clamp(140px,22vw,320px)/1 var(--display);color:var(--line);z-index:0;pointer-events:none;user-select:none}
-.deep .chapter .big{color:var(--deep-2)}
+.chapter .big{position:absolute;right:-.02em;top:50%;transform:translateY(-58%);font:400 clamp(140px,22vw,320px)/1 var(--display);color:transparent;-webkit-text-stroke:1px var(--line);z-index:0;pointer-events:none;user-select:none}
+.deep .chapter .big{-webkit-text-stroke:1px #4a523b}
 .chapter h2{position:relative;z-index:1;font:400 clamp(40px,6vw,84px)/1 var(--display);letter-spacing:.08em;text-transform:uppercase}
 .chapter .label{position:relative;z-index:1;margin-bottom:14px;display:block}
 
@@ -176,7 +176,7 @@ section{scroll-margin-top:70px}
 .wall dd b{font:500 15px var(--mono);color:var(--sage-ink)}
 .wall .summary{margin-top:18px;color:var(--muted);max-width:52ch}
 .wall details{margin-top:16px}
-.wall summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:10px;min-height:44px;font:500 12px var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--sage-ink)}
+.wall summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:10px;min-height:44px;font:500 15px var(--body);color:var(--sage-ink)}
 .wall summary::-webkit-details-marker{display:none}
 .wall summary .plus{width:26px;height:26px;border-radius:50%;border:1.5px solid currentColor;display:grid;place-items:center;transition:transform .3s var(--ease)}
 .wall details[open] .plus{transform:rotate(45deg)}
@@ -190,28 +190,35 @@ section{scroll-margin-top:70px}
 .phone{position:relative;width:clamp(220px,62vw,300px);aspect-ratio:9/19.5;border-radius:15%/7%;background:#1c1d18;padding:3.2%;box-shadow:inset 0 0 0 1.5px #5a5c52,inset 0 0 0 4px #121310,var(--lift);flex:none}
 .phone .btn-side{position:absolute;width:3px;background:#3d3f36;border-radius:2px}
 .phone .b1{left:-2px;top:17%;height:5%}.phone .b2{left:-2px;top:25%;height:9%}.phone .b3{left:-2px;top:36%;height:9%}.phone .b4{right:-2px;top:29%;height:13%}
-.phone .screen{position:relative;width:100%;height:100%;border-radius:12%/5.6%;overflow:hidden;background:#000}
-.phone .screen::before{content:"";position:absolute;top:2.2%;left:50%;width:31%;height:3.4%;transform:translateX(-50%);background:#000;border-radius:999px;z-index:4}
-.phone .screen > img{width:100%;height:auto;min-height:100%;object-fit:cover;object-position:top;display:block}
+.phone .screen{position:relative;width:100%;height:100%;border-radius:12%/5.6%;overflow:hidden;background:#fff;display:flex;flex-direction:column}
+.phone .sb{flex:none;height:7.2%;display:flex;align-items:center;justify-content:space-between;padding:0 9% 0 11%;font:600 clamp(9px,1.1vw,12px) var(--body);color:#111;position:relative;z-index:5}
+.phone .sb svg{height:.95em;width:auto;margin-left:3px}
+.phone .content{position:relative;flex:1;overflow:hidden;background:#fff}
+.phone .screen::before{content:"";position:absolute;top:1.9%;left:50%;width:31%;height:3.4%;transform:translateX(-50%);background:#000;border-radius:999px;z-index:6}
+.phone .content > img{width:100%;height:auto;min-height:100%;object-fit:cover;object-position:top;display:block}
 .mat .row .phone{width:min(260px,46%);min-width:150px}
-.phone .screen .slide{position:absolute;inset:0;opacity:0;transition:opacity .5s var(--ease)}
-.phone .screen .slide.on{opacity:1}
-.phone .screen .slide img{width:100%;height:100%;object-fit:cover;object-position:top}
-.phone.scroll .screen > img{animation:feed 12s var(--ease) infinite alternate;animation-play-state:paused}
-.phone.scroll.play .screen > img{animation-play-state:running}
-.phone.scroll:hover .screen > img{animation-play-state:paused}
+.phone.scroll .content > img{animation:feed 12s var(--ease) infinite alternate;animation-play-state:paused}
+.phone.scroll.play .content > img{animation-play-state:running}
+.phone.scroll:hover .content > img{animation-play-state:paused}
 @keyframes feed{0%,12%{transform:translateY(0)}88%,100%{transform:translateY(var(--dist,0px))}}
-.tabs{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:6px}
-.tabs button{height:44px;padding:0 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--cream);font:500 12px var(--mono);color:var(--ink);cursor:pointer}
-.tabs button[aria-selected="true"]{border-color:var(--sage-ink);background:var(--sage-ink);color:var(--on-deep)}
+.fan{display:flex;justify-content:center;align-items:flex-end;padding:20px 0 10px;width:100%}
+.fan .phone{width:clamp(180px,24vw,290px);transition:transform .6s var(--ease)}
+.fan .phone:nth-child(1){transform:rotate(-6deg) translate(16%,4%);z-index:1}
+.fan .phone:nth-child(2){z-index:2}
+.fan .phone:nth-child(3){transform:rotate(6deg) translate(-16%,4%);z-index:1}
+.fan:hover .phone:nth-child(1){transform:rotate(-8deg) translate(4%,4%)}
+.fan:hover .phone:nth-child(3){transform:rotate(8deg) translate(-4%,4%)}
 
 /* ---------- Reels ---------- */
 .reel-rail{display:flex;gap:clamp(12px,2vw,28px);overflow-x:auto;scroll-snap-type:x mandatory;padding:20px max(var(--gut),calc(50vw - 150px)) 30px;scrollbar-width:none}
 .reel-rail::-webkit-scrollbar{display:none}
 .reel-rail .phone{width:clamp(220px,60vw,280px);scroll-snap-align:center;transform:scale(.9);opacity:.7;transition:transform .5s var(--ease),opacity .5s}
 .reel-rail .phone.center{transform:none;opacity:1}
-.reel-rail .screen > img{width:100%;height:100%;object-fit:cover;animation:kb 14s ease-in-out infinite alternate}
+.reel-rail .content > img{width:100%;height:100%;object-fit:cover;animation:kb 14s ease-in-out infinite alternate}
 @keyframes kb{from{transform:scale(1.02)}to{transform:scale(1.14) translateY(-2%)}}
+.reel-rail .screen{background:#000}
+.reel-rail .sb{position:absolute;top:0;left:0;right:0;height:7.2%;color:#fff}
+.reel-rail .content{position:absolute;inset:0;background:#000}
 .reel-ui{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;justify-content:flex-end;padding:0 8% 12%;color:#fff;background:linear-gradient(180deg,transparent 55%,rgba(0,0,0,.55))}
 .reel-ui .side{position:absolute;right:6%;bottom:22%;display:flex;flex-direction:column;gap:16px;align-items:center}
 .reel-ui .side svg{width:22px;height:22px}
@@ -245,7 +252,7 @@ section{scroll-margin-top:70px}
 /* ---------- Contact ---------- */
 .contact{position:relative;padding-bottom:clamp(72px,9vw,120px)}
 .contact .aerial{position:relative;height:clamp(260px,34vw,460px);overflow:hidden}
-.contact .aerial img{width:100%;height:100%;object-fit:cover;object-position:center 35%}
+.contact .aerial img{width:100%;height:100%;object-fit:cover;object-position:center 35%;-webkit-mask-image:linear-gradient(#000 55%,transparent);mask-image:linear-gradient(#000 55%,transparent)}
 .contact .aerial .wave{position:absolute;left:0;right:0;top:-1px;transform:scaleY(-1)}
 .contact .panel{position:relative;margin-top:calc(-1 * clamp(120px,14vw,200px));background:var(--deep);color:var(--on-deep);border-radius:var(--r-mat);box-shadow:var(--lift);padding:clamp(32px,5vw,72px);display:grid;grid-template-columns:5fr 7fr;gap:clamp(32px,5vw,72px)}
 .contact h2{font:400 clamp(40px,5vw,72px)/1 var(--display);letter-spacing:.08em;text-transform:uppercase}
@@ -253,7 +260,7 @@ section{scroll-margin-top:70px}
 .clist{list-style:none;margin:28px 0 0;padding:0}
 .clist li{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;min-height:56px;border-top:1px solid rgba(199,201,179,.25)}
 .panel .label{color:var(--on-deep-muted)}
-.clist a{text-decoration:none;border-bottom:1px solid rgba(245,245,239,.35)}
+.clist a{display:inline-flex;align-items:center;min-height:44px;text-decoration:none;border-bottom:1px solid rgba(245,245,239,.35)}
 .clist a:hover{border-color:var(--gold)}
 form{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-content:start}
 form label{display:flex;flex-direction:column;gap:8px;font:500 11px var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--on-deep-muted)}
@@ -262,6 +269,11 @@ form input,form textarea{font:400 16px var(--body);color:var(--ink);background:v
 form input:focus,form textarea:focus{border-color:var(--gold)}
 form textarea{min-height:150px;resize:vertical}
 .note{font-size:13.5px;color:var(--on-deep-muted);min-height:1.3em}
+.lb{position:fixed;inset:0;z-index:90;background:rgba(35,38,28,.94);display:none;place-items:center;padding:56px 12px 20px;overflow:auto}
+.lb.open{display:grid}
+.lb img{max-width:100%;height:auto;border-radius:6px;background:#fff}
+.lb button{position:fixed;top:10px;right:10px;color:var(--on-deep)}
+.mat img.piece{cursor:zoom-in}
 footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;color:var(--muted)}
 
 /* reveal */
@@ -289,10 +301,19 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
   .nav nav a:not(.tm){padding:16px 0;border-bottom:1px solid var(--line);font-size:13px}
   .nav nav .tm{margin-top:14px;justify-content:flex-start}
   .menu-btn{display:block}
-  .hero h1{letter-spacing:.05em}
+  .hero h1{letter-spacing:.05em;font-size:clamp(46px,13vw,64px)}
+  .hero{align-items:flex-end}
+  .hero .photo img{object-position:62% 12%}
+  .hero .photo::after{background:linear-gradient(180deg,rgba(47,53,36,.15) 0%,rgba(47,53,36,.1) 30%,rgba(47,53,36,.88) 58%,var(--deep) 100%)}
+  .hero .wrap{padding-top:52svh;padding-bottom:150px}
+  .mat .row{flex-direction:column;align-items:center}
+  .mat .row .phone{width:min(78vw,300px)}
+  .fan .phone{width:31vw}
+  .fan{padding:10px 0 0}
   .hero .where{left:var(--gut);right:auto;text-align:left}
   .facts{grid-template-columns:1fr}
-  .kit{grid-template-columns:1fr}
+  .kit{grid-template-columns:1fr 1fr;gap:20px 16px}
+  .kit li{font-size:14.5px}
   .numbers .grid{grid-template-columns:1fr 1fr}
   .wall dl div{grid-template-columns:96px 1fr}
   .trail svg.path{left:7px}
@@ -334,9 +355,9 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
   <div class="photo"><img src="img/portrait.jpg" alt="Justin Close smiling on a trail below the Flatirons in Boulder, Colorado" width="650" height="940"></div>
   <div class="rings" id="rings"></div>
   <div class="wrap">
-    <span class="label">Marketing portfolio · San Diego</span>
+    <span class="label">Sales &amp; Marketing Coordinator · La Jolla Beach &amp; Tennis Club</span>
     <h1 aria-label="I'm Justin Close."><span class="ln"><span>I’m</span></span><span class="ln"><span>Justin</span></span><span class="ln"><span>Close<span class="dot" id="hero-dot"></span></span></span></h1>
-    <p class="lead">I write, shoot and build the marketing for a beach club, a hotel and an oceanfront restaurant in La Jolla.</p>
+    <p class="lead">I run digital marketing for La Jolla Beach &amp; Tennis Club, La Jolla Shores Hotel and The Marine Room: email, social, web and paid.</p>
     <div class="ctas">
       <a class="tm solid down" href="#work"><span class="ico"><svg><use href="#arr"/></svg></span>See the work</a>
       <a class="tm" href="https://calendly.com/justinbclose/30min"><span class="ico"><svg><use href="#arr"/></svg></span>Book a call</a>
@@ -380,11 +401,11 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
 </section>
 
 <svg class="wave" data-wave="2" data-fill="#2f3524" data-bg="#f5f5ef" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"></svg>
-<div class="deep numbers sec" style="padding-top:clamp(40px,5vw,72px)" aria-label="Highlights">
+<div class="deep numbers sec" style="padding-top:clamp(40px,5vw,72px);padding-bottom:clamp(48px,5vw,80px)" aria-label="Highlights">
   <div class="wrap grid">
     <div><p class="n" data-count="150" data-suffix="K+">150<span class="u">K+</span></p><p>Combined followers across the accounts I manage</p></div>
-    <div><p class="n" data-count="84000">84,000</p><p>Inboxes reached by one La Jolla Shores Hotel email</p></div>
-    <div><p class="n" data-count="10" data-prefix="$" data-suffix="K">$10<span class="u">K</span></p><p>Unused grant funding I found for Wine to Water in GA4</p></div>
+    <div><p class="n" data-count="84000">84,000</p><p>Subscribers on one La Jolla Shores Hotel email send</p></div>
+    <div><p class="n" data-count="10" data-prefix="$" data-suffix="K">$10<span class="u">K</span></p><p>Unused grant funding I found for Wine to Water in an analytics audit</p></div>
     <div><p class="n" data-count="35" data-prefix="+" data-suffix="%">+35<span class="u">%</span></p><p>Social growth across three luxury hospitality brands</p></div>
   </div>
 </div>
@@ -401,7 +422,7 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
 <svg class="wave" data-wave="4" data-fill="#2f3524" data-bg="#f5f5ef" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"></svg>
 <section class="deep sec" id="reels" style="padding-top:clamp(40px,5vw,72px)">
   <div class="wrap">
-    <div class="chapter"><span class="big" aria-hidden="true">✦</span><span class="label">Shot &amp; edited by me</span><h2>Reels from the road</h2></div>
+    <div class="chapter"><span class="big" aria-hidden="true">03</span><span class="label">03 — Stills from reels I shot &amp; edited</span><h2>Reels from the road</h2></div>
   </div>
   <div class="reel-rail" id="reel-rail" aria-label="Reels, swipe sideways"></div>
   <div class="wrap reel-foot">
@@ -415,7 +436,7 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
 
 <section class="deep sec" id="experience">
   <div class="wrap">
-    <div class="chapter" style="text-align:center"><span class="label">03 — Experience</span><h2>Where I’ve worked</h2></div>
+    <div class="chapter" style="text-align:center"><span class="label">04 — Experience</span><h2>Where I’ve worked</h2></div>
     <div class="trail" id="trail">
       <svg class="path" aria-hidden="true" preserveAspectRatio="none"><path id="trail-path"/></svg>
       <div class="job now reveal"><span class="node"></span><p class="when">2026 — NOW</p><h3>La Jolla Beach &amp; Tennis Club</h3><p class="title">Sales &amp; Marketing Coordinator</p><p class="place">La Jolla, CA</p><p class="desc">Digital marketing for a private club, a hotel and a Forbes-recognized restaurant. Led the CRM switch from Revinate to Ascent360, manage three property websites, grew social 35%, and build the board’s quarterly decks.</p></div>
@@ -454,45 +475,41 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
   </div>
 </section>
 </main>
-<footer><span>© 2026 Justin Close</span><span>Every photo and video here was shot by Justin</span></footer>
+<footer><span>© 2026 Justin Close</span><span>Drone and reel footage shot by Justin · Work samples shown for the brands credited</span></footer>
 
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Enlarged image"><button class="circle-btn" type="button" id="lb-close" aria-label="Close image"><span>✕</span></button><img id="lb-img" alt=""></div>
 <script>
 /* ===== EDIT YOUR WORK HERE =====
    kind: "image" (shows whole images), "phones" (one CSS phone per screen, side by side),
          "tabs" (one CSS phone with tappable account tabs).   shape: "tall" or "wide".
    ran: [label, value] for the "Ran in / Sent to / Published on" line. */
 const WORK = [
+  { cats:["email"], kind:"phones", shape:"tall", screens:[["img/screen-eblast.jpg","La Jolla Shores Hotel email"]],
+    client:"La Jolla Shores Hotel", title:"“Your Coastal Escape” eblast", ran:["Sent to","84,000 subscribers"], role:"Copy, build & send", result:"<b>84,000</b> inboxes",
+    summary:"An awareness email written and built to drive direct bookings from past and prospective guests.",
+    did:["Wrote the subject line, headline and body","Built the responsive email","Segmented the list and scheduled the send"], links:[] },
+  { cats:["social"], kind:"fan", shape:"wide", screens:[["img/screen-ljbtc.jpg","@ljbtc"],["img/screen-marineroom.jpg","@themarineroom"],["img/screen-shores.jpg","@ljshoreshotel"]],
+    client:"LJBTC · The Marine Room · La Jolla Shores", title:"Instagram for three luxury brands", ran:["Published on","Instagram"], role:"Content, shooting & community", result:"<b>+54%</b> reach YoY · <b>150K+</b> followers",
+    summary:"Three audiences, three voices, one content calendar, all shot and planned in-house.",
+    did:["Plan and schedule content for three accounts","Shoot and edit photo and video in-house","Report reach and follower growth year over year"], links:[] },
   { cats:["print"], kind:"image", shape:"tall", imgs:[["img/marine-ad.jpg",648,846]],
     client:"The Marine Room", title:"Chef feature, full-page ad", ran:["Ran in","San Diego Magazine"], role:"Copy & layout", result:"Full-page placement",
     summary:"A full-page ad built around the executive chef’s story, placed in San Diego Magazine.",
     did:["Wrote the ad copy around the chef","Built the layout to the magazine’s spec","Coordinated placement and the final proof"],
     links:[["View it in the magazine","https://online.flippingbook.com/view/770412926/120/"]] },
-  { cats:["email"], kind:"phones", shape:"tall", screens:[["img/screen-eblast.jpg","La Jolla Shores Hotel email"]],
-    client:"La Jolla Shores Hotel", title:"“Your Coastal Escape” eblast", ran:["Sent to","84,000 subscribers"], role:"Copy, build & send", result:"<b>84,000</b> inboxes",
-    summary:"An awareness email written and built to drive direct bookings from past and prospective guests.",
-    did:["Wrote the subject line, headline and body","Built the responsive email","Segmented the list and scheduled the send"], links:[] },
-  { cats:["social"], kind:"tabs", shape:"tall", screens:[["img/screen-ljbtc.jpg","@ljbtc"],["img/screen-marineroom.jpg","@themarineroom"],["img/screen-shores.jpg","@ljshoreshotel"]],
-    client:"LJBTC · The Marine Room · La Jolla Shores", title:"Instagram for three luxury brands", ran:["Published on","Instagram"], role:"Content, shooting & community", result:"<b>+54%</b> reach YoY · <b>150K+</b> followers",
-    summary:"Three audiences, three voices, one content calendar. Tap an account to switch profiles.",
-    did:["Plan and schedule content for three accounts","Shoot and edit photo and video in-house","Report reach and follower growth year over year"], links:[] },
-  { cats:["print"], kind:"image", shape:"tall", imgs:[["img/ljbtc-ad.jpg",610,785]],
-    client:"La Jolla Beach & Tennis Club", title:"“Reimagined” rooms, full-page ad", ran:["Ran in","Modern Luxury"], role:"Copy & photo selection", result:"Full page, QR into booking",
-    summary:"A full-page ad announcing the club’s reimagined rooms, with a QR code straight into the booking path.",
-    did:["Wrote the headline and body copy","Selected and sequenced the room photography","Added a QR code into the booking funnel"], links:[] },
   { cats:["web"], kind:"image", shape:"wide", imgs:[["img/wedding-lp.jpg",1153,631]],
     client:"La Jolla Beach & Tennis Club", title:"San Diego wedding packages page", ran:["Published on","ljbtc.com"], role:"Design & WordPress build", result:"Live landing page",
     summary:"A landing page I designed and built in WordPress to present the club’s wedding packages and capture inquiries.",
     did:["Designed the page layout","Built it in WordPress","Wrote the page copy"], links:[] },
-  { cats:["web"], kind:"image", shape:"wide", quote:"An iconic oceanfront dining experience", imgs:[["img/marine-desc.jpg",1114,233]],
-    client:"The Marine Room", title:"Restaurant description", ran:["Published on","marineroom.com"], role:"Copywriting", result:"Live on the site & listings",
-    summary:"The description of The Marine Room used on its website and across its listings.",
-    did:["Wrote the long and short descriptions","Kept one voice across the site and listings"],
-    links:[["See it on marineroom.com","https://www.marineroom.com"]] },
+  { cats:["print"], kind:"image", shape:"tall", imgs:[["img/ljbtc-ad.jpg",610,785]],
+    client:"La Jolla Beach & Tennis Club", title:"“Reimagined” rooms, full-page ad", ran:["Ran in","Modern Luxury"], role:"Copy & photo selection", result:"Full page, QR into booking",
+    summary:"A full-page ad announcing the club’s reimagined rooms, with a QR code straight into the booking path.",
+    did:["Wrote the headline and body copy","Selected and sequenced the room photography","Added a QR code into the booking funnel"], links:[] },
   { cats:["email"], kind:"image", shape:"tall", imgs:[["img/w2w-email.jpg",778,948],["img/w2w-flow.jpg",1170,504]],
     client:"Wine to Water", title:"Email automation & migration", ran:["Sent via","Shopify Email"], role:"Email, automation & GA4", result:"<b>65%</b> open rate · <b>$10K</b> found",
-    summary:"Holiday campaigns at a 65% open rate (the average is 20%), automated donor flows, a full move off Constant Contact, and about $10,000 in unused grant funding found in GA4.",
+    summary:"Holiday campaigns at a 65% open rate (the average is 20%), automated donor flows, a full move off Constant Contact, and about $10,000 in unused grant funding found in an analytics audit.",
     did:["Built automated flows in Shopify Email","Wrote and sent holiday campaigns","Migrated templates and contacts from Constant Contact","Audited GA4 and surfaced unused Google Ad Grant credits"], links:[] },
-  { cats:["brand","web"], kind:"image", shape:"tall", row:true, imgs:[["img/tourmaline-profile.jpg",633,949],["img/tourmaline-flyer.jpg",337,853],["img/tourmaline-cards.jpg",319,320]],
+  { cats:["brand","web"], kind:"image", shape:"tall", row:true, imgs:[["img/tourmaline-profile.jpg",633,690],["img/tourmaline-flyer.jpg",337,853],["img/tourmaline-cards.jpg",319,320]],
     client:"Tourmaline Services", title:"A brand built from scratch", ran:["Published on","Google Business Profile & print"], role:"Co-founder, brand & marketing", result:"Built and sold · <b>4.3★</b>",
     summary:"I co-founded a pressure-washing company in southern Utah and built the whole brand: logo, website, social, ads and print. We later sold the business.",
     did:["Designed the logo and brand look","Built the WordPress site with shopping and SEO","Ran Facebook and Google ads and CRM email","Made business cards and door hangers"], links:[] },
@@ -500,8 +517,13 @@ const WORK = [
     client:"Mash Mechanix Brewing Co", title:"Social for a family brewery", ran:["Published on","Instagram & Facebook"], role:"Content & scheduling", result:"<b>6,000+</b> followers",
     summary:"Social for a family-owned brewery in Colorado Springs, built around events, live music and seasonal releases.",
     did:["Schedule and publish posts on both platforms","Create graphics, photos and video","Track post performance and adjust"], links:[] },
+  { cats:["web"], kind:"image", shape:"wide", imgs:[["img/marine-desc.jpg",1114,233]],
+    client:"The Marine Room", title:"Restaurant description", ran:["Published on","marineroom.com"], role:"Copywriting", result:"Live on the site & listings",
+    summary:"The description of The Marine Room used on its website and across its listings.",
+    did:["Wrote the long and short descriptions","Kept one voice across the site and listings"],
+    links:[["See it on marineroom.com","https://www.marineroom.com"]] },
   { cats:["web"], kind:"image", shape:"wide", imgs:[["img/utah.jpg",1338,689]],
-    client:"Utah Tech University", title:"University website, hand-coded", ran:null, role:"HTML & CSS build", result:"Site with a merch shop",
+    client:"Utah Tech University", title:"Earlier work: a hand-coded site", ran:null, role:"HTML & CSS build", result:"Site with a merch shop",
     summary:"A university website coded from scratch, with information for students, faculty and visitors plus a merchandise shop.",
     did:["Hand-coded the site in HTML and CSS","Planned page structure and navigation","Built a shop section for campus merchandise"], links:[] },
 ];
@@ -510,7 +532,8 @@ const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAl
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const tmIco = id => `<span class="ico"><svg><use href="#${id}"/></svg></span>`;
-const phone = (inner, cls="") => `<div class="phone ${cls}"><span class="btn-side b1"></span><span class="btn-side b2"></span><span class="btn-side b3"></span><span class="btn-side b4"></span><div class="screen">${inner}</div></div>`;
+const SBI = '<svg viewBox="0 0 18 11"><rect x="0" y="7" width="3" height="4" rx="1" fill="currentColor"/><rect x="5" y="5" width="3" height="6" rx="1" fill="currentColor"/><rect x="10" y="2.5" width="3" height="8.5" rx="1" fill="currentColor"/><rect x="15" y="0" width="3" height="11" rx="1" fill="currentColor"/></svg><svg viewBox="0 0 26 12"><rect x=".5" y=".5" width="22" height="11" rx="3" fill="none" stroke="currentColor" opacity=".5"/><rect x="2.5" y="2.5" width="16" height="7" rx="1.5" fill="currentColor"/><rect x="24" y="4" width="1.6" height="4" rx=".8" fill="currentColor" opacity=".5"/></svg>';
+const phone = (inner, cls="") => `<div class="phone ${cls}"><span class="btn-side b1"></span><span class="btn-side b2"></span><span class="btn-side b3"></span><span class="btn-side b4"></span><div class="screen"><div class="sb"><span>9:41</span><span>${SBI}</span></div><div class="content">${inner}</div></div></div>`;
 
 /* ---- contour dividers ---- */
 function wavePath(seed, y0, off){
@@ -537,11 +560,10 @@ $("#exhibits").innerHTML = WORK.map((w,i) => {
     mat += w.row ? `<div class="row">${imgs}</div>` : imgs;
   } else if(w.kind==="phones"){
     mat = `<div class="row">${w.screens.map(([src,alt]) => phone(`<img src="${src}" alt="${esc(w.client)} ${esc(alt)} screen" loading="lazy">`, "scroll")).join("")}</div>`;
-  } else if(w.kind==="tabs"){
-    mat = phone(w.screens.map(([src,alt],k) => `<div class="slide${k?"":" on"}" data-k="${k}"><img src="${src}" alt="Instagram profile ${esc(alt)}" loading="lazy"></div>`).join("")) +
-      `<div class="tabs" role="tablist" aria-label="Instagram accounts">${w.screens.map(([,alt],k) => `<button type="button" role="tab" data-k="${k}" aria-selected="${!k}">${esc(alt)}</button>`).join("")}</div>`;
+  } else if(w.kind==="fan"){
+    mat = `<div class="fan">${w.screens.map(([src,alt]) => phone(`<img src="${src}" alt="Instagram profile ${esc(alt)}" loading="lazy">`)).join("")}</div><p class="label" style="text-align:center">${w.screens.map(x=>esc(x[1])).join(" · ")}</p>`;
   }
-  const cls = w.shape==="tall" ? `tall${(tallCount++ % 2) ? " flip offset" : ""}` : "wide";
+  const cls = w.shape==="tall" ? "tall" : "wide";
   const ran = w.ran ? `<div><dt>${esc(w.ran[0])}</dt><dd>${esc(w.ran[1])}</dd></div>` : "";
   const links = w.links.length ? `<div class="links">${w.links.map(([t,h]) => `<a class="tm" href="${h}">${tmIco("ext")}${esc(t)}</a>`).join("")}</div>` : "";
   const head = `<svg class="tick" aria-hidden="true"><use href="#tick"/></svg><p class="label">${String(i+1).padStart(2,"0")} · ${w.cats.map(c=>LABELS[c]).join(" · ")}</p><h3 style="margin-top:8px">${esc(w.title)}</h3><p class="summary">${esc(w.summary)}</p>`;
@@ -551,13 +573,9 @@ $("#exhibits").innerHTML = WORK.map((w,i) => {
   return `<article class="exhibit ${cls} reveal" data-cats="${w.cats.join(" ")}" aria-label="${esc(w.title)}"><div class="mat">${mat}</div>${wall}</article>`;
 }).join("");
 
-/* tabbed phone: rotates through accounts until someone taps a tab */
-$$(".tabs").forEach(t => {
-  const mat = t.closest(".mat"); let k = 0, auto = !reduce;
-  const show = n => { k = n; mat.querySelectorAll(".slide").forEach(s => s.classList.toggle("on", +s.dataset.k===n)); t.querySelectorAll("button").forEach(b => b.setAttribute("aria-selected", +b.dataset.k===n)); };
-  t.addEventListener("click", e => { const b = e.target.closest("button"); if(b){ auto = false; show(+b.dataset.k); }});
-  setInterval(() => { const r = t.getBoundingClientRect(); if(auto && r.top < innerHeight && r.bottom > 0) show((k+1) % 3); }, 3600);
-});
+/* alternate tall exhibits left/right across whatever is visible */
+function layoutExhibits(){ let n = 0; $$(".exhibit.tall").forEach(x => { if(x.classList.contains("hide")) return; const odd = n++ % 2 === 1; x.classList.toggle("flip", odd); x.classList.toggle("offset", odd); }); }
+layoutExhibits();
 
 /* chips */
 const counts = {all:WORK.length}; WORK.forEach(w => w.cats.forEach(c => counts[c]=(counts[c]||0)+1));
@@ -565,7 +583,8 @@ $("#chips").innerHTML = Object.keys(LABELS).filter(k=>counts[k]).map(k => `<butt
 $("#chips").addEventListener("click", e => { const b = e.target.closest(".chip"); if(!b) return;
   $$(".chip").forEach(x => x.setAttribute("aria-pressed", x===b));
   $$(".exhibit").forEach(x => { x.classList.toggle("hide", !(b.dataset.f==="all" || x.dataset.cats.split(" ").includes(b.dataset.f))); x.classList.remove("pending"); });
-  $("#work").scrollIntoView({behavior: reduce ? "auto" : "smooth"});
+  layoutExhibits(); sizeButtons();
+  const y = $("#exhibits").getBoundingClientRect().top + scrollY - 150; if(scrollY > y) scrollTo({top:y, behavior: reduce ? "auto" : "smooth"});
 });
 
 /* ---- reels ---- */
@@ -586,7 +605,7 @@ const startReel = () => { const n = reelPhones[2]; rail.scrollLeft = n.offsetLef
 startReel(); addEventListener("load", startReel);
 
 /* ---- phones taller than their screen auto-scroll while in view ---- */
-function measurePhones(){ $$(".phone.scroll").forEach(p => { const img = p.querySelector(".screen > img"), scr = p.querySelector(".screen");
+function measurePhones(){ $$(".phone.scroll").forEach(p => { const img = p.querySelector(".content > img"), scr = p.querySelector(".screen");
   if(img && img.complete){ const d = img.offsetHeight - scr.clientHeight; if(d > 8) p.style.setProperty("--dist", -d + "px"); else p.classList.remove("scroll"); } }); }
 addEventListener("load", measurePhones);
 if(!reduce && "IntersectionObserver" in window){
@@ -612,7 +631,7 @@ document.addEventListener("pointerdown", e => { const b = e.target.closest(".tm"
 /* ---- Experience: a meandering trail drawn as you scroll ---- */
 const trail = $("#trail"), tp = $("#trail-path"), tsvg = trail.querySelector("svg.path");
 function buildTrail(){ const h = trail.offsetHeight; if(!h) return; tsvg.setAttribute("viewBox", `0 0 60 ${h}`);
-  let d = "M30,0"; const seg = 140; for(let y=seg, k=0; y-seg < h; y+=seg, k++){ const x = 30 + (k%2 ? 12 : -12), ye = Math.min(y,h); d += ` Q${x},${(y-seg/2).toFixed(0)} 30,${ye}`; }
+  let d = "M30,0"; const seg = 140; for(let y=seg, k=0; y-seg < h; y+=seg, k++){ const amp = innerWidth < 720 ? 3 : 12, x = 30 + (k%2 ? amp : -amp), ye = Math.min(y,h); d += ` Q${x},${(y-seg/2).toFixed(0)} 30,${ye}`; }
   tp.setAttribute("d", d); const L = tp.getTotalLength(); tp.style.strokeDasharray = L; tp.dataset.len = L; drawTrail(); }
 function drawTrail(){ const L = +tp.dataset.len || 0; if(reduce){ tp.style.strokeDashoffset = 0; return; }
   const r = trail.getBoundingClientRect(), p = Math.max(0, Math.min(1, (innerHeight*.75 - r.top) / r.height)); tp.style.strokeDashoffset = L * (1 - p); }
@@ -644,11 +663,19 @@ if(!reduce && "IntersectionObserver" in window){
   nums.forEach(el => io2.observe(el));
 }
 
+/* ---- tap any work image to see it full screen ---- */
+const lb = $("#lb"), lbImg = $("#lb-img");
+document.addEventListener("click", e => { const im = e.target.closest(".mat img.piece"); if(im){ lbImg.src = im.src; lbImg.alt = im.alt; lb.classList.add("open"); document.body.style.overflow="hidden"; $("#lb-close").focus(); }});
+const closeLb = () => { lb.classList.remove("open"); document.body.style.overflow=""; };
+$("#lb-close").onclick = closeLb; lb.addEventListener("click", e => { if(e.target===lb) closeLb(); });
+addEventListener("keydown", e => { if(e.key==="Escape" && lb.classList.contains("open")) closeLb(); });
+
 /* ---- contact form → visitor's email app ---- */
 $("#form").addEventListener("submit", e => { e.preventDefault();
   const f = $("#f-first").value.trim(), l = $("#f-last").value.trim(), em = $("#f-email").value.trim(), m = $("#f-msg").value.trim(), note = $("#f-note");
-  if(!f || !em || !m){ note.textContent = "Add your first name, email and a message."; return; }
-  if(!/^\S+@\S+\.\S+$/.test(em)){ note.textContent = "That email doesn’t look right. Check it and try again."; return; }
+  const bad = [!f&&"#f-first",!em&&"#f-email",!m&&"#f-msg"].filter(Boolean); $$("#form input,#form textarea").forEach(x=>x.removeAttribute("aria-invalid"));
+  if(bad.length){ bad.forEach(q=>$(q).setAttribute("aria-invalid","true")); $(bad[0]).focus(); note.textContent = "Add your first name, email and a message."; return; }
+  if(!/^\S+@\S+\.\S+$/.test(em)){ $("#f-email").setAttribute("aria-invalid","true"); $("#f-email").focus(); note.textContent = "That email doesn’t look right. Check it and try again."; return; }
   location.href = `mailto:justinbclose@gmail.com?subject=${encodeURIComponent(`Portfolio note from ${f} ${l}`.trim())}&body=${encodeURIComponent(`${m}\n\n— ${f} ${l}\n${em}`)}`;
   note.textContent = "Your email app should open with the note ready. If not, email justinbclose@gmail.com.";
 });
