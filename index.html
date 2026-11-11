@@ -140,7 +140,7 @@ section{scroll-margin-top:70px}
 .kit li{padding:8px 0;border-top:1px solid var(--line);font-size:15.5px;display:flex;align-items:center;gap:11px}
 .kit li img,.kit li .ico-gen{width:20px;height:20px;border-radius:5px;flex:none;object-fit:contain}
 .kit li .ico-gen{display:grid;place-items:center;background:var(--sage-ink);color:#fff}.kit li .ico-gen svg{width:13px;height:13px}
-.edu-dd{display:flex;gap:14px;align-items:flex-start}.edu-dd img{width:40px;height:40px;border-radius:8px;flex:none;background:#fff;box-shadow:0 0 0 1px var(--line)}.edu-dd .muted{color:var(--muted)}
+.edu-list{display:flex;flex-direction:column;gap:16px}.edu-dd{display:flex;gap:14px;align-items:center}.edu-dd b{font-weight:500}.facts .edu-list .edu-dd{padding:0}.edu-list{margin-top:10px}.edu-dd img{width:40px;height:40px;border-radius:8px;flex:none;background:#fff;box-shadow:0 0 0 1px var(--line)}.edu-dd .muted{color:var(--muted)}
 .certs{display:flex;flex-wrap:wrap;gap:10px;margin-top:36px}
 .certs span{background:var(--mat);border-radius:999px;padding:10px 18px;font-size:14px;display:inline-flex;align-items:center;gap:10px}
 .certs span::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold)}
@@ -523,7 +523,7 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
       </div>
     </div>
     <dl class="facts">
-      <div><dt class="label">Education</dt><dd class="edu-dd"><img src="img/logos/utahtech.png" alt="Utah Tech University logo" width="40" height="40"><span>B.S. Marketing (Applied Business Analytics)<br>A.S. Business Administration<br><span class="muted">Utah Tech University</span></span></dd></div>
+      <div><dt class="label">Education</dt><dd class="edu-list"><div class="edu-dd"><img src="img/logos/utahtech.png" alt="Utah Tech University logo" width="40" height="40"><span><b>Bachelor of Science, Marketing</b><br><span class="muted">Utah Tech University</span></span></div><div class="edu-dd"><img src="img/logos/utahtech.png" alt="" width="40" height="40"><span><b>Associate of Science, Business Administration</b><br><span class="muted">Utah Tech University</span></span></div></dd></div>
       <div><dt class="label">Now</dt><dd>Sales &amp; Marketing Coordinator, La Jolla Beach &amp; Tennis Club</dd></div>
     </dl>
     <div class="kit">
@@ -550,7 +550,7 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
       <div class="job reveal"><span class="node"></span><p class="when">2022</p><h3>Tourmaline Services</h3><p class="title">Co-Founder &amp; Marketing Manager</p><p class="place">St. George, UT</p><p class="desc">Co-founded and later sold a service business. Built the brand, website and all the marketing from nothing.</p></div>
       <div class="job reveal"><span class="node"></span><p class="when">2021 — NOW</p><h3>J&amp;K Property Management</h3><p class="title">Founder &amp; Property Manager</p><p class="place">St. George, UT</p><p class="desc">Run a property management company at 95% occupancy: listings, marketing and the annual budget.</p></div>
     </div>
-    <div class="edu"><p class="label">Education</p><p>B.S. Marketing (Applied Business Analytics) · A.S. Business Administration, Utah Tech University</p></div>
+    <div class="edu"><p class="label">Education</p><p>Bachelor of Science, Marketing · Associate of Science, Business Administration · Utah Tech University</p></div>
   </div>
 </section>
 <svg class="wave" data-wave="7" data-fill="#f5f5ef" data-bg="#2f3524" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"></svg>
