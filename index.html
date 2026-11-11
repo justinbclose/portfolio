@@ -229,6 +229,9 @@ section{scroll-margin-top:70px}
 .phone.scroll:hover .content > img{animation-play-state:paused}
 @keyframes feed{0%,12%{transform:translateY(0)}88%,100%{transform:translateY(var(--dist,0px))}}
 .fan{display:flex;justify-content:center;align-items:flex-end;padding:20px 0 10px;width:100%}
+.fan .phone .content{overflow-y:auto;scrollbar-width:none;overscroll-behavior:contain}
+.fan .phone .content::-webkit-scrollbar{display:none}
+.fan .phone .content > img{height:auto;min-height:0}
 .fan .phone{width:clamp(180px,24vw,290px);transition:transform .6s var(--ease)}
 .fan .phone:nth-child(1){transform:rotate(-6deg) translate(16%,4%);z-index:1}
 .fan .phone:nth-child(2){z-index:2}
@@ -348,7 +351,7 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
   .mat:has(.fan) .fan{grid-column:1;grid-row:1}
   .mat:has(.fan) > .label{grid-column:1;grid-row:2}
   .mat:has(.fan) .growth{grid-column:2;grid-row:1 / span 2;grid-template-columns:1fr 1fr;border-top:0;margin:0;padding:0;row-gap:22px}
-  .fan .phone{width:min(17vw,250px,calc((var(--fit) - 130px) * .4615))}
+  .fan .phone{width:min(17vw,250px,calc((var(--fit) - 150px) * .4615))}
   .mat:has(.ecar){padding:20px}
   .ecar{position:relative}
   .ecar-slide{flex-direction:row;justify-content:center;gap:clamp(20px,2.5vw,36px)}
@@ -581,7 +584,7 @@ const WORK = [
     summary:"Here is a selection of eblasts I’ve created for La Jolla Shores Hotel, La Jolla Beach & Tennis Club and The Marine Room. When we moved from Revinate to Ascent360 and rebranded, I rebuilt these eblast templates from scratch.",
     did:["Rebuilt the eblast templates from scratch after the Revinate → Ascent360 move and the rebrand","Wrote the subject lines, preheaders and copy","Built every email responsive for phone and desktop","Linked offers straight into the booking engine and OpenTable","Segmented the lists and scheduled the sends"],
     links:[] },
-  { cats:["social"], kind:"fan", shape:"wide", growth:[["big","+35%",35,"Total social growth","3 brands"],["","+14.2%",14.2,"Follower growth","@ljbtc"],["","+36.8%",36.8,"Follower growth","@themarineroom"],["","+10.4%",10.4,"Follower growth","@ljshoreshotel"]], screens:[["img/screen-ljbtc.jpg","@ljbtc"],["img/screen-marineroom.jpg","@themarineroom"],["img/screen-shores.jpg","@ljshoreshotel"]],
+  { cats:["social"], kind:"fan", shape:"wide", growth:[["big","+35%",35,"Total social growth","3 brands"],["","+14.2%",14.2,"Follower growth","@ljbtc"],["","+36.8%",36.8,"Follower growth","@themarineroom"],["","+10.4%",10.4,"Follower growth","@ljshoreshotel"]], screens:[["img/ig-ljbtc.jpg","@ljbtc"],["img/ig-marineroom.jpg","@themarineroom"],["img/ig-shores.jpg","@ljshoreshotel"]],
     client:"LJBTC · The Marine Room · La Jolla Shores", title:"Instagram", ran:["Published on","Instagram"], role:"Content, shooting & community", result:"<b>+35%</b> growth · <b>150K+</b> followers managed",
     summary:"Three audiences, three voices, one content calendar, all shot and planned in-house.",
     did:["Plan and schedule content for three accounts","Shoot and edit photo and video in-house","Report reach and follower growth year over year"], links:[] },
@@ -659,7 +662,7 @@ $("#exhibits").innerHTML = WORK.map((w,i) => {
   } else if(w.kind==="email"){
     mat = phone(`<iframe src="${w.src}" title="${esc(w.title)}, full email" loading="lazy" tabindex="0"></iframe>`, "email") + `<p class="label scroll-hint">Scroll inside the phone to read it all</p>`;
   } else if(w.kind==="fan"){
-    mat = `<div class="fan">${w.screens.map(([src,alt]) => phone(`<img src="${src}" alt="Instagram profile ${esc(alt)}" loading="lazy">`)).join("")}</div><p class="label" style="text-align:center">${w.screens.map(x=>esc(x[1])).join(" · ")}</p>` + (w.growth ? `<div class="growth">${w.growth.map(([cls,txt,pct,lab,who]) => { const r = cls ? 52 : 44, c = (2*Math.PI*r).toFixed(1); return `<figure class="ring-chart ${cls}" data-pct="${pct}" style="--c:${c};--off:${c}"><div class="inner"><svg viewBox="0 0 ${2*r+12} ${2*r+12}" aria-hidden="true"><circle class="track" cx="${r+6}" cy="${r+6}" r="${r}"/><circle class="bar" cx="${r+6}" cy="${r+6}" r="${r}"/></svg><span class="v" data-to="${pct}">${txt}</span></div><p><b>${esc(who)}</b>${esc(lab)}</p></figure>`; }).join("")}</div>` : "");
+    mat = `<div class="fan">${w.screens.map(([src,alt]) => phone(`<img src="${src}" alt="Instagram profile ${esc(alt)}" loading="lazy">`)).join("")}</div><p class="label" style="text-align:center">${w.screens.map(x=>esc(x[1])).join(" · ")}<br><span style="letter-spacing:.08em;text-transform:none">Scroll inside each phone</span></p>` + (w.growth ? `<div class="growth">${w.growth.map(([cls,txt,pct,lab,who]) => { const r = cls ? 52 : 44, c = (2*Math.PI*r).toFixed(1); return `<figure class="ring-chart ${cls}" data-pct="${pct}" style="--c:${c};--off:${c}"><div class="inner"><svg viewBox="0 0 ${2*r+12} ${2*r+12}" aria-hidden="true"><circle class="track" cx="${r+6}" cy="${r+6}" r="${r}"/><circle class="bar" cx="${r+6}" cy="${r+6}" r="${r}"/></svg><span class="v" data-to="${pct}">${txt}</span></div><p><b>${esc(who)}</b>${esc(lab)}</p></figure>`; }).join("")}</div>` : "");
   }
   const cls = w.shape==="tall" ? "tall" : "wide";
   const ran = w.ran ? `<div><dt>${esc(w.ran[0])}</dt><dd>${esc(w.ran[1])}</dd></div>` : "";
