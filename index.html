@@ -246,6 +246,8 @@ section{scroll-margin-top:70px}
 .ecar-slide{flex:0 0 100%;scroll-snap-align:center;margin:0;display:flex;flex-direction:column;align-items:center;gap:14px;padding:4px 0 6px}
 .ecar-slide figcaption{text-align:center;display:flex;flex-direction:column;gap:4px;align-items:center}
 .ecar-slide .subj{font:400 20px/1.25 var(--display);letter-spacing:.02em;max-width:28ch}
+.ecar-slide .reach{font-size:14.5px;line-height:1.4;color:var(--ink);margin-top:4px}
+.ecar-slide .reach b{font:500 14px var(--mono);color:var(--sage-ink)}
 .ecar-slide .hint{font-size:13px;color:var(--muted)}
 .ecar-slide .open{font-size:14px;color:var(--sage-ink);min-height:44px;display:inline-flex;align-items:center}
 .ecar-nav{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:4px}
@@ -572,10 +574,10 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
    ran: [label, value] for the "Ran in / Sent to / Published on" line. */
 const WORK = [
   { cats:["email"], kind:"emails", shape:"tall",
-    slides:[["work/holidays-eblast.html","La Jolla Shores Hotel","“Holidays by the sea”"],
-            ["work/ljbtc-reimagined-eblast.html","La Jolla Beach & Tennis Club","“A $60M Reimagination on La Jolla’s Private Beach”"],
-            ["work/marineroom-save-a-seat-eblast.html","The Marine Room","“We’ll save you a seat”"]],
-    client:"La Jolla Shores Hotel · La Jolla Beach & Tennis Club · The Marine Room", title:"Eblasts, rebuilt from scratch", ran:["Sent from","Ascent360 (moved from Revinate)"], role:"Template design, copy, build & send", result:"New branded email templates",
+    slides:[["work/holidays-eblast.html","La Jolla Shores Hotel","“Holidays by the sea”","Sent to <b>86,000</b> recipients"],
+            ["work/ljbtc-reimagined-eblast.html","La Jolla Beach & Tennis Club","“A $60M Reimagination on La Jolla’s Private Beach”","Sent to <b>132,000</b> recipients"],
+            ["work/marineroom-save-a-seat-eblast.html","The Marine Room","“We’ll save you a seat”","Abandoned-cart email: sends automatically <b>5 hours</b> after a guest starts a reservation and doesn’t finish"]],
+    client:"La Jolla Shores Hotel · La Jolla Beach & Tennis Club · The Marine Room", title:"Eblasts, rebuilt from scratch", ran:["Sent from","Ascent360 (moved from Revinate)"], role:"Template design, copy, build & send", result:"<b>86K</b> &amp; <b>132K</b> sends · abandoned-cart automation",
     summary:"Here is a selection of eblasts I’ve created for La Jolla Shores Hotel, La Jolla Beach & Tennis Club and The Marine Room. When we moved from Revinate to Ascent360 and rebranded, I rebuilt these eblast templates from scratch.",
     did:["Rebuilt the eblast templates from scratch after the Revinate → Ascent360 move and the rebrand","Wrote the subject lines, preheaders and copy","Built every email responsive for phone and desktop","Linked offers straight into the booking engine and OpenTable","Segmented the lists and scheduled the sends"],
     links:[] },
@@ -652,7 +654,7 @@ $("#exhibits").innerHTML = WORK.map((w,i) => {
   } else if(w.kind==="phones"){
     mat = `<div class="row">${w.screens.map(([src,alt]) => phone(`<img src="${src}" alt="${esc(w.client)} ${esc(alt)} screen" loading="lazy">`, "scroll")).join("")}</div>`;
   } else if(w.kind==="emails"){
-    mat = `<div class="ecar" aria-roledescription="carousel" aria-label="Eblasts"><div class="ecar-track" tabindex="0">${w.slides.map(([src,brand,subj],k) => `<figure class="ecar-slide" aria-roledescription="slide" aria-label="${k+1} of ${w.slides.length}">${phone(`<iframe src="${src}" title="${esc(brand)} email, ${esc(subj)}" loading="${k?"lazy":"eager"}"></iframe>`, "email")}<figcaption><span class="label">${esc(brand)}</span><span class="subj">${esc(subj)}</span><a class="open" href="${src}">Open full email ↗</a><span class="hint">Scroll inside the phone to read it all</span></figcaption></figure>`).join("")}</div>
+    mat = `<div class="ecar" aria-roledescription="carousel" aria-label="Eblasts"><div class="ecar-track" tabindex="0">${w.slides.map(([src,brand,subj,reach],k) => `<figure class="ecar-slide" aria-roledescription="slide" aria-label="${k+1} of ${w.slides.length}">${phone(`<iframe src="${src}" title="${esc(brand)} email, ${esc(subj)}" loading="${k?"lazy":"eager"}"></iframe>`, "email")}<figcaption><span class="label">${esc(brand)}</span><span class="subj">${esc(subj)}</span>${reach?`<span class="reach">${reach}</span>`:""}<a class="open" href="${src}">Open full email ↗</a><span class="hint">Scroll inside the phone to read it all</span></figcaption></figure>`).join("")}</div>
       <div class="ecar-nav"><button class="circle-btn ecar-prev" type="button" aria-label="Previous email"><span><svg style="transform:rotate(180deg)"><use href="#arr"/></svg></span></button><span class="ecar-dots">${w.slides.map((_,k)=>`<i class="${k?"":"on"}"></i>`).join("")}</span><button class="circle-btn ecar-next" type="button" aria-label="Next email"><span><svg><use href="#arr"/></svg></span></button></div></div>`;
   } else if(w.kind==="email"){
     mat = phone(`<iframe src="${w.src}" title="${esc(w.title)}, full email" loading="lazy" tabindex="0"></iframe>`, "email") + `<p class="label scroll-hint">Scroll inside the phone to read it all</p>`;
