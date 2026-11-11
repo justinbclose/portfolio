@@ -344,6 +344,17 @@ form input,form textarea{font:400 16px var(--body);color:var(--ink);background:v
 form input:focus,form textarea:focus{border-color:var(--gold)}
 form textarea{min-height:150px;resize:vertical}
 .note{font-size:13.5px;color:var(--on-deep-muted);min-height:1.3em}
+/* photography */
+.ph-lead{max-width:60ch;color:var(--on-deep-muted);font-size:clamp(16px,1.4vw,18px);margin:-8px 0 clamp(28px,3vw,44px)}
+.ph-lead a{color:var(--gold);text-underline-offset:3px}
+.ph-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(8px,1vw,14px);grid-auto-flow:dense}
+.ph{margin:0;border-radius:14px;overflow:hidden;aspect-ratio:3/4;background:#23261c;cursor:zoom-in}
+.ph.wide{grid-column:span 2;aspect-ratio:auto}
+.ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s var(--ease)}
+.ph:hover img{transform:scale(1.04)}
+.ph-foot{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-top:clamp(24px,3vw,40px)}
+.photos .label{color:var(--on-deep-muted)}
+@media (max-width:720px){.ph-grid{grid-template-columns:1fr 1fr}.ph.wide{aspect-ratio:16/10}}
 .lb{position:fixed;inset:0;z-index:90;background:rgba(35,38,28,.94);display:none;place-items:center;padding:56px 12px 20px;overflow:auto}
 .lb.open{display:grid}
 .lb img{max-width:100%;height:auto;border-radius:6px;background:#fff}
@@ -458,7 +469,7 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
     <a class="mark" href="#home" aria-label="Justin Close, back to top">JC<span class="dot"></span></a>
     <button class="menu-btn" id="menu" aria-expanded="false" aria-controls="links">Menu</button>
     <nav id="links" aria-label="Sections">
-      <a href="#about">About</a><a href="#experience">Experience</a><a href="#work">Work</a><a href="#reels">Reels</a>
+      <a href="#about">About</a><a href="#experience">Experience</a><a href="#work">Work</a><a href="#reels">Reels</a><a href="#photos">Photos</a>
       <a class="tm" href="#contact"><span class="ico"><svg><use href="#arr"/></svg></span>Let’s talk</a>
     </nav>
   </div>
@@ -564,6 +575,15 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
       <button class="circle-btn" type="button" id="reel-next" aria-label="Next reel"><span><svg><use href="#arr"/></svg></span></button>
     </div>
     <a class="tm" href="https://www.instagram.com/justinbretclose/"><span class="ico"><svg><use href="#ext"/></svg></span>@justinbretclose</a>
+  </div>
+</section>
+
+<section class="deep sec photos" id="photos" style="padding-top:clamp(24px,3vw,48px)">
+  <div class="wrap">
+    <div class="chapter"><span class="big" aria-hidden="true">05</span><span class="label">05 — Photography &amp; drone</span><h2>Behind the lens</h2></div>
+    <p class="ph-lead">I shoot the hotel, food, lifestyle and drone content myself on a Sony A7 IV and a DJI drone. A few favorites from <a href="https://justinclosemedia.com">Justin Close Media</a>:</p>
+    <div class="ph-grid"><figure class="ph wide"><img src="https://justinclosemedia.com/images/portfolio/coastline-resort-aerial-sm.jpg" data-full="https://justinclosemedia.com/images/portfolio/coastline-resort-aerial.jpg" alt="Drone · resort and coastline from above" loading="lazy"></figure><figure class="ph"><img src="https://justinclosemedia.com/images/portfolio/la-jolla-cove-kayaks-sm.jpg" data-full="https://justinclosemedia.com/images/portfolio/la-jolla-cove-kayaks.jpg" alt="Kayaks below the red tile roofs" loading="lazy"></figure><figure class="ph"><img src="https://justinclosemedia.com/images/portfolio/guest-tiki-adirondack-sm.jpg" data-full="https://justinclosemedia.com/images/portfolio/guest-tiki-adirondack.jpg" alt="Guest laughing with a tiki cocktail by the beach" loading="lazy"></figure><figure class="ph"><img src="https://justinclosemedia.com/images/portfolio/hotel-pool-courtyard-sm.jpg" data-full="https://justinclosemedia.com/images/portfolio/hotel-pool-courtyard.jpg" alt="Hotel pool courtyard under white umbrellas" loading="lazy"></figure><figure class="ph"><img src="https://justinclosemedia.com/images/portfolio/coupe-cocktail-toast-sm.jpg" data-full="https://justinclosemedia.com/images/portfolio/coupe-cocktail-toast.jpg" alt="Coupe cocktail with a dried lime" loading="lazy"></figure><figure class="ph wide"><img src="https://justinclosemedia.com/images/portfolio/event-tables-overhead-sm.jpg" data-full="https://justinclosemedia.com/images/portfolio/event-tables-overhead.jpg" alt="Drone · garden dinner from overhead" loading="lazy"></figure><figure class="ph"><img src="https://justinclosemedia.com/images/portfolio/arched-dining-room-sm.jpg" data-full="https://justinclosemedia.com/images/portfolio/arched-dining-room.jpg" alt="Dining room with arched windows over the ocean" loading="lazy"></figure><figure class="ph"><img src="https://justinclosemedia.com/images/portfolio/island-beach-moment-sm.jpg" data-full="https://justinclosemedia.com/images/portfolio/island-beach-moment.jpg" alt="Two people on a white sand beach below limestone cliffs" loading="lazy"></figure><figure class="ph"><img src="https://justinclosemedia.com/images/portfolio/coastal-palms-dusk-sm.jpg" data-full="https://justinclosemedia.com/images/portfolio/coastal-palms-dusk.jpg" alt="Palms and red tile roofs at dusk" loading="lazy"></figure><figure class="ph"><img src="https://justinclosemedia.com/images/portfolio/guest-spritz-laugh-sm.jpg" data-full="https://justinclosemedia.com/images/portfolio/guest-spritz-laugh.jpg" alt="Guest laughing with a spritz above the beach" loading="lazy"></figure></div>
+    <div class="ph-foot"><span class="label">Sony A7 IV · DJI drone · Lightroom</span><a class="tm" href="https://justinclosemedia.com"><span class="ico"><svg><use href="#ext"/></svg></span>See the full portfolio</a></div>
   </div>
 </section>
 
@@ -824,7 +844,7 @@ $$(".ecar").forEach(c => { const t = c.querySelector(".ecar-track"), dots = [...
 
 /* ---- tap any work image to see it full screen ---- */
 const lb = $("#lb"), lbImg = $("#lb-img");
-document.addEventListener("click", e => { const im = e.target.closest(".mat img.piece"); if(im){ lbImg.src = im.src; lbImg.alt = im.alt; lb.classList.add("open"); document.body.style.overflow="hidden"; $("#lb-close").focus(); }});
+document.addEventListener("click", e => { const im = e.target.closest(".mat img.piece, .ph img"); if(im){ lbImg.src = im.dataset.full || im.src; lbImg.alt = im.alt; lb.classList.add("open"); document.body.style.overflow="hidden"; $("#lb-close").focus(); }});
 const closeLb = () => { lb.classList.remove("open"); document.body.style.overflow=""; };
 $("#lb-close").onclick = closeLb; lb.addEventListener("click", e => { if(e.target===lb) closeLb(); });
 addEventListener("keydown", e => { if(e.key==="Escape" && lb.classList.contains("open")) closeLb(); });
