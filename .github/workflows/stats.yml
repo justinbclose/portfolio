@@ -6,20 +6,24 @@ on:
   workflow_dispatch: {}
 permissions:
   contents: write
+  id-token: write   # keyless sign-in to Google (Workload Identity Federation)
 concurrency: stats
 jobs:
   pull:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/99372128585/locations/global/workloadIdentityPools/github/providers/portfolio
+          service_account: ga4-reader@jbc-portfolio-stats.iam.gserviceaccount.com
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install -q google-analytics-data cryptography geonamescache
+      - run: pip install -q google-analytics-data google-auth cryptography geonamescache
       - name: Fetch GA4 and encrypt
         env:
-          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
-          GA4_SA_KEY: ${{ secrets.GA4_SA_KEY }}
+          GA4_PROPERTY_ID: "563707397"
           DASH_KEY: ${{ secrets.DASH_KEY }}
           STATS_OUT: ${{ runner.temp }}/stats.enc.json
         run: python analytics/fetch_stats.py

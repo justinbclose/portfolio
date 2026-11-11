@@ -1,7 +1,7 @@
 """Pull GA4 numbers for justinbclose.com and write an encrypted stats file.
 
-Runs in GitHub Actions (see .github/workflows/stats.yml). Needs three secrets:
-GA4_PROPERTY_ID, GA4_SA_KEY (service-account JSON), DASH_KEY (dashboard passphrase).
+Runs in GitHub Actions (see .github/workflows/stats.yml). Signs in to GA4 keyless
+(Workload Identity Federation, set up by analytics/gcp.sh). Needs one secret: DASH_KEY.
 The output is AES-GCM encrypted, so the public repo never shows visitor data.
 Run with --sample to write made-up data for testing the dashboard.
 """
@@ -41,8 +41,12 @@ def channel(src, med, camp):
 def ga_client():
     from google.analytics.data_v1beta import BetaAnalyticsDataClient
     from google.oauth2 import service_account
-    info = json.loads(os.environ["GA4_SA_KEY"])
-    creds = service_account.Credentials.from_service_account_info(info, scopes=["https://www.googleapis.com/auth/analytics.readonly"])
+    scopes = ["https://www.googleapis.com/auth/analytics.readonly"]
+    if os.environ.get("GA4_SA_KEY"):  # optional key file; the workflow normally signs in keyless
+        creds = service_account.Credentials.from_service_account_info(json.loads(os.environ["GA4_SA_KEY"]), scopes=scopes)
+    else:
+        import google.auth
+        creds, _ = google.auth.default(scopes=scopes)
     return BetaAnalyticsDataClient(credentials=creds)
 
 def run(client, prop, dims, mets, days, limit=2000, filt=None):
@@ -226,8 +230,8 @@ def encrypt(obj, passphrase):
 
 if __name__ == "__main__":
     is_sample = "--sample" in sys.argv
-    if not is_sample and not (os.environ.get("GA4_PROPERTY_ID") and os.environ.get("GA4_SA_KEY") and os.environ.get("DASH_KEY")):
-        print("Secrets not set yet (GA4_PROPERTY_ID, GA4_SA_KEY, DASH_KEY). Skipping."); sys.exit(0)
+    if not is_sample and not (os.environ.get("GA4_PROPERTY_ID") and os.environ.get("DASH_KEY")):
+        print("DASH_KEY secret not set yet. Skipping."); sys.exit(0)
     ranges, daily, apps, recent, detail = sample() if is_sample else pull()
     now = dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat()
     stats = {"generated_at": now, "sample": is_sample, "site": "justinbclose.com", "ranges": ranges, "daily": daily, "applications": apps, "appDetail": detail, "recent": recent}
