@@ -598,7 +598,7 @@ $("#exhibits").innerHTML = WORK.map((w,i) => {
   } else if(w.kind==="phones"){
     mat = `<div class="row">${w.screens.map(([src,alt]) => phone(`<img src="${src}" alt="${esc(w.client)} ${esc(alt)} screen" loading="lazy">`, "scroll")).join("")}</div>`;
   } else if(w.kind==="email"){
-    mat = phone(`<iframe src="${w.src}" title="${esc(w.title)}, full email" loading="lazy" tabindex="0"></iframe>`, "email") + `<p class="label scroll-hint">Scroll inside the phone ↕</p>`;
+    mat = phone(`<iframe src="${w.src}" title="${esc(w.title)}, full email" loading="lazy" tabindex="0"></iframe>`, "email") + `<p class="label scroll-hint">Scroll inside the phone to read it all</p>`;
   } else if(w.kind==="fan"){
     mat = `<div class="fan">${w.screens.map(([src,alt]) => phone(`<img src="${src}" alt="Instagram profile ${esc(alt)}" loading="lazy">`)).join("")}</div><p class="label" style="text-align:center">${w.screens.map(x=>esc(x[1])).join(" · ")}</p>` + (w.growth ? `<div class="growth">${w.growth.map(([cls,txt,pct,lab,who]) => { const r = cls ? 52 : 44, c = (2*Math.PI*r).toFixed(1); return `<figure class="ring-chart ${cls}" data-pct="${pct}" style="--c:${c};--off:${c}"><div class="inner"><svg viewBox="0 0 ${2*r+12} ${2*r+12}" aria-hidden="true"><circle class="track" cx="${r+6}" cy="${r+6}" r="${r}"/><circle class="bar" cx="${r+6}" cy="${r+6}" r="${r}"/></svg><span class="v" data-to="${pct}">${txt}</span></div><p><b>${esc(who)}</b>${esc(lab)}</p></figure>`; }).join("")}</div>` : "");
   }
