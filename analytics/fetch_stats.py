@@ -49,12 +49,23 @@ def ga_client():
         creds, _ = google.auth.default(scopes=scopes)
     return BetaAnalyticsDataClient(credentials=creds)
 
-def run(client, prop, dims, mets, days, limit=2000, filt=None):
-    from google.analytics.data_v1beta.types import RunReportRequest, Dimension, Metric, DateRange
+# Towns that are mostly cloud data centers (AWS, Google, Microsoft, Meta). Visits from here are
+# almost always bots: link-preview crawlers, uptime checkers, scrapers. They are counted separately.
+BOT_CITIES = ["Boardman", "Ashburn", "Council Bluffs", "The Dalles", "Quincy", "Prineville", "Forest City",
+              "Lenoir", "Moncks Corner", "Pryor", "Altoona", "Los Lunas", "Papillion", "Mayes County"]
+
+def bot_filter(include_bots=False):
+    from google.analytics.data_v1beta.types import FilterExpression, Filter
+    f = FilterExpression(filter=Filter(field_name="city", in_list_filter=Filter.InListFilter(values=BOT_CITIES)))
+    return f if include_bots else FilterExpression(not_expression=f)
+
+def run(client, prop, dims, mets, days, limit=2000, filt=None, bots=False):
+    from google.analytics.data_v1beta.types import RunReportRequest, Dimension, Metric, DateRange, FilterExpression, FilterExpressionList
     req = RunReportRequest(property=f"properties/{prop}", dimensions=[Dimension(name=d) for d in dims],
                            metrics=[Metric(name=m) for m in mets],
                            date_ranges=[DateRange(start_date=f"{days-1}daysAgo", end_date="today")], limit=limit)
-    if filt is not None: req.dimension_filter = filt
+    bf = bot_filter(bots)
+    req.dimension_filter = bf if filt is None else FilterExpression(and_group=FilterExpressionList(expressions=[bf, filt]))
     out = []
     for r in client.run_report(req).rows:
         row = {d: v.value for d, v in zip(dims, r.dimension_values)}
@@ -127,7 +138,11 @@ def pull():
             print("visitor_org not available yet:", str(e)[:200]); orgs = []
         orgs = [{"org": r["customEvent:visitor_org"], "users": r["totalUsers"], "isp": is_isp(r["customEvent:visitor_org"])}
                 for r in orgs if r["customEvent:visitor_org"] not in ("(not set)", "")]
+        bot_rows = run(c, prop, ["city"], ["activeUsers", "sessions"], days, 50, bots=True)
+        bots = {"users": sum(r["activeUsers"] for r in bot_rows), "sessions": sum(r["sessions"] for r in bot_rows),
+                "cities": [{"city": r["city"], "users": r["activeUsers"]} for r in bot_rows]}
         ranges[key] = {
+            "bots": bots,
             "totals": t, "newVsReturning": nvr, "cities": cities, "countries": countries, "regions": regions,
             "sources": src, "channels": [{"channel": k, **v} for k, v in sorted(ch.items(), key=lambda x: -x[1]["activeUsers"])],
             "devices": dev, "browsers": br, "os": os_, "events": {r["eventName"]: {"count": r["eventCount"], "users": r["totalUsers"]} for r in evs},
@@ -176,6 +191,7 @@ def sample():
               "reels_open":(users*.21,users*.2),"contact_form_submit":(users*.02,users*.02),"view_work":(users*.7,users*.7),"view_photos":(users*.45,users*.45),"view_contact":(users*.32,users*.32)}
         orgs = [("Comcast Cable Communications, LLC",9),("T-Mobile USA, Inc.",8),("Vail Resorts Inc",2),("University of California, San Diego",2),("Charter Communications Inc",5),("Alterra Mountain Company",1),("Akamai Technologies, Inc.",4)]
         ranges[key] = {
+            "bots":{"users":sc(3),"sessions":sc(4),"cities":[{"city":"Boardman","users":sc(2)},{"city":"Ashburn","users":sc(1)}]},
             "totals":{"activeUsers":users,"newUsers":round(users*.78),"sessions":round(users*1.3),"screenPageViews":round(users*1.45),"engagedSessions":round(users*.9),
                       "userEngagementDuration":round(users*96),"averageSessionDuration":104.0},
             "newVsReturning":{"new":round(users*.78),"returning":users-round(users*.78)},
