@@ -927,7 +927,7 @@ $$(".copy").forEach(b => b.addEventListener("click", async () => { const s = b.q
   const off = () => get("jbc_me") || get("jbc_optout") || navigator.globalPrivacyControl === true;
   const showOff = () => { const l = document.getElementById("optout-line"); if (l) l.textContent = "Analytics is off in this browser."; };
   if (optBtn) optBtn.addEventListener("click", () => { set("jbc_optout", "1"); window["ga-disable-" + GA_ID] = true; showOff(); });
-  if (off()) { showOff(); return; }
+  if (off()) { showOff(); if (q.get("me") || q.get("ref")) { const c = new URL(location.href); c.searchParams.delete("me"); c.searchParams.delete("ref"); try { history.replaceState(null, "", c.pathname + c.hash); } catch {} } return; }
   if (!/^G-[A-Z0-9]{6,}$/.test(GA_ID) || GA_ID === "G-XXXXXXXXXX") return;
 
   const tz = (Intl.DateTimeFormat().resolvedOptions().timeZone || "");
@@ -945,25 +945,27 @@ $$(".copy").forEach(b => b.addEventListener("click", async () => { const s = b.q
     qr:       ["qr", "print", "qr-code"]
   };
   const ref = (q.get("ref") || "").toLowerCase().replace(/[^a-z0-9-]/g, "").slice(0, 60);
-  let pageLoc = location.href;
+  let pageLoc = location.href, camp = null;
   if (ref && !q.get("utm_source")) {
     const m = REF[ref] || (ref.startsWith("app-") ? ["application", "job_app", ref.slice(4)] : ["ref", "link", ref]);
+    camp = { campaign_source: m[0], campaign_medium: m[1], campaign_name: m[2] };
     const u = new URL(location.href);
     u.searchParams.delete("ref");
     u.searchParams.set("utm_source", m[0]); u.searchParams.set("utm_medium", m[1]); u.searchParams.set("utm_campaign", m[2]);
     pageLoc = u.toString();
   }
-  // tidy the address bar so a shared link stays clean
-  if (ref || q.get("me")) { const c = new URL(location.href); c.searchParams.delete("ref"); c.searchParams.delete("me");
-    try { history.replaceState(null, "", c.pathname + (c.search === "?" ? "" : c.search) + c.hash); } catch {} }
+  // tidy the address bar only after the first hit has gone out, so a shared link stays clean
+  const tidy = () => { if (!(ref || q.get("me"))) return; const c = new URL(location.href); c.searchParams.delete("ref"); c.searchParams.delete("me");
+    try { history.replaceState(null, "", c.pathname + (c.search === "?" ? "" : c.search) + c.hash); } catch {} };
 
   window.dataLayer = window.dataLayer || [];
   const gtag = window.gtag = function(){ dataLayer.push(arguments); };
   if (europe) gtag("consent", "default", { analytics_storage: "denied", ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" });
   else gtag("consent", "default", { ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" });
   gtag("js", new Date());
-  gtag("config", GA_ID, { page_location: pageLoc, allow_google_signals: false, allow_ad_personalization_signals: false });
-  const s = document.createElement("script"); s.async = true; s.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_ID; document.head.appendChild(s);
+  gtag("config", GA_ID, Object.assign({ page_location: pageLoc, allow_google_signals: false, allow_ad_personalization_signals: false }, camp || {}));
+  const s = document.createElement("script"); s.async = true; s.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_ID;
+  s.onload = () => setTimeout(tidy, 2500); s.onerror = tidy; document.head.appendChild(s);
 
   const ev = (name, p) => gtag("event", name, p || {});
   const once = new Set(); const evOnce = (name, p) => { if (!once.has(name)) { once.add(name); ev(name, p); } };
