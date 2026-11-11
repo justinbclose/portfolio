@@ -236,6 +236,10 @@ section{scroll-margin-top:70px}
 .fan:hover .phone:nth-child(1){transform:rotate(-8deg) translate(4%,4%)}
 .fan:hover .phone:nth-child(3){transform:rotate(8deg) translate(-4%,4%)}
 
+.phone.email{width:clamp(250px,72vw,340px)}
+.phone.email .content{overflow:hidden;background:#f4f1ea}
+.phone.email iframe{position:absolute;top:0;left:0;width:600px;border:0;transform-origin:0 0;background:#fff}
+.scroll-hint{text-align:center}
 /* ---------- Reels ---------- */
 .reel-rail{display:flex;gap:clamp(12px,2vw,28px);overflow-x:auto;scroll-snap-type:x mandatory;padding:20px max(var(--gut),calc(50vw - 150px)) 30px;scrollbar-width:none}
 .reel-rail::-webkit-scrollbar{display:none}
@@ -371,7 +375,7 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
     <a class="mark" href="#home" aria-label="Justin Close, back to top">JC<span class="dot"></span></a>
     <button class="menu-btn" id="menu" aria-expanded="false" aria-controls="links">Menu</button>
     <nav id="links" aria-label="Sections">
-      <a href="#about">About</a><a href="#work">Work</a><a href="#reels">Reels</a><a href="#experience">Experience</a>
+      <a href="#about">About</a><a href="#experience">Experience</a><a href="#work">Work</a><a href="#reels">Reels</a>
       <a class="tm" href="#contact"><span class="ico"><svg><use href="#arr"/></svg></span>Let’s talk</a>
     </nav>
   </div>
@@ -416,7 +420,7 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
         <p>I’m also a two-time founder: I built and sold a service business, and I still run a property management company. I grew up between Park City, the Vail Valley and San Diego, and I’m happiest on skis.</p>
         <div class="ctas">
           <a class="tm" href="https://www.linkedin.com/in/justin-close/"><span class="ico"><svg><use href="#ext"/></svg></span>LinkedIn</a>
-          <a class="tm" href="#experience"><span class="ico"><svg><use href="#arr"/></svg></span>My experience</a>
+          <a class="tm" href="#work"><span class="ico"><svg><use href="#arr"/></svg></span>See my work</a>
         </div>
       </div>
       <figure class="arch reveal">
@@ -440,32 +444,10 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
 </section>
 
 
-<section class="sec" id="work" style="padding-top:clamp(40px,5vw,80px)">
+<svg class="wave" data-wave="6" data-fill="#2f3524" data-bg="#f5f5ef" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"></svg>
+<section class="deep sec" id="experience" style="padding-top:clamp(40px,5vw,72px)">
   <div class="wrap">
-    <div class="chapter"><span class="big" aria-hidden="true">02</span><span class="label">02 — Selected work</span><h2>The work, in full</h2></div>
-    <div class="chips" id="chips" role="group" aria-label="Filter work"></div>
-    <div class="exhibits" id="exhibits"></div>
-  </div>
-</section>
-
-<svg class="wave" data-wave="4" data-fill="#2f3524" data-bg="#f5f5ef" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"></svg>
-<section class="deep sec" id="reels" style="padding-top:clamp(40px,5vw,72px)">
-  <div class="wrap">
-    <div class="chapter"><span class="big" aria-hidden="true">03</span><span class="label">03 — Stills from reels I shot &amp; edited</span><h2>Reels from the road</h2></div>
-  </div>
-  <div class="reel-rail" id="reel-rail" aria-label="Reels, swipe sideways"></div>
-  <div class="wrap reel-foot">
-    <div class="reel-arrows">
-      <button class="circle-btn" type="button" id="reel-prev" aria-label="Previous reel"><span><svg style="transform:rotate(180deg)"><use href="#arr"/></svg></span></button>
-      <button class="circle-btn" type="button" id="reel-next" aria-label="Next reel"><span><svg><use href="#arr"/></svg></span></button>
-    </div>
-    <a class="tm" href="https://www.instagram.com/justinbretclose/"><span class="ico"><svg><use href="#ext"/></svg></span>@justinbretclose</a>
-  </div>
-</section>
-
-<section class="deep sec" id="experience">
-  <div class="wrap">
-    <div class="chapter" style="text-align:center"><span class="label">04 — Experience</span><h2>Where I’ve worked</h2></div>
+    <div class="chapter" style="text-align:center"><span class="label">02 — Experience</span><h2>Where I’ve worked</h2></div>
     <div class="trail" id="trail">
       <svg class="path" aria-hidden="true" preserveAspectRatio="none"><path id="trail-path"/></svg>
       <div class="job now reveal"><span class="node"></span><p class="when">2026 — NOW</p><h3>La Jolla Beach &amp; Tennis Club</h3><p class="title">Sales &amp; Marketing Coordinator</p><p class="place">La Jolla, CA</p><p class="desc">Digital marketing for a private club, a hotel and a Forbes-recognized restaurant. Led the CRM switch from Revinate to Ascent360, manage three property websites, grew social 35%, and build the board’s quarterly decks.</p></div>
@@ -478,6 +460,31 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
     <div class="edu"><p class="label">Education</p><p>B.S. Marketing &amp; Associate of Business Administration, Utah Tech University</p></div>
   </div>
 </section>
+<svg class="wave" data-wave="7" data-fill="#f5f5ef" data-bg="#2f3524" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"></svg>
+<section class="sec" id="work" style="padding-top:clamp(40px,5vw,80px)">
+  <div class="wrap">
+    <div class="chapter"><span class="big" aria-hidden="true">03</span><span class="label">03 — Selected work</span><h2>The work, in full</h2></div>
+    <div class="chips" id="chips" role="group" aria-label="Filter work"></div>
+    <div class="exhibits" id="exhibits"></div>
+  </div>
+</section>
+
+<svg class="wave" data-wave="4" data-fill="#2f3524" data-bg="#f5f5ef" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"></svg>
+<section class="deep sec" id="reels" style="padding-top:clamp(40px,5vw,72px)">
+  <div class="wrap">
+    <div class="chapter"><span class="big" aria-hidden="true">04</span><span class="label">04 — Stills from reels I shot &amp; edited</span><h2>Reels from the road</h2></div>
+  </div>
+  <div class="reel-rail" id="reel-rail" aria-label="Reels, swipe sideways"></div>
+  <div class="wrap reel-foot">
+    <div class="reel-arrows">
+      <button class="circle-btn" type="button" id="reel-prev" aria-label="Previous reel"><span><svg style="transform:rotate(180deg)"><use href="#arr"/></svg></span></button>
+      <button class="circle-btn" type="button" id="reel-next" aria-label="Next reel"><span><svg><use href="#arr"/></svg></span></button>
+    </div>
+    <a class="tm" href="https://www.instagram.com/justinbretclose/"><span class="ico"><svg><use href="#ext"/></svg></span>@justinbretclose</a>
+  </div>
+</section>
+
+
 
 <section class="contact" id="contact">
   <div class="aerial"><img src="img/contact.jpg" alt="Aerial of a mountain valley at sunrise, shot by Justin" loading="lazy" width="2000" height="729"><svg class="wave" data-wave="5" data-fill="#2f3524" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"></svg></div>
@@ -513,27 +520,28 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
          "tabs" (one CSS phone with tappable account tabs).   shape: "tall" or "wide".
    ran: [label, value] for the "Ran in / Sent to / Published on" line. */
 const WORK = [
-  { cats:["email"], kind:"phones", shape:"tall", screens:[["img/screen-eblast.jpg","La Jolla Shores Hotel email"]],
-    client:"La Jolla Shores Hotel", title:"“Your Coastal Escape” eblast", ran:["Sent to","84,000 subscribers"], role:"Copy, build & send", result:"<b>84,000</b> inboxes",
-    summary:"An awareness email written and built to drive direct bookings from past and prospective guests.",
-    did:["Wrote the subject line, headline and body","Built the responsive email","Segmented the list and scheduled the send"], links:[] },
+  { cats:["email"], kind:"email", shape:"tall", src:"work/holidays-eblast.html", poster:"img/screen-eblast.jpg",
+    client:"La Jolla Shores Hotel", title:"“Holidays by the sea” eblast", ran:["Sent to","Hotel guest & subscriber list"], role:"Copy, design, build & send", result:"Holiday room & dining campaign",
+    summary:"The full holiday email for La Jolla Shores Hotel: rooms, holiday buffets and offers in one send. Scroll inside the phone to read the whole thing.",
+    did:["Wrote the subject line, preheader and all copy","Designed and built the responsive email","Linked every offer straight into the booking engine and OpenTable","Segmented the list and scheduled the send"],
+    links:[["Open the full email","work/holidays-eblast.html"]] },
   { cats:["social"], kind:"fan", shape:"wide", growth:[["big","+35%",35,"Total social growth","3 brands"],["","+14.2%",14.2,"Follower growth","@ljbtc"],["","+36.8%",36.8,"Follower growth","@themarineroom"],["","+10.4%",10.4,"Follower growth","@ljshoreshotel"]], screens:[["img/screen-ljbtc.jpg","@ljbtc"],["img/screen-marineroom.jpg","@themarineroom"],["img/screen-shores.jpg","@ljshoreshotel"]],
     client:"LJBTC · The Marine Room · La Jolla Shores", title:"Instagram for three luxury brands", ran:["Published on","Instagram"], role:"Content, shooting & community", result:"<b>+35%</b> growth · <b>150K+</b> followers managed",
     summary:"Three audiences, three voices, one content calendar, all shot and planned in-house.",
     did:["Plan and schedule content for three accounts","Shoot and edit photo and video in-house","Report reach and follower growth year over year"], links:[] },
   { cats:["print"], kind:"image", shape:"tall", imgs:[["img/marine-ad.jpg",648,846]],
-    client:"The Marine Room", title:"Chef feature, full-page ad", ran:["Ran in","San Diego Magazine"], role:"Copy & layout", result:"Full-page placement",
-    summary:"A full-page ad built around the executive chef’s story, placed in San Diego Magazine.",
-    did:["Wrote the ad copy around the chef","Built the layout to the magazine’s spec","Coordinated placement and the final proof"],
+    client:"The Marine Room", title:"Chef feature, full-page ad", ran:["Ran in","San Diego Magazine"], role:"Copy, layout & tracking", result:"Full page · QR tracked with UTMs",
+    summary:"A full-page ad built around the executive chef’s story, placed in San Diego Magazine. Its QR code carries UTM tags, so every scan, site action and dollar of revenue it drives is tracked back to this ad in GA4.",
+    did:["Wrote the ad copy around the chef","Built the layout to the magazine’s spec","Added a UTM-tagged QR code to track scans, actions and attributed revenue","Coordinated placement and the final proof"],
     links:[["View it in the magazine","https://online.flippingbook.com/view/770412926/120/"]] },
   { cats:["web"], kind:"image", shape:"wide", imgs:[["img/wedding-lp.jpg",1153,631]],
     client:"La Jolla Beach & Tennis Club", title:"San Diego wedding packages page", ran:["Published on","ljbtc.com"], role:"Design & WordPress build", result:"Live landing page",
     summary:"A landing page I designed and built in WordPress to present the club’s wedding packages and capture inquiries.",
     did:["Designed the page layout","Built it in WordPress","Wrote the page copy"], links:[] },
   { cats:["print"], kind:"image", shape:"tall", imgs:[["img/ljbtc-ad.jpg",610,785]],
-    client:"La Jolla Beach & Tennis Club", title:"“Reimagined” rooms, full-page ad", ran:["Ran in","Modern Luxury"], role:"Copy & photo selection", result:"Full page, QR into booking",
-    summary:"A full-page ad announcing the club’s reimagined rooms, with a QR code straight into the booking path.",
-    did:["Wrote the headline and body copy","Selected and sequenced the room photography","Added a QR code into the booking funnel"], links:[] },
+    client:"La Jolla Beach & Tennis Club", title:"“Reimagined” rooms, full-page ad", ran:["Ran in","Modern Luxury"], role:"Copy, photo selection & tracking", result:"Full page · QR tracked with UTMs",
+    summary:"A full-page ad announcing the club’s reimagined rooms. The QR code goes straight into the booking path with UTM tags, so scans, bookings and revenue are attributed to the ad.",
+    did:["Wrote the headline and body copy","Selected and sequenced the room photography","Added a UTM-tagged QR code into the booking funnel to track scans, bookings and attributed revenue"], links:[] },
   { cats:["email"], kind:"image", shape:"tall", imgs:[["img/w2w-email.jpg",778,948],["img/w2w-flow.jpg",1170,504]],
     client:"Wine to Water", title:"Email automation & migration", ran:["Sent via","Shopify Email"], role:"Email, automation & GA4", result:"<b>65%</b> open rate · <b>$10K</b> found",
     summary:"Holiday campaigns at a 65% open rate (the average is 20%), automated donor flows, a full move off Constant Contact, and about $10,000 in unused grant funding found in an analytics audit.",
@@ -589,6 +597,8 @@ $("#exhibits").innerHTML = WORK.map((w,i) => {
     mat += w.row ? `<div class="row">${imgs}</div>` : imgs;
   } else if(w.kind==="phones"){
     mat = `<div class="row">${w.screens.map(([src,alt]) => phone(`<img src="${src}" alt="${esc(w.client)} ${esc(alt)} screen" loading="lazy">`, "scroll")).join("")}</div>`;
+  } else if(w.kind==="email"){
+    mat = phone(`<iframe src="${w.src}" title="${esc(w.title)}, full email" loading="lazy" tabindex="0"></iframe>`, "email") + `<p class="label scroll-hint">Scroll inside the phone ↕</p>`;
   } else if(w.kind==="fan"){
     mat = `<div class="fan">${w.screens.map(([src,alt]) => phone(`<img src="${src}" alt="Instagram profile ${esc(alt)}" loading="lazy">`)).join("")}</div><p class="label" style="text-align:center">${w.screens.map(x=>esc(x[1])).join(" · ")}</p>` + (w.growth ? `<div class="growth">${w.growth.map(([cls,txt,pct,lab,who]) => { const r = cls ? 52 : 44, c = (2*Math.PI*r).toFixed(1); return `<figure class="ring-chart ${cls}" data-pct="${pct}" style="--c:${c};--off:${c}"><div class="inner"><svg viewBox="0 0 ${2*r+12} ${2*r+12}" aria-hidden="true"><circle class="track" cx="${r+6}" cy="${r+6}" r="${r}"/><circle class="bar" cx="${r+6}" cy="${r+6}" r="${r}"/></svg><span class="v" data-to="${pct}">${txt}</span></div><p><b>${esc(who)}</b>${esc(lab)}</p></figure>`; }).join("")}</div>` : "");
   }
@@ -667,7 +677,7 @@ function drawTrail(){ const L = +tp.dataset.len || 0; if(reduce){ tp.style.strok
 buildTrail(); addEventListener("load", buildTrail); addEventListener("resize", buildTrail);
 
 /* ---- nav state ---- */
-const nav = $("#nav"), navLinks = $$("#links a:not(.tm)"), secs = ["about","work","reels","experience"].map(id => document.getElementById(id));
+const nav = $("#nav"), navLinks = $$("#links a:not(.tm)"), secs = ["about","experience","work","reels"].map(id => document.getElementById(id));
 let ticking = false;
 addEventListener("scroll", () => { if(ticking) return; ticking = true; requestAnimationFrame(() => {
   nav.classList.toggle("solid", scrollY > innerHeight*.75);
@@ -691,6 +701,11 @@ if(!reduce && "IntersectionObserver" in window){
       el.innerHTML = pre + v.toLocaleString("en-US") + (suf ? `<span class="u">${suf}</span>` : ""); if(p<1) requestAnimationFrame(f); })(t0); }), {threshold:.5});
   nums.forEach(el => io2.observe(el));
 }
+
+/* ---- scale the 600px email to fit its phone screen; it scrolls inside ---- */
+function fitEmails(){ $$(".phone.email").forEach(p => { const c = p.querySelector(".content"), f = p.querySelector("iframe"); if(!c || !f) return;
+  const sc = c.clientWidth / 600; f.style.transform = `scale(${sc})`; f.style.height = (c.clientHeight / sc) + "px"; }); }
+fitEmails(); addEventListener("load", fitEmails); addEventListener("resize", fitEmails);
 
 /* ---- growth rings fill when scrolled into view ---- */
 (function(){ const rings = $$(".ring-chart");
