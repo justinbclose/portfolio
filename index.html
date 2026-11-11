@@ -953,9 +953,11 @@ $$(".copy").forEach(b => b.addEventListener("click", async () => { const s = b.q
     u.searchParams.delete("ref");
     u.searchParams.set("utm_source", m[0]); u.searchParams.set("utm_medium", m[1]); u.searchParams.set("utm_campaign", m[2]);
     pageLoc = u.toString();
+    // GA4 reads UTM tags from the address itself, so put them there until the first hit is sent
+    try { history.replaceState(null, "", u.pathname + u.search + u.hash); } catch {}
   }
   // tidy the address bar only after the first hit has gone out, so a shared link stays clean
-  const tidy = () => { if (!(ref || q.get("me"))) return; const c = new URL(location.href); c.searchParams.delete("ref"); c.searchParams.delete("me");
+  const tidy = () => { if (!(ref || q.get("me"))) return; const c = new URL(location.href); ["ref", "me"].concat(camp ? ["utm_source", "utm_medium", "utm_campaign"] : []).forEach(k => c.searchParams.delete(k));
     try { history.replaceState(null, "", c.pathname + (c.search === "?" ? "" : c.search) + c.hash); } catch {} };
 
   window.dataLayer = window.dataLayer || [];
