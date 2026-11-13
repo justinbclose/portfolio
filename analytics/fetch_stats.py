@@ -66,8 +66,15 @@ def run(client, prop, dims, mets, days, limit=2000, filt=None, bots=False):
                            date_ranges=[DateRange(start_date=f"{days-1}daysAgo", end_date="today")], limit=limit)
     bf = bot_filter(bots)
     req.dimension_filter = bf if filt is None else FilterExpression(and_group=FilterExpressionList(expressions=[bf, filt]))
+    import time
+    for attempt in range(4):  # GA4 sometimes times out (504); wait and retry instead of failing the whole pull
+        try:
+            resp = client.run_report(req, timeout=90); break
+        except Exception as e:
+            if attempt == 3 or not any(k in str(e) for k in ("Deadline", "504", "503", "Unavailable", "429", "Internal")): raise
+            print(f"GA4 retry {attempt+1} after: {str(e)[:80]}", flush=True); time.sleep(10 * (attempt + 1))
     out = []
-    for r in client.run_report(req).rows:
+    for r in resp.rows:
         row = {d: v.value for d, v in zip(dims, r.dimension_values)}
         for m, v in zip(mets, r.metric_values):
             row[m] = float(v.value) if "." in v.value else int(v.value)
