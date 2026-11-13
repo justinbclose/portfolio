@@ -49,7 +49,9 @@ def ga_client(transport="rest"):
         creds, _ = google.auth.default(scopes=scopes)
     return BetaAnalyticsDataClient(credentials=creds, transport=transport)
 
-_ALT = {}  # the other transport, created only if the first one keeps failing
+_ALT = {}
+import time as _time
+_T0 = _time.time()  # the other transport, created only if the first one keeps failing
 
 # Towns that are mostly cloud data centers (AWS, Google, Microsoft, Meta). Visits from here are
 # almost always bots: link-preview crawlers, uptime checkers, scrapers. They are counted separately.
@@ -65,23 +67,26 @@ def run(client, prop, dims, mets, days, limit=2000, filt=None, bots=False):
     from google.analytics.data_v1beta.types import RunReportRequest, Dimension, Metric, DateRange, FilterExpression, FilterExpressionList
     req = RunReportRequest(property=f"properties/{prop}", dimensions=[Dimension(name=d) for d in dims],
                            metrics=[Metric(name=m) for m in mets],
-                           date_ranges=[DateRange(start_date=f"{days-1}daysAgo", end_date="today")], limit=limit)
+                           date_ranges=[DateRange(start_date=f"{n-1}daysAgo", end_date="today", name=k) for k, n in days.items()]
+                           if isinstance(days, dict) else [DateRange(start_date=f"{days-1}daysAgo", end_date="today")], limit=limit)
     bf = bot_filter(bots)
     req.dimension_filter = bf if filt is None else FilterExpression(and_group=FilterExpressionList(expressions=[bf, filt]))
     import time
-    for attempt in range(4):  # GA4 sometimes times out or returns 502/503; retry, switching between REST and gRPC
+    if time.time() - _T0 > 15 * 60: raise RuntimeError("GA4 too slow: gave up after 15 minutes")
+    for attempt in range(5):  # GA4 sometimes times out or returns 502/503; retry, switching between REST and gRPC
         cl = client if attempt % 2 == 0 else _ALT.setdefault("c", ga_client("grpc"))
         try:
-            resp = cl.run_report(req, timeout=90); break
+            resp = cl.run_report(req, timeout=75); break
         except Exception as e:
-            if attempt == 3 or not any(k in str(e) for k in ("Deadline", "502", "504", "503", "Unavailable", "429", "Internal", "Bad Gateway")): raise
+            if attempt == 4 or time.time() - _T0 > 15 * 60 or not any(k in str(e) for k in ("Deadline", "502", "504", "503", "Unavailable", "429", "Internal", "Bad Gateway")): raise
             print(f"GA4 retry {attempt+1} after: {str(e)[:80]}", flush=True); time.sleep(10 * (attempt + 1))
-    out = []
+    out = {k: [] for k in days} if isinstance(days, dict) else []
     for r in resp.rows:
         row = {d: v.value for d, v in zip(dims, r.dimension_values)}
         for m, v in zip(mets, r.metric_values):
             row[m] = float(v.value) if "." in v.value else int(v.value)
-        out.append(row)
+        if isinstance(days, dict): out[r.dimension_values[len(dims)].value].append(row)  # extra dateRange dimension
+        else: out.append(row)
     return out
 
 def event_filter(name):
@@ -123,32 +128,38 @@ def pull():
     geo = coords()
     U = ["activeUsers", "sessions"]
     ranges = {}
-    for key, days in RANGES.items():
-        tot = run(c, prop, [], ["activeUsers", "newUsers", "sessions", "screenPageViews", "engagedSessions", "userEngagementDuration", "averageSessionDuration"], days)
-        t = tot[0] if tot else {}
-        nvr = {r["newVsReturning"]: r["activeUsers"] for r in run(c, prop, ["newVsReturning"], ["activeUsers"], days)}
-        cities = run(c, prop, ["city", "region", "country", "countryId"], U, days, 300)
+    R, n = RANGES, len(RANGES)  # one GA4 call per report covers 7, 30 and 90 days (fewer calls = fewer chances to hit a Google hiccup)
+    tot_all = run(c, prop, [], ["activeUsers", "newUsers", "sessions", "screenPageViews", "engagedSessions", "userEngagementDuration", "averageSessionDuration"], R)
+    nvr_all = run(c, prop, ["newVsReturning"], ["activeUsers"], R)
+    cities_all = run(c, prop, ["city", "region", "country", "countryId"], U, R, 300 * n)
+    countries_all = run(c, prop, ["country", "countryId"], U, R, 250 * n)
+    regions_all = run(c, prop, ["region", "country"], U, R, 300 * n)
+    src_all = run(c, prop, ["sessionSource", "sessionMedium", "sessionCampaignName"], U, R, 500 * n)
+    dev_all = run(c, prop, ["deviceCategory"], U, R)
+    br_all = run(c, prop, ["browser"], U, R, 50 * n)
+    os_all = run(c, prop, ["operatingSystem"], U, R, 50 * n)
+    evs_all = run(c, prop, ["eventName"], ["eventCount", "totalUsers"], R, 500 * n)
+    try:  # needs the "Visitor org" custom dimension; skip quietly until GA4 has it
+        orgs_all = run(c, prop, ["customEvent:visitor_org"], ["totalUsers", "eventCount"], R, 300 * n, event_filter("visitor_org"))
+    except Exception as e:
+        print("visitor_org not available yet:", str(e)[:200]); orgs_all = {k: [] for k in R}
+    bots_all = run(c, prop, ["city"], ["activeUsers", "sessions"], R, 50 * n, bots=True)
+    for key in R:
+        t = tot_all[key][0] if tot_all[key] else {}
+        nvr = {r["newVsReturning"]: r["activeUsers"] for r in nvr_all[key]}
+        cities = cities_all[key]
         for r in cities:
             g = geo.get((r["city"].lower(), r["countryId"]))
             if g: r["lat"], r["lon"] = round(g[0], 3), round(g[1], 3)
-        countries = run(c, prop, ["country", "countryId"], U, days, 250)
-        regions = run(c, prop, ["region", "country"], U, days, 300)
-        src = run(c, prop, ["sessionSource", "sessionMedium", "sessionCampaignName"], U, days, 500)
+        countries, regions, src = countries_all[key], regions_all[key], src_all[key]
         ch = defaultdict(lambda: {"activeUsers": 0, "sessions": 0})
         for r in src:
             k = channel(r["sessionSource"], r["sessionMedium"], r["sessionCampaignName"])
             r["channel"] = k; ch[k]["activeUsers"] += r["activeUsers"]; ch[k]["sessions"] += r["sessions"]
-        dev = run(c, prop, ["deviceCategory"], U, days)
-        br = run(c, prop, ["browser"], U, days, 50)
-        os_ = run(c, prop, ["operatingSystem"], U, days, 50)
-        evs = run(c, prop, ["eventName"], ["eventCount", "totalUsers"], days, 500)
-        try:  # needs the "Visitor org" custom dimension; skip quietly until GA4 has it
-            orgs = run(c, prop, ["customEvent:visitor_org"], ["totalUsers", "eventCount"], days, 300, event_filter("visitor_org"))
-        except Exception as e:
-            print("visitor_org not available yet:", str(e)[:200]); orgs = []
+        dev, br, os_, evs = dev_all[key], br_all[key], os_all[key], evs_all[key]
         orgs = [{"org": r["customEvent:visitor_org"], "users": r["totalUsers"], "isp": is_isp(r["customEvent:visitor_org"])}
-                for r in orgs if r["customEvent:visitor_org"] not in ("(not set)", "")]
-        bot_rows = run(c, prop, ["city"], ["activeUsers", "sessions"], days, 50, bots=True)
+                for r in orgs_all[key] if r["customEvent:visitor_org"] not in ("(not set)", "")]
+        bot_rows = bots_all[key]
         bots = {"users": sum(r["activeUsers"] for r in bot_rows), "sessions": sum(r["sessions"] for r in bot_rows),
                 "cities": [{"city": r["city"], "users": r["activeUsers"]} for r in bot_rows]}
         ranges[key] = {

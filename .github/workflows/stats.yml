@@ -13,6 +13,7 @@ concurrency: stats
 jobs:
   pull:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: google-github-actions/auth@v2
