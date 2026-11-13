@@ -31,9 +31,11 @@ jobs:
         run: python analytics/fetch_stats.py
       - name: Save to stats branch (one commit, replaced each run)
         run: |
-          [ -f "$RUNNER_TEMP/stats.enc.json" ] || { echo "No stats file, nothing to save"; exit 0; }
+          [ -f "$RUNNER_TEMP/status.json" ] || { echo "Nothing to save"; exit 0; }
           cd "$RUNNER_TEMP" && rm -rf out && mkdir out && cd out
-          git init -q -b stats && cp ../stats.enc.json .
-          printf '# Encrypted portfolio stats\nWritten by .github/workflows/stats.yml on main. Readable only with the dashboard passphrase.\n' > README.md
+          if [ -f ../stats.enc.json ]; then cp ../stats.enc.json .
+          else git init -q && git fetch -q --depth 1 "https://github.com/${{ github.repository }}.git" stats && git checkout -q FETCH_HEAD -- stats.enc.json || true; fi
+          rm -rf .git; git init -q -b stats; cp ../status.json .
+          printf '# Encrypted portfolio stats\nWritten by .github/workflows/stats.yml on main. stats.enc.json is readable only with the dashboard passphrase; status.json says whether the last pull worked.\n' > README.md
           git add . && git -c user.name="stats-bot" -c user.email="actions@github.com" commit -qm "stats $(date -u +%FT%TZ)"
           git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" stats

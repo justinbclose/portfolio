@@ -38,7 +38,7 @@ def channel(src, med, camp):
     return "Other"
 
 # ---------- GA4 ----------
-def ga_client():
+def ga_client(transport="rest"):
     from google.analytics.data_v1beta import BetaAnalyticsDataClient
     from google.oauth2 import service_account
     scopes = ["https://www.googleapis.com/auth/analytics.readonly"]
@@ -47,7 +47,9 @@ def ga_client():
     else:
         import google.auth
         creds, _ = google.auth.default(scopes=scopes)
-    return BetaAnalyticsDataClient(credentials=creds)
+    return BetaAnalyticsDataClient(credentials=creds, transport=transport)
+
+_ALT = {}  # the other transport, created only if the first one keeps failing
 
 # Towns that are mostly cloud data centers (AWS, Google, Microsoft, Meta). Visits from here are
 # almost always bots: link-preview crawlers, uptime checkers, scrapers. They are counted separately.
@@ -67,11 +69,12 @@ def run(client, prop, dims, mets, days, limit=2000, filt=None, bots=False):
     bf = bot_filter(bots)
     req.dimension_filter = bf if filt is None else FilterExpression(and_group=FilterExpressionList(expressions=[bf, filt]))
     import time
-    for attempt in range(4):  # GA4 sometimes times out (504); wait and retry instead of failing the whole pull
+    for attempt in range(4):  # GA4 sometimes times out or returns 502/503; retry, switching between REST and gRPC
+        cl = client if attempt % 2 == 0 else _ALT.setdefault("c", ga_client("grpc"))
         try:
-            resp = client.run_report(req, timeout=90); break
+            resp = cl.run_report(req, timeout=90); break
         except Exception as e:
-            if attempt == 3 or not any(k in str(e) for k in ("Deadline", "504", "503", "Unavailable", "429", "Internal")): raise
+            if attempt == 3 or not any(k in str(e) for k in ("Deadline", "502", "504", "503", "Unavailable", "429", "Internal", "Bad Gateway")): raise
             print(f"GA4 retry {attempt+1} after: {str(e)[:80]}", flush=True); time.sleep(10 * (attempt + 1))
     out = []
     for r in resp.rows:
@@ -255,8 +258,16 @@ if __name__ == "__main__":
     is_sample = "--sample" in sys.argv
     if not is_sample and not (os.environ.get("GA4_PROPERTY_ID") and os.environ.get("DASH_KEY")):
         print("DASH_KEY secret not set yet. Skipping."); sys.exit(0)
-    ranges, daily, apps, recent, detail = sample() if is_sample else pull()
     now = dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat()
+    status_path = os.path.join(os.path.dirname(OUT) or ".", "status.json")
+    try:
+        ranges, daily, apps, recent, detail = sample() if is_sample else pull()
+    except Exception as e:  # Google was down: keep the last good numbers, record why, and don't fail the run (no failure emails)
+        msg = str(e).splitlines()[0][:160]
+        print("GA4 unavailable, keeping last stats:", msg)
+        with open(status_path, "w") as f: json.dump({"ok": False, "checked_at": now, "error": msg}, f)
+        sys.exit(0)
+    with open(status_path, "w") as f: json.dump({"ok": True, "checked_at": now, "error": ""}, f)
     stats = {"generated_at": now, "sample": is_sample, "site": "justinbclose.com", "ranges": ranges, "daily": daily, "applications": apps, "appDetail": detail, "recent": recent}
     key = os.environ.get("DASH_KEY") or ("sample" if is_sample else None)
     if not key: sys.exit("DASH_KEY secret is missing")
