@@ -189,7 +189,7 @@ section{scroll-margin-top:70px}
 .ring-chart.big svg{max-width:200px}
 .ring-chart circle{fill:none;stroke-width:9}
 .ring-chart .track{stroke:var(--mat-2)}
-.ring-chart .bar{stroke:var(--sage-ink);stroke-linecap:round;stroke-dasharray:var(--c);stroke-dashoffset:var(--off);transition:stroke-dashoffset 1.8s var(--ease)}
+.ring-chart .bar{stroke:var(--sage-ink);stroke-linecap:round;stroke-dasharray:var(--c);stroke-dashoffset:var(--off);transition:stroke-dashoffset .6s var(--ease)}
 .ring-chart.big .bar{stroke:var(--gold)}
 .ring-chart .inner{position:relative;width:100%;display:grid;place-items:center}
 .ring-chart .v{position:absolute;font:500 clamp(18px,2vw,26px) var(--mono);color:var(--ink)}
@@ -892,7 +892,7 @@ if(!reduce && "IntersectionObserver" in window){
   const nums = $$("[data-count]").filter(below);
   const io2 = new IntersectionObserver(es => es.forEach(e => { if(!e.isIntersecting) return; io2.unobserve(e.target);
     const el = e.target, end = +el.dataset.count, pre = el.dataset.prefix||"", suf = el.dataset.suffix||"", t0 = performance.now();
-    (function f(t){ const p = Math.min(1,(t-t0)/1300), v = Math.round(end*(1-Math.pow(1-p,3)));
+    (function f(t){ const p = Math.min(1,(t-t0)/450), v = Math.round(end*(1-Math.pow(1-p,3)));
       el.innerHTML = pre + v.toLocaleString("en-US") + (suf ? `<span class="u">${suf}</span>` : ""); if(p<1) requestAnimationFrame(f); })(t0); }), {threshold:.5});
   nums.forEach(el => io2.observe(el));
 }
@@ -915,7 +915,7 @@ $$(".ecar").forEach(c => { const t = c.querySelector(".ecar-track"), dots = [...
 (function(){ const rings = $$(".ring-chart");
   const fill = el => { const c = parseFloat(getComputedStyle(el).getPropertyValue("--c")), pct = +el.dataset.pct; el.style.setProperty("--off", (c * (1 - pct/100)).toFixed(1));
     const v = el.querySelector(".v"), to = +v.dataset.to, dec = String(to).includes(".") ? 1 : 0, t0 = performance.now();
-    if(reduce) return; (function f(t){ const p = Math.min(1,(t-t0)/1800), e = 1-Math.pow(1-p,3); v.textContent = "+" + (to*e).toFixed(dec) + "%"; if(p<1) requestAnimationFrame(f); })(t0); };
+    if(reduce) return; (function f(t){ const p = Math.min(1,(t-t0)/600), e = 1-Math.pow(1-p,3); v.textContent = "+" + (to*e).toFixed(dec) + "%"; if(p<1) requestAnimationFrame(f); })(t0); };
   if(reduce || !("IntersectionObserver" in window)){ rings.forEach(el => { const c = parseFloat(getComputedStyle(el).getPropertyValue("--c")); el.style.setProperty("--off", (c*(1-el.dataset.pct/100)).toFixed(1)); }); return; }
   const io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ fill(e.target); io.unobserve(e.target); }}), {threshold:.5});
   rings.forEach(el => io.observe(el));
