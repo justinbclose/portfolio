@@ -73,6 +73,11 @@ h2{font:700 20px/26px var(--sans);letter-spacing:-.01em}
 /* receipt card (signature) */
 .rc{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:14px 16px 12px;box-shadow:var(--shadow);animation:up .32s var(--ease) both}
 @keyframes up{from{opacity:0;transform:translateY(8px)}}
+.rc.wait{box-shadow:none;background:color-mix(in srgb,var(--surface) 70%,transparent)}
+.rc.wait .co{font-size:18px;line-height:22px}
+.rc .acts{display:flex;align-items:center;gap:12px;margin-top:10px}
+.rc .lnk{border:0;background:none;color:var(--muted);font:500 13px var(--sans);text-decoration:underline;cursor:pointer;min-height:44px;padding:0 4px}
+.sentlbl{margin:18px 2px 2px}
 .rc.hot{border-color:color-mix(in srgb,var(--gold) 70%,var(--line))}
 .rc .hd{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
 .rc .co{font:800 21px/24px var(--sans);letter-spacing:-.01em;min-width:0}
@@ -236,7 +241,7 @@ h2{font:700 20px/26px var(--sans);letter-spacing:-.01em}
     <section class="view" id="v-receipts" aria-label="Receipts">
       <div class="sum" id="summary"></div>
       <div class="sec">
-        <div class="sec-h"><h2 id="h-receipts">Who opened your link</h2><span class="micro">Last 90 days</span></div>
+        <div class="sec-h"><h2 id="h-receipts">Your application links</h2><span class="micro">Last 90 days</span></div>
         <div class="stack" id="receipts"></div>
       </div>
       <div class="sec">
@@ -323,11 +328,23 @@ async function getDB(){ if (DB) return DB; try { if (window.claude && claude.use
 async function fetchStats(){
   const db = await getDB();
   if (db) { try { const snap = await db.doc("stats/latest").get(); const d = snap && (typeof snap.data === "function" ? snap.data() : (snap.data || snap));
-      if (d && d.generated_at) return JSON.parse(JSON.stringify(d)); } catch {} }  // the store's data is read-only; work on a copy
+      if (d && d.generated_at) { const out = JSON.parse(JSON.stringify(d)); out.sent = await fetchSent(db); return out; } } catch {} }  // the store's data is read-only; work on a copy
   const r = await fetch("stats.json", { cache: "no-store" }); if (!r.ok) throw new Error("none"); return r.json(); }
 
+// Every tracked link you've sent (from JobPulse resumes/cover letters, sent email, and links copied here)
+async function fetchSent(db){ try { const snap = await db.doc("stats/sent").get(); const d = snap && (typeof snap.data === "function" ? snap.data() : (snap.data || snap));
+  return d ? JSON.parse(JSON.stringify(d)) : null; } catch { return null; } }
+let sentBusy = Promise.resolve();
+function saveSent(change){ // one write at a time; re-read first so the sync's additions are never lost
+  sentBusy = sentBusy.then(async () => { const db = await getDB(); if (!db) return;
+    const cur = (await fetchSent(db)) || { links: {}, hidden: {} }; cur.links = cur.links || {}; cur.hidden = cur.hidden || {};
+    change(cur); cur.updated_at = new Date().toISOString();
+    try { await db.doc("stats/sent").set(cur); if (S) { S.sent = cur; renderSummary(renderReceipts()); } } catch (e) { console.error(e); toast("Couldn’t save that"); } });
+  return sentBusy; }
+function logSent(code, company, where){ saveSent(cur => { const o = cur.links[code] || { company, where: [], sentAt: new Date().toISOString(), source: "Dashboard" };
+  if (!o.where.includes(where)) o.where.push(where); if (!o.company) o.company = company; cur.links[code] = o; delete cur.hidden[code]; }); }
 // Company display names live in this tracker's private data store (meta/names), not in the code,
-// because the code is also kept in Justin's public GitHub repo. Anything not listed is spelled out from its code.
+// because the code is also kept in Justin's public GitHub repo (branch "tracker"). Anything not listed is spelled out from its code.
 let APP_NAMES = {};
 const SMALL = new Set(["and", "of", "at", "the", "in", "for"]);
 const appName = s => APP_NAMES[s] || String(s).split("-").filter(Boolean).map((w, i) => i && SMALL.has(w) ? w : w.length <= 2 ? w.toUpperCase() : w[0].toUpperCase() + w.slice(1)).join(" ");
@@ -384,21 +401,41 @@ function receiptList(){
   (S.applications || []).forEach(a => { const k = a.sessionCampaignName, d = pDate(a.date);
     if (!last[k] || d > last[k]) { last[k] = d; lastSrc[k] = new Set(); }
     if (+d === +last[k] && a.sessionSource) lastSrc[k].add(a.sessionSource); });
-  const det = S.appDetail || {};
-  const keys = new Set([...Object.keys(det), ...Object.keys(last)]);
-  return [...keys].map(k => { const d = det[k] || { sessions: 0, users: 0, engSec: 0, events: {}, places: [] }; const ev = d.events || {};
+  const sent = (S.sent && S.sent.links) || {}, hidden = (S.sent && S.sent.hidden) || {};
+  // One company can have more than one code (e.g. a resume and an email made on different days): fold them together
+  const alias = {}; Object.entries(sent).forEach(([k, v]) => (v.also || []).forEach(a => { alias[a] = k; }));
+  const det = {}; Object.entries(S.appDetail || {}).forEach(([k0, v]) => { const k = alias[k0] || k0, o = det[k];
+    if (!o) { det[k] = JSON.parse(JSON.stringify(v)); return; }
+    ["sessions", "users", "engSec"].forEach(f => { o[f] = (o[f] || 0) + (v[f] || 0); });
+    Object.entries(v.events || {}).forEach(([e, n]) => { o.events = o.events || {}; o.events[e] = (o.events[e] || 0) + n; });
+    o.places = (o.places || []).concat(v.places || []);
+    Object.entries(v.via || {}).forEach(([src, x]) => { o.via = o.via || {}; const y = o.via[src]; if (!y) { o.via[src] = x; return; }
+      ["sessions", "users", "engSec"].forEach(f => { y[f] = (y[f] || 0) + (x[f] || 0); }); Object.entries(x.events || {}).forEach(([e, n]) => { y.events = y.events || {}; y.events[e] = (y.events[e] || 0) + n; }); }); });
+  Object.keys(last).forEach(k0 => { const k = alias[k0]; if (!k) return; if (!last[k] || last[k0] > last[k]) { last[k] = last[k0]; lastSrc[k] = lastSrc[k0]; } delete last[k0]; delete lastSrc[k0]; });
+  const keys = new Set([...Object.keys(det), ...Object.keys(last), ...Object.keys(sent).filter(k => !hidden[k])]);
+  return [...keys].map(k => { const d = det[k] || { sessions: 0, users: 0, engSec: 0, events: {}, places: [] }; const ev = d.events || {}, sn = sent[k] || null;
+    const opened = (d.sessions || 0) > 0 || !!last[k];
     const booked = (ev.click_book_call || 0) > 0, emailed = (ev.click_email || 0) + (ev.copy_email || 0) + (ev.contact_form_submit || 0) > 0;
     const hot = booked || d.sessions >= 3 || d.users >= 2 || d.engSec >= 180;
-    const status = booked ? ["★", "Booked a call", "var(--good)"] : hot ? ["▲", d.users >= 2 ? "Shared inside" : "Came back", "var(--gold)"] : ["●", "Opened", "var(--sage)"];
+    const status = booked ? ["★", "Booked a call", "var(--good)"] : hot ? ["▲", d.users >= 2 ? "Shared inside" : "Came back", "var(--gold)"] : opened ? ["●", "Opened", "var(--sage)"] : ["○", "Not opened yet", "var(--muted)"];
     const via = Object.entries(d.via || {}).map(([src, v]) => ({ src, ...v })).sort((a, b) => (b.sessions || 0) - (a.sessions || 0));
-    return { k, d, ev, last: last[k] || null, lastSrc: [...(lastSrc[k] || [])], via, booked, emailed, hot, status };
-  }).sort((a, b) => (b.booked - a.booked) || (b.hot - a.hot) || ((b.last || 0) - (a.last || 0)));
+    return { k, d, ev, last: last[k] || null, lastSrc: [...(lastSrc[k] || [])], via, booked, emailed, hot, status, opened, sn, sentAt: sn && sn.sentAt ? new Date(sn.sentAt) : null };
+  }).sort((a, b) => (b.booked - a.booked) || (b.hot - a.hot) || (b.opened - a.opened) || ((b.last || b.sentAt || 0) - (a.last || a.sentAt || 0)));
 }
 function renderReceipts(){
   const list = receiptList(), el = $("#receipts"); el.replaceChildren();
   const week = list.filter(r => r.last && Date.now() - r.last < 7 * 864e5).length, badge = $("#tab-badge"); badge.hidden = !week; badge.textContent = week;
-  if (!list.length) { el.append(h("div", { class: "card" }, empty("No application links opened yet", "When someone at a company clicks your portfolio link, their card shows up here: whether they clicked it in your resume, cover letter, email or LinkedIn message, how long they read, and what they looked at."))); return list; }
+  if (!list.length) { el.append(h("div", { class: "card" }, empty("No application links sent yet", "Every tracked link you send shows up here: from JobPulse resumes and cover letters, your sent email, and links you copy with +. When someone clicks one, you'll see where they clicked it, how long they read, and what they looked at."))); return list; }
+  const waitingN = list.filter(r => !r.opened).length;
   list.forEach((r, i) => {
+    if (!r.opened) { if (i === list.length - waitingN) el.append(h("p", { class: "micro sentlbl" }, `Sent, not opened yet · ${waitingN}`));
+      const sentMeta = [r.sentAt ? `Sent ${dayWord(r.sentAt)}` : "Sent", r.sn && r.sn.where && r.sn.where.length ? r.sn.where.join(" + ") : null, r.sn && r.sn.role ? r.sn.role : null].filter(Boolean).join(" · ");
+      el.append(h("article", { class: "rc wait", style: `animation-delay:${Math.min(i, 8) * 30}ms`, "aria-label": (r.sn && r.sn.company) || appName(r.k) },
+        h("div", { class: "hd" }, h("h3", { class: "co" }, (r.sn && r.sn.company) || appName(r.k)), h("span", { class: "st", style: `--cc:${r.status[2]}` }, h("b", null, r.status[0]), r.status[1])),
+        h("div", { class: "meta" }, sentMeta),
+        h("div", { class: "acts" }, h("button", { class: "btn sm", type: "button", "data-copy": r.k }, "Copy follow-up link"),
+          h("button", { class: "lnk", type: "button", "data-hide": r.k }, "Didn’t send it"))));
+      return; }
     const sec = SECTIONS.map(([e]) => (r.ev[e] || 0) > 0), read = sec.filter(Boolean).length;
     const where = (r.d.places || []).slice().sort((a, b) => b.sessions - a.sessions)[0];
     const fromTxt = r.lastSrc.length ? " from " + r.lastSrc.map(x => docOf(x)[1]).join(" and ") : "";
@@ -419,6 +456,7 @@ function renderReceipts(){
       nudge ? h("div", { class: "nudge" }, h("p", null, nudge), h("button", { class: "btn sm", type: "button", "data-copy": r.k }, "Copy link")) : null));
   });
   el.querySelectorAll("button[data-copy]").forEach(b => b.addEventListener("click", () => copyLink(appLink(b.dataset.copy, "email"), appName(b.dataset.copy) + " follow-up email")));
+  el.querySelectorAll("button[data-hide]").forEach(b => b.addEventListener("click", () => { saveSent(cur => { cur.hidden[b.dataset.hide] = true; }); toast("Removed from your sent list"); }));
   return list;
 }
 // One row per document the link was clicked in: visits, reading time, and what they looked at from it.
@@ -440,11 +478,11 @@ function viaBlock(r){
     }));
 }
 function renderSummary(list){
-  const opened = list.length, booked = list.filter(r => r.booked).length, hot = list.filter(r => r.hot && !r.booked).length;
+  const opened = list.filter(r => r.opened).length, total = list.length, booked = list.filter(r => r.booked).length, hot = list.filter(r => r.hot && !r.booked).length;
   const d30 = series(30), v30 = d30.reduce((a, d) => a + d.v, 0);
   const el = $("#summary"); el.replaceChildren(
     h("div", { class: "big" }, fmt(opened)),
-    h("div", { class: "lead" }, opened === 1 ? "company opened your portfolio" : "companies opened your portfolio"),
+    h("div", { class: "lead" }, total > opened ? `of ${fmt(total)} ${total === 1 ? "company" : "companies"} you sent a link to ${opened === 1 ? "has" : "have"} opened it` : (opened === 1 ? "company opened your portfolio" : "companies opened your portfolio")),
     h("div", { class: "row" }, booked ? h("span", { class: "chip" }, `★ ${booked} booked a call`) : null, hot ? h("span", { class: "chip" }, `▲ ${hot} worth a follow-up`) : null, h("span", { class: "chip" }, `${fmt(v30)} visitor-days · 30d`), ((S.ranges["30"] || {}).bots || {}).users ? h("span", { class: "chip" }, `${fmt(S.ranges["30"].bots.users)} bots removed`) : null));
   if (d30.some(d => d.v)) { const W = 120, H = 44, x = d3.scaleLinear().domain([0, 29]).range([2, W - 2]), y = d3.scaleLinear().domain([0, d3.max(d30, d => d.v) || 1]).range([H - 2, 4]);
     const svg = d3.select(el).append("svg").attr("class", "spark").attr("viewBox", `0 0 ${W} ${H}`).attr("aria-hidden", "true");
@@ -590,7 +628,7 @@ async function copyLink(url, label){ try { await navigator.clipboard.writeText(u
   catch { setPop(true); const o = $("#out"); o.classList.add("on"); const i = $("#outurl"); i.value = url; i.focus(); i.select(); toast("Press and hold the link to copy it"); } }
 pop.querySelectorAll(".opt").forEach(b => b.addEventListener("click", () => copyLink(SITE + "?ref=" + b.dataset.ref, b.firstChild.textContent.trim())));
 const slug = s => s.replace(/\(.*?\)/g, "").toLowerCase().normalize("NFKD").replace(/[̀-ͯ]/g, "").replace(/&/g, " and ").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 50);
-$("#appform").addEventListener("submit", e => { e.preventDefault(); const co = $("#appco").value.trim(); if (!co) { $("#appco").focus(); return; } const src = $("#appsrc").value || "email"; copyLink(appLink(slug(co), src), `${co} (${docOf(src)[0].toLowerCase()})`); });
+$("#appform").addEventListener("submit", e => { e.preventDefault(); const co = $("#appco").value.trim(); if (!co) { $("#appco").focus(); return; } const src = $("#appsrc").value || "email"; copyLink(appLink(slug(co), src), `${co} (${docOf(src)[0].toLowerCase()})`); logSent(slug(co), co, docOf(src)[0]); });
 
 /* Refresh with a progress bar; on failure keep the old data and say so plainly */
 let pTimer = null;
