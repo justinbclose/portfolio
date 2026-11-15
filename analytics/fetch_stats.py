@@ -97,14 +97,28 @@ def dim_filter(field, value):
     from google.analytics.data_v1beta.types import FilterExpression, Filter
     return FilterExpression(filter=Filter(field_name=field, string_filter=Filter.StringFilter(value=value)))
 
+# Where a job-application link was clicked (utm_source on links with utm_medium=job_app).
+# "application" = older ?ref=app-… links, which don't say which document they were in.
+APP_SOURCES = ["resume", "cover_letter", "email", "linkedin", "application_form", "application"]
+
+def _blank():
+    return {"sessions": 0, "users": 0, "engSec": 0, "events": {}, "places": [], "via": {}}
+
 def app_detail(c, prop):
-    """Per-application-link detail (last 90 days): what each company read, time spent, how many people."""
+    """Per-application-link detail (last 90 days): what each company read, time spent, how many people,
+    and which document the link was clicked in (via: resume / cover_letter / email / linkedin / application_form)."""
     f = lambda: dim_filter("sessionMedium", "job_app")
     out = {}
     for r in run(c, prop, ["sessionCampaignName"], ["sessions", "activeUsers", "userEngagementDuration"], 90, 500, f()):
-        out[r["sessionCampaignName"]] = {"sessions": r["sessions"], "users": r["activeUsers"], "engSec": r["userEngagementDuration"], "events": {}, "places": []}
-    for r in run(c, prop, ["sessionCampaignName", "eventName"], ["eventCount"], 90, 3000, f()):
-        out.setdefault(r["sessionCampaignName"], {"sessions": 0, "users": 0, "engSec": 0, "events": {}, "places": []})["events"][r["eventName"]] = r["eventCount"]
+        out[r["sessionCampaignName"]] = {**_blank(), "sessions": r["sessions"], "users": r["activeUsers"], "engSec": r["userEngagementDuration"]}
+    for r in run(c, prop, ["sessionCampaignName", "sessionSource"], ["sessions", "activeUsers", "userEngagementDuration"], 90, 1000, f()):
+        v = out.setdefault(r["sessionCampaignName"], _blank())["via"].setdefault(r["sessionSource"], {"sessions": 0, "users": 0, "engSec": 0, "events": {}})
+        v.update(sessions=r["sessions"], users=r["activeUsers"], engSec=r["userEngagementDuration"])
+    # one call gives what they read per company AND per document (company totals are the sum over documents)
+    for r in run(c, prop, ["sessionCampaignName", "sessionSource", "eventName"], ["eventCount"], 90, 5000, f()):
+        d = out.setdefault(r["sessionCampaignName"], _blank())
+        d["events"][r["eventName"]] = d["events"].get(r["eventName"], 0) + r["eventCount"]
+        d["via"].setdefault(r["sessionSource"], {"sessions": 0, "users": 0, "engSec": 0, "events": {}})["events"][r["eventName"]] = r["eventCount"]
     for r in run(c, prop, ["sessionCampaignName", "city", "region", "countryId", "deviceCategory"], ["sessions"], 90, 2000, f()):
         if r["sessionCampaignName"] in out:
             out[r["sessionCampaignName"]]["places"].append({k: r[k] for k in ("city", "region", "countryId", "deviceCategory", "sessions")})
@@ -170,7 +184,7 @@ def pull():
             "orgs": orgs,
         }
     daily = run(c, prop, ["date", "newVsReturning"], ["activeUsers", "sessions", "screenPageViews"], 90, 1000)
-    apps = run(c, prop, ["date", "sessionCampaignName", "sessionMedium"], U, 90, 2000)
+    apps = run(c, prop, ["date", "sessionCampaignName", "sessionMedium", "sessionSource"], U, 90, 2000)
     apps = [r for r in apps if r["sessionMedium"] == "job_app"]
     recent = run(c, prop, ["dateHour", "city", "region", "countryId", "sessionSource", "sessionMedium", "sessionCampaignName", "deviceCategory"], ["sessions", "userEngagementDuration"], 4, 200)
     return ranges, daily, apps, recent, app_detail(c, prop)
@@ -186,8 +200,8 @@ def sample():
               ("New York","New York","United States","US",40.713,-74.006,4),("Seattle","Washington","United States","US",47.606,-122.332,2),
               ("Breckenridge","Colorado","United States","US",39.482,-106.038,3),("Vancouver","British Columbia","Canada","CA",49.283,-123.121,1),("London","England","United Kingdom","GB",51.507,-0.128,1)]
     srcs = [("linkedin","social","featured",28),("(direct)","(none)","(direct)",22),("google","organic","(organic)",9),("canva","redirect","old-portfolio",5),
-            ("resume","pdf","resume",6),("email","signature","email-signature",4),("application","job_app","vail-resorts",4),("application","job_app","alterra-ikon",3),
-            ("application","job_app","ucsd-extended-studies",2),("application","job_app","big-sky",1),("lnkd.in","referral","(referral)",3)]
+            ("resume","pdf","resume",6),("email","signature","email-signature",4),("application","job_app","vail-resorts",4),("resume","job_app","alterra-ikon",2),
+            ("email","job_app","alterra-ikon",1),("cover_letter","job_app","ucsd-extended-studies",2),("email","job_app","big-sky",1),("lnkd.in","referral","(referral)",3)]
     ranges = {}
     for key, days in RANGES.items():
         f = days / 30
@@ -231,25 +245,31 @@ def sample():
         for k, v in (("new", n), ("returning", r)):
             if v: daily.append({"date":d.strftime("%Y%m%d"),"newVsReturning":k,"activeUsers":v,"sessions":round(v*1.25),"screenPageViews":round(v*1.4)})
     apps = []
-    for camp, ds in (("vail-resorts",[2,2,5,11]),("alterra-ikon",[1,6,6]),("ucsd-extended-studies",[3,20]),("big-sky",[40])):
-        for back in ds:
-            apps.append({"date":(today-dt.timedelta(days=back)).strftime("%Y%m%d"),"sessionCampaignName":camp,"sessionMedium":"job_app","activeUsers":1,"sessions":1})
+    for camp, ds in (("vail-resorts",[(2,"application"),(2,"application"),(5,"application"),(11,"application")]),("alterra-ikon",[(1,"email"),(6,"resume"),(6,"resume")]),
+                     ("ucsd-extended-studies",[(3,"cover_letter"),(20,"resume")]),("big-sky",[(40,"email")])):
+        for back, src in ds:
+            apps.append({"date":(today-dt.timedelta(days=back)).strftime("%Y%m%d"),"sessionCampaignName":camp,"sessionMedium":"job_app","sessionSource":src,"activeUsers":1,"sessions":1})
     recent = []
-    for h, city, reg, cid, s, m, cp, dv in [(1,"Broomfield","Colorado","US","application","job_app","vail-resorts","desktop"),(3,"San Diego","California","US","linkedin","social","featured","mobile"),
+    for h, city, reg, cid, s, m, cp, dv in [(1,"Broomfield","Colorado","US","application","job_app","vail-resorts","desktop"),(2,"Denver","Colorado","US","email","job_app","alterra-ikon","desktop"),(3,"San Diego","California","US","linkedin","social","featured","mobile"),
                                             (5,"Denver","Colorado","US","(direct)","(none)","(direct)","mobile"),(9,"Salt Lake City","Utah","US","resume","pdf","resume","desktop"),
                                             (20,"La Jolla","California","US","google","organic","(organic)","mobile"),(27,"Park City","Utah","US","canva","redirect","old-portfolio","mobile")]:
         t = dt.datetime.now() - dt.timedelta(hours=h)
         recent.append({"dateHour":t.strftime("%Y%m%d%H"),"city":city,"region":reg,"countryId":cid,"sessionSource":s,"sessionMedium":m,"sessionCampaignName":cp,"deviceCategory":dv,"sessions":1,"userEngagementDuration":random.randint(20,300)})
     ev = lambda names, extra={}: {**{n: 1 for n in names}, **extra}
+    via = lambda **kw: {k: {"sessions": a, "users": b, "engSec": c_, "events": ev(e)} for k, (a, b, c_, e) in kw.items()}
     detail = {
         "vail-resorts": {"sessions": 4, "users": 2, "engSec": 412, "events": ev(["view_highlights","view_about","view_experience","view_work","view_contact","work_email","work_social","scroll_25","scroll_50","scroll_75"], {"click_book_call": 1, "lightbox_open": 3}),
-                         "places": [{"city":"Broomfield","region":"Colorado","countryId":"US","deviceCategory":"desktop","sessions":3},{"city":"Denver","region":"Colorado","countryId":"US","deviceCategory":"mobile","sessions":1}]},
+                         "places": [{"city":"Broomfield","region":"Colorado","countryId":"US","deviceCategory":"desktop","sessions":3},{"city":"Denver","region":"Colorado","countryId":"US","deviceCategory":"mobile","sessions":1}],
+                         "via": via(application=(4, 2, 412, ["view_highlights","view_about","view_work","click_book_call"]))},
         "alterra-ikon": {"sessions": 3, "users": 1, "engSec": 236, "events": ev(["view_highlights","view_about","view_work","view_photos","reels_open","work_social","scroll_25","scroll_50"]),
-                         "places": [{"city":"Denver","region":"Colorado","countryId":"US","deviceCategory":"desktop","sessions":3}]},
+                         "places": [{"city":"Denver","region":"Colorado","countryId":"US","deviceCategory":"desktop","sessions":3}],
+                         "via": via(resume=(2, 1, 180, ["view_highlights","view_about","view_work","work_social"]), email=(1, 1, 56, ["view_highlights","view_photos","reels_open"]))},
         "ucsd-extended-studies": {"sessions": 2, "users": 1, "engSec": 48, "events": ev(["view_highlights","view_about","scroll_25"]),
-                         "places": [{"city":"La Jolla","region":"California","countryId":"US","deviceCategory":"desktop","sessions":2}]},
+                         "places": [{"city":"La Jolla","region":"California","countryId":"US","deviceCategory":"desktop","sessions":2}],
+                         "via": via(cover_letter=(1, 1, 30, ["view_highlights","view_about"]), resume=(1, 1, 18, ["view_highlights"]))},
         "big-sky": {"sessions": 1, "users": 1, "engSec": 14, "events": ev(["view_highlights"]),
-                         "places": [{"city":"Bozeman","region":"Montana","countryId":"US","deviceCategory":"mobile","sessions":1}]},
+                         "places": [{"city":"Bozeman","region":"Montana","countryId":"US","deviceCategory":"mobile","sessions":1}],
+                         "via": via(email=(1, 1, 14, ["view_highlights"]))},
     }
     return ranges, daily, apps, recent, detail
 
