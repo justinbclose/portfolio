@@ -207,7 +207,7 @@ section{scroll-margin-top:70px}
 .chip .c{font:500 11px var(--mono);color:var(--muted)}
 /* category navigator */
 .wprompt{text-align:center;font:500 12px var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin:clamp(8px,2vw,24px) 0 18px}
-.wnav{position:static;display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(10px,1.4vw,18px);overflow:visible;padding:0;margin:0 0 clamp(48px,6vw,80px);background:none}
+.wnav{position:static;display:grid;grid-template-columns:repeat(6,1fr);gap:clamp(10px,1.4vw,18px);overflow:visible;padding:0;margin:0 0 clamp(48px,6vw,80px);background:none}
 .wcard{height:auto;min-height:200px;border-radius:22px;padding:22px 20px 20px;flex-direction:column;align-items:flex-start;text-align:left;gap:6px;background:var(--mat);position:relative;transition:background .3s,color .3s,transform .3s var(--ease),box-shadow .3s}
 .wcard:hover{transform:translateY(-4px);box-shadow:var(--lift);background:var(--mat-2)}
 .wcard[aria-pressed="true"]::before{display:none}
@@ -224,6 +224,7 @@ section{scroll-margin-top:70px}
 .wcard[aria-pressed="true"] .wc-go{background:var(--gold);border-color:var(--gold);color:var(--deep);transform:rotate(90deg)}
 .wnext-row{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:clamp(56px,7vw,96px)}
 @media (max-width:1000px){.wnav{grid-template-columns:repeat(3,1fr)}}
+@media (min-width:721px) and (max-width:1199px){.wnav{grid-template-columns:repeat(3,1fr)}}
 @media (max-width:720px){.wnav{grid-template-columns:1fr 1fr}.wcard{min-height:0}.wcard ul{display:none}.wcard{padding-bottom:58px}}
 .exhibits{display:flex;flex-direction:column;gap:clamp(64px,8vw,120px)}
 .exhibit{display:grid;grid-template-columns:repeat(12,1fr);column-gap:clamp(24px,3vw,48px);align-items:center;transition:transform .9s var(--ease),opacity .9s var(--ease)}
@@ -479,6 +480,25 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
   .phone .screen{overflow-y:auto}
   .rings{display:none}
 }
+
+/* dashboard demo exhibit */
+.demo{width:100%;display:flex;flex-direction:column;gap:16px;align-items:center}
+.demo .chrome{width:100%;border-radius:14px;overflow:hidden;background:#f3ece0;outline:1px solid var(--line);box-shadow:0 18px 40px -18px rgba(35,38,28,.35)}
+.chrome-bar{display:flex;align-items:center;gap:7px;padding:10px 14px;background:#e9e1d2;font:500 11px/1 "Azeret Mono",monospace;letter-spacing:.06em;color:#6b6656}
+.chrome-bar i{width:10px;height:10px;border-radius:50%;background:#d6cdbb}.chrome-bar i:first-child{background:#e2614a}
+.chrome-bar span{margin-left:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.demo iframe{display:block;width:100%;height:min(76svh,760px);min-height:520px;border:0;background:#f3ece0}
+.demo-cta{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:center}
+.demo-ov{position:fixed;inset:0;z-index:2000;background:#1d2116;display:none;flex-direction:column;padding:12px;gap:10px}
+.demo-ov.open{display:flex}
+.demo-ov .bar{display:flex;justify-content:space-between;align-items:center;color:#f5f5ef;font:500 12px "Azeret Mono",monospace;letter-spacing:.08em;text-transform:uppercase}
+.demo-ov iframe{flex:1;width:100%;border:0;border-radius:12px;background:#f3ece0}
+@media (min-width:1001px){
+  .exhibit.wide:has(.demo) .mat{grid-column:1/-1}
+  .exhibit.wide:has(.demo) .wall{grid-column:1/-1;display:grid;grid-template-columns:5fr 7fr;gap:clamp(20px,4vw,64px);margin-top:28px}
+  .demo iframe{height:min(calc(var(--fit) - 90px),760px)}
+}
+@media (max-width:720px){.demo iframe{height:640px;min-height:0}.chrome-bar span{font-size:9.5px}}
 </style>
 </head>
 <body>
@@ -650,6 +670,7 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
 <p id="optout-line"><button type="button" id="optout">Turn off analytics in this browser</button></p>
 </details></footer>
 
+<div class="demo-ov" id="demo-ov" role="dialog" aria-modal="true" aria-label="Dashboard demo, full screen"><div class="bar"><span>Interactive demo · fictional data</span><button class="circle-btn" type="button" id="demo-close" aria-label="Close full screen demo"><span>✕</span></button></div><iframe title="Dashboard demo, full screen"></iframe></div>
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Enlarged image"><button class="circle-btn" type="button" id="lb-close" aria-label="Close image"><span>✕</span></button><img id="lb-img" alt=""></div>
 <script>
 /* ===== EDIT YOUR WORK HERE =====
@@ -657,6 +678,11 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
          "tabs" (one CSS phone with tappable account tabs).   shape: "tall" or "wide".
    ran: [label, value] for the "Ran in / Sent to / Published on" line. */
 const WORK = [
+  { cats:["data"], kind:"demo", shape:"wide", src:"work/dashboard-demo.html",
+    client:"Built for a resort’s marketing team", title:"Custom marketing dashboard with an AI Advisor", ran:["Used by","The whole marketing team, every day"], role:"Design, build, data pipelines & security", result:"<b>8+</b> logins → <b>1</b> hub · refreshed daily",
+    summary:"A private, invite-only marketing hub for a resort’s whole marketing team. It brings hotel bookings, restaurant covers, event sales, e-blasts, website, paid, social and the competition into one place, refreshes itself every morning, and has an AI Advisor that says what to do next. I designed it, built it and run it. Play with the demo: it uses a made-up resort and made-up numbers.",
+    did:["Replaced 8+ logins, spreadsheets and stale weekly reports with one page per area","Designed every page for desktop and phone, with light and dark mode","Built daily data pulls from each system, with a freshness strip that flags anything out of date","Built the AI Advisor: what needs action, what to watch, what’s going well, and the top 5 moves","Set up invite-only sign-in with emailed one-time codes and per-person page access","Hosted on Cloudflare with a private database, deployed from GitHub"],
+    links:[] },
   { cats:["email"], kind:"emails", shape:"tall",
     slides:[["work/holidays-eblast.html","La Jolla Shores Hotel","“Holidays by the sea”","Sent to <b>86,000</b> recipients"],
             ["work/ljbtc-reimagined-eblast.html","La Jolla Beach & Tennis Club","“A $60M Reimagination on La Jolla’s Private Beach”","Sent to <b>132,000</b> recipients"],
@@ -704,7 +730,7 @@ const WORK = [
     summary:"A university website coded from scratch, with information for students, faculty and visitors plus a merchandise shop.",
     did:["Hand-coded the site in HTML and CSS","Planned page structure and navigation","Built a shop section for campus merchandise"], links:[] },
 ];
-const LABELS = {all:"All work", print:"Print", email:"Email", social:"Social", web:"Web", brand:"Brand"};
+const LABELS = {all:"All work", data:"Data & AI", print:"Print", email:"Email", social:"Social", web:"Web", brand:"Brand"};
 const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -742,6 +768,9 @@ $("#exhibits").innerHTML = WORK.map((w,i) => {
       <div class="ecar-nav"><button class="circle-btn ecar-prev" type="button" aria-label="Previous email"><span><svg style="transform:rotate(180deg)"><use href="#arr"/></svg></span></button><span class="ecar-dots">${w.slides.map((_,k)=>`<i class="${k?"":"on"}"></i>`).join("")}</span><button class="circle-btn ecar-next" type="button" aria-label="Next email"><span><svg><use href="#arr"/></svg></span></button></div></div>`;
   } else if(w.kind==="email"){
     mat = phone(`<iframe src="${w.src}" title="${esc(w.title)}, full email" loading="lazy" tabindex="0"></iframe>`, "email") + `<p class="label scroll-hint">Scroll inside the phone to read it all</p>`;
+  } else if(w.kind==="demo"){
+    mat = `<div class="demo"><div class="chrome"><div class="chrome-bar"><i></i><i></i><i></i><span>Seacliff Hub · interactive demo · fictional data</span></div><iframe src="${w.src}" title="Interactive demo: ${esc(w.title)}" loading="lazy"></iframe></div>
+      <div class="demo-cta"><button class="tm demo-expand" type="button" data-src="${w.src}">${tmIco("ext")}Expand to full screen</button><a class="tm" href="${w.src}" target="_blank" rel="noopener">${tmIco("ext")}Open in a new tab</a><span class="label">Click around inside · try the Advisor tab</span></div></div>`;
   } else if(w.kind==="fan"){
     mat = `<div class="fan">${w.screens.map(([src,alt]) => phone(`<img src="${src}" alt="Instagram profile ${esc(alt)}" loading="lazy">`)).join("")}</div><p class="label" style="text-align:center">${w.screens.map(x=>esc(x[1])).join(" · ")}<br><span style="letter-spacing:.08em;text-transform:none">Scroll inside each phone</span></p>` + (w.growth ? `<div class="growth">${w.growth.map(([cls,txt,pct,lab,who]) => { const r = cls ? 52 : 44, c = (2*Math.PI*r).toFixed(1); return `<figure class="ring-chart ${cls}" data-pct="${pct}" style="--c:${c};--off:${c}"><div class="inner"><svg viewBox="0 0 ${2*r+12} ${2*r+12}" aria-hidden="true"><circle class="track" cx="${r+6}" cy="${r+6}" r="${r}"/><circle class="bar" cx="${r+6}" cy="${r+6}" r="${r}"/></svg><span class="v" data-to="${pct}">${txt}</span></div><p><b>${esc(who)}</b>${esc(lab)}</p></figure>`; }).join("")}</div>` : "");
   }
@@ -760,7 +789,7 @@ function layoutExhibits(){ let n = 0; $$(".exhibit.tall").forEach(x => { if(x.cl
 layoutExhibits();
 
 /* category navigator: big cards, one category shown at a time */
-const ORDER = ["email","social","print","web","brand"];
+const ORDER = ["data","email","social","print","web","brand"];
 const CATS = ORDER.filter(k => WORK.some(w => w.cats.includes(k)));
 $("#chips").innerHTML = CATS.map((k,i) => { const items = WORK.filter(w => w.cats.includes(k));
   return `<button class="chip wcard" type="button" data-f="${k}" aria-pressed="false" aria-controls="exhibits"><span class="wc-k">${String(i+1).padStart(2,"0")}</span><span class="wc-t">${LABELS[k]}</span><span class="wc-n">${items.length} ${items.length>1?"pieces":"piece"}</span><ul>${items.map(w=>`<li>${esc(w.title)}</li>`).join("")}</ul><span class="wc-go" aria-hidden="true"><svg><use href="#arr"/></svg></span></button>`; }).join("");
@@ -891,6 +920,12 @@ $$(".ecar").forEach(c => { const t = c.querySelector(".ecar-track"), dots = [...
 })();
 
 /* ---- tap any work image to see it full screen ---- */
+
+/* dashboard demo: full screen */
+const dov = $("#demo-ov");
+document.addEventListener("click", e => { const b = e.target.closest(".demo-expand"); if(!b) return; const f = dov.querySelector("iframe"); if(!f.src.endsWith(b.dataset.src)) f.src = b.dataset.src; dov.classList.add("open"); document.body.style.overflow = "hidden"; $("#demo-close").focus(); });
+const closeDemo = () => { dov.classList.remove("open"); document.body.style.overflow = ""; };
+$("#demo-close").onclick = closeDemo; addEventListener("keydown", e => { if(e.key === "Escape" && dov.classList.contains("open")) closeDemo(); });
 const lb = $("#lb"), lbImg = $("#lb-img");
 document.addEventListener("click", e => { const im = e.target.closest(".mat img.piece, .ph img"); if(im){ lbImg.src = im.dataset.full || im.src; lbImg.alt = im.alt; lb.classList.add("open"); document.body.style.overflow="hidden"; $("#lb-close").focus(); }});
 const closeLb = () => { lb.classList.remove("open"); document.body.style.overflow=""; };
@@ -982,6 +1017,8 @@ $$(".copy").forEach(b => b.addEventListener("click", async () => { const s = b.q
     else if (a.matches(".copy")) ev("copy_email");
     else if (a.matches("#chips .chip")) ev("work_" + a.dataset.f);
     else if (a.id === "wnext" && a.dataset.f) ev("work_" + a.dataset.f);
+    else if (a.matches(".demo-expand")) ev("dashboard_demo_expand");
+    else if (a.closest(".demo-cta") && href) ev("dashboard_demo_new_tab");
     else if (a.id === "show-reels" && a.getAttribute("aria-expanded") === "false") ev("reels_open");
     else if (href.startsWith("#") && a.closest("#links")) ev("nav_" + href.slice(1));
   }, true);
@@ -992,6 +1029,9 @@ $$(".copy").forEach(b => b.addEventListener("click", async () => { const s = b.q
     const v = id => (document.getElementById(id) || {}).value || "";
     if (v("f-first").trim() && /^\S+@\S+\.\S+$/.test(v("f-email").trim()) && v("f-msg").trim()) ev("contact_form_submit");
   });
+
+  // someone clicked inside the dashboard demo (focus moves into its iframe)
+  addEventListener("blur", () => setTimeout(() => { const f = document.activeElement; if (f && f.tagName === "IFRAME" && f.src.includes("dashboard-demo")) evOnce("dashboard_demo_play", { where: f.closest("#demo-ov") ? "full_screen" : "inline" }); }, 0));
 
   // scroll depth 25 / 50 / 75 / 100
   const marks = [25, 50, 75, 100];
