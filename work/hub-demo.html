@@ -341,6 +341,213 @@ body{background:radial-gradient(1200px 600px at 85% -10%,rgba(63,127,168,.10),tr
 .score td:first-child{white-space:nowrap}
 .more{visibility:hidden}.more.on{visibility:visible}
 .drawer{visibility:hidden}.drawer.on{visibility:visible}
+
+/* ===== stage 2–4 components ===== */
+.eyebrow{font:600 10.5px var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:0 0 8px;display:flex;align-items:center;gap:6px}
+.eyebrow svg{width:14px;height:14px}
+.mini{background:var(--card2);border:1px solid var(--line2);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;align-items:flex-start}
+.mini small{font-size:12px;color:var(--muted)}.mini b{font:400 26px var(--serif);letter-spacing:-.01em}
+.big{font:400 34px var(--serif);letter-spacing:-.02em}
+.code{font:500 12px var(--mono);background:var(--line2);border-radius:6px;padding:2px 6px}
+.weeks13{display:grid;grid-template-columns:repeat(13,minmax(0,1fr));gap:4px}
+.weeks13 .wk{min-height:84px}
+.advbox{background:var(--info-bg);border-radius:14px;padding:14px 16px}
+.advbox ul{margin:0;padding-left:18px;font-size:14px}.advbox li{margin:3px 0}
+.donut{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.donut svg{width:150px;height:150px;flex:none}
+.donut ul{list-style:none;padding:0;margin:0;font-size:13px;flex:1;min-width:150px}
+.donut li{display:flex;align-items:center;gap:8px;padding:4px 0}.donut li b{margin-left:auto}
+.donut li i{width:10px;height:10px;border-radius:3px;flex:none}
+.hbr{display:grid;grid-template-columns:minmax(90px,38%) 1fr auto;gap:10px;align-items:center;margin:8px 0;font-size:13px}
+.hbr .l{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hbr .tr{height:10px;background:var(--line2);border-radius:99px;position:relative}
+.hbr .tr i{position:absolute;left:0;top:0;bottom:0;border-radius:99px;transform-origin:left;animation:gx .5s ease-out both}
+.hbr .tr u{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink)}
+.hbr b{font-variant-numeric:tabular-nums;font-size:12.5px}
+.lc{width:100%;height:auto;display:block;overflow:visible}
+.stack{display:flex;gap:8px;align-items:flex-end;height:130px}
+.sc{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;height:100%}
+.sb{flex:1;width:60%;display:flex;flex-direction:column;justify-content:flex-end;gap:2px}
+.sb i{display:block;width:100%;border-radius:4px;animation:gy .5s ease-out both;transform-origin:bottom}
+.sc small{font:500 10.5px var(--mono);color:var(--muted)}
+.tb{width:100%;border-collapse:collapse;font-size:13.5px}
+.tb th{font:600 10.5px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:left;padding:8px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tb td{padding:10px 8px;border-bottom:1px solid var(--line2);vertical-align:middle}
+.tb .r{text-align:right}
+.tb tr.click{cursor:pointer}.tb tr.click:hover{background:var(--line2)}
+.sortb{all:unset;cursor:pointer;font:inherit;letter-spacing:inherit;text-transform:inherit}
+.sortb:focus-visible{outline:2px solid var(--sea);outline-offset:3px;border-radius:4px}
+.tmap{width:100%;height:auto;max-width:620px;display:block}
+.tile[tabindex]{cursor:pointer}.tile rect{transition:stroke .15s}
+.tile[tabindex]:hover rect,.tile.sel rect{stroke:var(--coral);stroke-width:2.5}
+.tile:focus{outline:none}.tile:focus-visible rect{stroke:var(--sea);stroke-width:3}
+.funnel{display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:10px}
+.fs{width:var(--w);background:linear-gradient(90deg,var(--sea),#2c5d84);color:#fff;border-radius:10px;padding:10px 14px;display:flex;justify-content:space-between;gap:8px;font-size:13.5px}
+.fs span{font-variant-numeric:tabular-nums;opacity:.9}
+.detail{padding:16px;border-radius:14px;background:var(--card2);border:1px solid var(--line2)}
+.detail p{margin:0 0 6px}
+.heat{display:grid;grid-template-columns:44px repeat(4,minmax(0,1fr));gap:4px;font-size:12px}
+.heat .hh{font:600 10.5px var(--mono);color:var(--muted);display:flex;align-items:center;justify-content:center}
+.heat .hc{border-radius:8px;padding:10px 0;text-align:center;font-weight:600;font-variant-numeric:tabular-nums}
+.fsel{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:6px 8px;margin-left:4px}
+.ethumb{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;margin:14px 0;max-width:300px;box-shadow:var(--shadow);color:#14202e}
+.ethumb .eh{background:var(--pc);color:#fff;font:600 11px var(--mono);letter-spacing:.14em;text-align:center;padding:10px}
+.ethumb .ei{height:110px;background:linear-gradient(160deg,var(--pc),#f3ece0)}
+.ethumb .et{font:600 17px var(--serif);padding:12px 14px 6px;text-align:center}
+.ethumb .el{height:7px;border-radius:4px;background:#e4dccd;margin:6px 18px}.ethumb .el.s{margin-right:60px}
+.ethumb .eb{margin:12px auto;width:120px;text-align:center;background:var(--pc);color:#fff;font:600 11px var(--mono);letter-spacing:.1em;padding:8px;border-radius:6px}
+.mini4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.mini4 div{background:var(--card2);border:1px solid var(--line2);border-radius:12px;padding:10px}
+.mini4 small{display:block;font-size:11.5px;color:var(--muted)}.mini4 b{font:400 19px var(--serif)}
+.smallm{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 28px}
+.ads{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.ad{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--card);position:relative;display:flex;flex-direction:column}
+.cre{aspect-ratio:4/5;max-height:230px;width:100%;padding:16px;display:flex;flex-direction:column;justify-content:flex-end;color:#fff;gap:4px;position:relative;text-shadow:0 1px 8px rgba(0,0,0,.25)}
+.cre b{font:600 21px/1.15 var(--serif)}.cre small{font-size:13px;opacity:.95}
+.cre .fmt{position:absolute;top:12px;left:12px;font:600 10px var(--mono);letter-spacing:.08em;text-transform:uppercase;background:rgba(0,0,0,.28);border-radius:99px;padding:3px 8px}
+.cre .cta{align-self:flex-start;margin-top:6px;background:#fff;color:#14202e;text-shadow:none;font-size:12px;font-weight:700;border-radius:8px;padding:5px 10px}
+.cad .cre{max-height:150px;aspect-ratio:auto;min-height:130px}
+.adb{padding:12px 14px 14px}
+.am{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px}
+.am small{display:block;font-size:11px;color:var(--muted)}.am b{font-variant-numeric:tabular-nums}
+.qrail{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(260px,1fr);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px}
+.q{scroll-snap-align:start;border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.q p{margin:0;font-size:14px}
+.q .nb{font:600 13px var(--serif);width:26px;height:26px;border-radius:50%;border:1.5px solid var(--ink);display:grid;place-items:center}
+.vx{font:600 14px var(--mono);min-width:48px;text-align:center;border-radius:10px;padding:6px 4px;background:var(--line2);color:var(--muted)}
+.vx.o{background:var(--green-bg);color:var(--green)}
+.err{border:1px solid var(--coral);background:var(--coral-bg);border-radius:14px;padding:14px}
+.err b{color:var(--coral)}.err p{margin:6px 0 10px}
+.callout{background:var(--card);border-radius:18px;padding:16px 20px;border-left:4px solid var(--coral);box-shadow:var(--shadow)}
+.callout p{margin:8px 0 0;font-size:16px}
+.card.us{outline:2px solid var(--sea);outline-offset:-2px}
+.grid-perk th,.grid-perk td{text-align:center}.grid-perk th:first-child,.grid-perk td:first-child{text-align:left}
+.yes{color:var(--green);font-weight:700}.no{color:var(--muted)}
+.mcal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.mcal .dh{font:600 10.5px var(--mono);color:var(--muted);text-align:center;padding:4px 0}
+.mc{min-height:86px;border:1px solid var(--line2);border-radius:10px;padding:5px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.mc b{font:500 12px var(--mono);color:var(--muted)}
+.mc.empty0{border:0}
+.cb{border:0;border-left:3px solid var(--pc);background:var(--card2);border-radius:5px;padding:3px 5px;font-size:10.5px;font-weight:600;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:22px}
+.cb:hover{background:var(--line2)}
+.list.cols2{display:grid;grid-template-columns:1fr 1fr;column-gap:24px}
+.list.cols2 li:nth-child(2){border-top:0;padding-top:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:9px 14px;font-size:13.5px;font-weight:500;text-align:left;min-height:40px}
+.chips button:hover{border-color:var(--sea)}
+.chat{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.msg2{max-width:min(620px,92%);padding:12px 14px;border-radius:16px;font-size:14px}
+.msg2.me{align-self:flex-end;background:var(--navy);color:#fff;border-bottom-right-radius:4px}
+[data-theme=dark] .msg2.me{background:var(--sea2);color:#06121f}
+.msg2.ai{background:var(--card2);border:1px solid var(--line2);border-bottom-left-radius:4px}
+.askin{display:flex;gap:8px;margin-top:14px}
+.askin input{flex:1;min-width:0;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:12px 14px}
+.memo{max-width:860px;padding:34px 38px;border-top:6px solid var(--navy)}
+.memo h2{font-size:30px;font-weight:400;margin:6px 0 4px}
+.memo h4{font:600 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:22px 0 6px}
+.memo ol{margin:0;padding-left:20px}.memo li{margin:4px 0}
+.memo-k{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:18px 0 4px}
+.memo-k div{border-top:2px solid var(--line);padding-top:8px;display:flex;flex-direction:column;gap:4px;align-items:flex-start}
+.memo-k small{font-size:11.5px;color:var(--muted)}.memo-k b{font:400 22px var(--serif)}
+.memo-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.steps2{margin:0;padding-left:20px}.steps2 li{margin:6px 0}
+.field{display:flex;flex-direction:column;gap:8px;max-width:440px}
+.field label{font-weight:600;font-size:14px}
+.field input,.field textarea,#invtxt{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:12px 14px;font:inherit;width:100%}
+.hint{margin:0;font-size:13px;font-weight:600}.hint.bad{color:var(--coral)}.hint.watch{color:var(--amber)}.hint.good{color:var(--green)}
+.opts{display:grid;gap:8px;max-width:560px}
+.opt{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:14px;padding:12px 14px;text-align:left;background:none;min-height:56px}
+.opt[aria-checked=true]{border-color:var(--sea);background:var(--card2);box-shadow:inset 0 0 0 1px var(--sea)}
+.opt b{display:block}.opt span span{font-size:13px;color:var(--muted)}
+.radio{width:18px;height:18px;border-radius:50%;border:2px solid var(--line);flex:none;margin-top:2px}
+.opt[aria-checked=true] .radio{border:5px solid var(--sea)}
+.toggles{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:6px}
+.tgl{display:flex;align-items:center;gap:10px;border:1px solid var(--line2);background:none;border-radius:12px;padding:8px 10px;text-align:left;font-size:13.5px;min-height:44px}
+.sw{width:34px;height:20px;border-radius:99px;background:var(--line);position:relative;flex:none;transition:background .15s}
+.sw::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .15s}
+.tgl[aria-checked=true] .sw{background:var(--green)}.tgl[aria-checked=true] .sw::after{transform:translateX(14px)}
+.stepper{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+.stepper span{font:600 11px var(--mono);letter-spacing:.05em;text-transform:uppercase;padding:7px 11px;border-radius:99px;background:var(--line2);color:var(--muted)}
+.stepper span.on{background:var(--navy);color:#fff}.stepper span.dn{background:var(--green-bg);color:var(--green)}
+[data-theme=dark] .stepper span.on{background:var(--sea2);color:#06121f}
+.confirm{display:inline-flex;gap:6px;align-items:center;font-size:13px;white-space:nowrap}
+.welcome{text-align:center;max-width:460px;padding:34px 28px}
+.welcome .field{margin:16px auto 0}
+.mk2{width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#3f7fa8,#1e4d72);display:inline-grid;place-items:center;color:#fff;margin-bottom:12px}
+.mk2 svg{width:26px;height:26px}
+.welcome h2{font-size:26px;font-weight:400}
+@media (max-width:1100px){.smallm{grid-template-columns:1fr 1fr}.memo-k{grid-template-columns:1fr 1fr}}
+@media (max-width:860px){.weeks13{grid-template-columns:repeat(5,minmax(0,1fr))}.smallm,.memo-cols,.list.cols2{grid-template-columns:1fr}.list.cols2 li:nth-child(2){border-top:1px solid var(--line2);padding-top:10px}.mini4{grid-template-columns:1fr 1fr}.memo{padding:22px 18px}.mc{min-height:62px}.cb{font-size:0;padding:0;min-height:6px;border-left-width:0;background:var(--pc)}.heat{grid-template-columns:36px repeat(4,minmax(0,1fr))}.heat .hc{padding:8px 0;font-size:11px}.fs{font-size:12.5px}}
+@media print{.side,.tabs,.banner,.hdr,.pf,.fresh,#range,.pace,.row2 .btn{display:none!important}.memo{box-shadow:none}}
+
+
+[data-preset=gm] [data-card=todos],[data-preset=gm] [data-card=week],[data-preset=sales] [data-card=todos],[data-preset=sales] [data-card=holiday]{display:none}
+[data-preset=gm] [data-card=focus],[data-preset=sales] [data-card=week]{order:-1}
+/* ===== match the real hub's shell ===== */
+:root{--navy:#1c2c55;--sand:#f4efe6}
+[data-theme=dark]{--navy:#0a1630}
+.side{background:#1c2c55;width:236px;flex-basis:236px;border-radius:22px;padding:22px 14px 16px}
+[data-theme=dark] .side{background:#0e1d3d}
+.wordmark{font:400 21px/1.08 var(--serif);letter-spacing:.09em;color:#fff;text-decoration:none;padding:0 8px;display:block}
+.btn{text-decoration:none}
+.side-sel{margin:14px 6px 10px;border:1px solid rgba(255,255,255,.35);background:#fff;color:#1c2c55;border-radius:9px;padding:8px 10px;font-weight:600;font-size:13.5px}
+.nav .grp{display:none}
+.nav a{font-size:14px;padding:7px 12px;min-height:36px;color:#d6e0ee;border-radius:10px 0 0 10px;margin-right:-14px}
+.nav a[aria-current=page]{background:var(--sand);color:#1c2c55;font-weight:600}
+[data-theme=dark] .nav a[aria-current=page]{background:var(--sand);color:var(--ink)}
+.foot2{margin-top:auto;padding:16px 6px 0;font-size:12px;color:#9fb0cc;display:flex;flex-direction:column;gap:8px}
+.refresh{border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;border-radius:10px;padding:9px;font-weight:600;font-size:13px;display:flex;gap:6px;justify-content:center;align-items:center;min-height:40px}
+.refresh.busy .spin{animation:rot .8s linear infinite;display:inline-block}
+@keyframes rot{to{transform:rotate(360deg)}}
+.hdr h1{font-weight:600;font-size:34px;color:var(--navy)}
+[data-theme=dark] .hdr h1{color:var(--ink)}
+.pulled{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:7px 14px;font-size:13px;color:var(--muted);white-space:nowrap}
+.pulled b{color:var(--ink)}.pulled:empty{display:none}
+.jump{position:sticky;top:31px;z-index:30;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:8px 0;margin:0 0 6px;background:linear-gradient(var(--sand) 80%,transparent)}
+.jump:empty{display:none}
+.jump button{flex:none;border:1px solid var(--line);background:var(--card);border-radius:99px;padding:7px 14px;font-size:13px;font-weight:500;white-space:nowrap;min-height:36px}
+.jump button:hover{border-color:var(--navy)}
+.chatnow{position:fixed;right:22px;bottom:22px;z-index:60;background:#3c5b9a;color:#fff;border-radius:99px;padding:13px 20px;font-weight:600;text-decoration:none;display:flex;gap:8px;align-items:center;box-shadow:0 10px 26px rgba(28,44,85,.35)}
+.totop{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);z-index:60;border:1px solid var(--line);background:var(--card);border-radius:99px;padding:8px 14px;font-size:12.5px;font-weight:600;opacity:0;pointer-events:none;transition:.2s}
+.totop.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.kpi{border-top-width:5px;border-radius:18px}
+.card{border-radius:18px}
+.hello h2 .nm{color:var(--coral)}
+.headline{background:var(--card);box-shadow:var(--shadow);border-left:5px solid var(--navy);border-radius:0 18px 18px 0;padding:16px 22px;font-size:24px}
+.headline .w{color:#a8670f}
+.sec-l{font:600 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:10px 0 0}
+.cnt{display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.cnt span{border-radius:12px;padding:8px 14px;font-size:13px;display:flex;gap:8px;align-items:baseline}
+.cnt b{font:600 24px var(--serif)}
+.cnt .g{background:var(--green-bg);color:var(--green)}.cnt .w2{background:var(--amber-bg);color:var(--amber)}.cnt .b2{background:var(--coral-bg);color:var(--coral)}
+.subtabs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.subtab{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:12px 16px;text-align:left;min-height:56px}
+.subtab b{display:block;font:600 16px var(--serif)}.subtab span{font-size:12.5px;color:var(--muted)}
+.subtab[aria-pressed=true]{border:2px solid var(--navy);background:var(--info-bg)}
+.advc{border-top:4px solid var(--c);display:flex;flex-direction:column;gap:6px}
+.advc .top{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted)}
+.advc .when{background:color-mix(in srgb,var(--c) 15%,transparent);color:var(--ink);border-radius:8px;padding:2px 8px;font-weight:600}
+.advc h4{font:700 15px var(--sans);letter-spacing:0}
+.advc p{margin:0;font-size:13.5px;color:var(--muted)}
+.advc details summary{color:var(--sea);font-weight:600;font-size:13px;cursor:pointer;list-style:none}
+.advc details summary::-webkit-details-marker{display:none}
+.advc details p{margin-top:6px;color:var(--ink)}
+.says{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.say{border:1px solid var(--line);border-left:4px solid var(--c);border-radius:12px;padding:10px 14px;background:var(--card)}
+.say b{display:block;font-size:14px}.say span{font-size:12.5px;color:var(--muted)}
+.qnav{display:flex;gap:8px;align-items:center}
+.qrail .q{border-top:4px solid var(--coral)}
+.qrail .q .qt{font-size:12.5px;color:var(--coral);font-weight:600}
+.agtl{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.agtl div{border:1px solid var(--line);border-top:4px solid var(--navy);border-radius:12px;padding:12px;font-size:13px}
+.agtl b{display:block;font:600 17px var(--serif);margin-bottom:4px}
+.chan{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chan div{border:1px solid var(--line);border-left:4px solid var(--green);border-radius:12px;padding:10px 14px;font-size:13px}
+.chan b{display:block;font-size:14px}
+.integ{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+.integ div{border:1px solid var(--line2);background:var(--card2);border-radius:12px;padding:10px 12px;font-size:13px}
+.integ b{display:block;font-size:13.5px}
+@media (max-width:860px){.chatnow{bottom:calc(96px + env(safe-area-inset-bottom));right:14px;padding:11px 15px;font-size:13px}.jump{top:44px}.subtabs,.says,.chan,.integ{grid-template-columns:1fr}.agtl{grid-template-columns:1fr 1fr}.pulled{display:none}}
 @media (max-width:1380px){.pace{display:none}}
 @media (max-width:1100px){.c3{grid-column:span 6}.c4,.c5,.c6,.c7,.c8{grid-column:span 12}.cols3{grid-template-columns:1fr}.skel{grid-template-columns:1fr}.sk.w{grid-column:auto}}
 @media (max-width:860px){
@@ -396,13 +603,15 @@ body{background:radial-gradient(1200px 600px at 85% -10%,rgba(63,127,168,.10),tr
 
 <div class="app">
   <aside class="side" aria-label="Main navigation">
-    <div class="brand"><span class="mk"><svg width="20" height="20"><use href="#i-wave"/></svg></span><span><b>Seacliff Hub</b><small>Marketing · invite only</small></span></div>
+    <a class="wordmark" href="#today">SEACLIFF<br>MARKETING HUB</a>
+    <select class="side-sel" id="sidesel" aria-label="Property"></select>
     <nav class="nav" id="sidenav"></nav>
-    <div class="foot"><span class="av S">S</span><span>Sarah · Marketing Director<br>Refreshed today 6:00 am</span></div>
+    <div class="foot2"><span id="upd">Updated Nov 18 at 6:00am</span><button type="button" class="refresh" id="refresh"><span class="spin" aria-hidden="true">↻</span> Refresh</button></div>
   </aside>
   <main>
     <div class="hdr">
       <h1 id="title">Today</h1>
+      <span class="pulled" id="pulled"></span>
       <div class="tools">
         <button class="search-btn" type="button" data-open="search" aria-label="Search (Command K)"><svg><use href="#i-search"/></svg><span class="lbl">Search</span><span class="kbd">⌘K</span></button>
         <select class="pf-sel" id="pfsel" aria-label="Property"></select>
@@ -413,6 +622,7 @@ body{background:radial-gradient(1200px 600px at 85% -10%,rgba(63,127,168,.10),tr
       <div class="pf" id="pf" role="group" aria-label="Property filter"></div>
       <div class="seg" id="range" role="group" aria-label="Date range"></div>
     </div>
+    <nav class="jump" id="jump" aria-label="Jump to a section on this page"></nav>
     <div class="fresh" id="fresh" aria-label="Data freshness"></div>
     <div class="wrapm">
       <div class="content"><div id="view" class="view"></div></div>
@@ -441,6 +651,21 @@ body{background:radial-gradient(1200px 600px at 85% -10%,rgba(63,127,168,.10),tr
   <h4>My role</h4><p>Product design, UX, front end, data pipelines, automation, security and deployment.</p>
   <h4>How it works, in plain words</h4>
   <ul><li>Hosted on Cloudflare</li><li>A private database for team notes and to-dos</li><li>Sign-in with emailed one-time codes, no passwords</li><li>Data refreshes automatically every day</li><li>Code changes are reviewed and deployed from GitHub, with preview versions before going live</li></ul>
+  <h4>Integrations that keep it fresh</h4>
+  <p>Every morning (and every few hours for the fast-moving ones) the hub pulls read-only reports from each system through its API or a scheduled export:</p>
+  <div class="integ">
+    <div><b>OPERA</b>Hotel system: rooms, revenue and pace on the books</div>
+    <div><b>OpenTable</b>Restaurant covers and holiday reservations</div>
+    <div><b>Tripleseat + iVvy</b>Event sales pipeline, booked and hosted revenue</div>
+    <div><b>Ascent360</b>E-blast sends, opens, clicks and attributed bookings</div>
+    <div><b>Google Analytics 4</b>Website visits, booking-engine conversions, audiences</div>
+    <div><b>Meta + Google Ads</b>Ad spend, clicks, bookings and return</div>
+    <div><b>Meta Ad Library + Google Ads Transparency</b>The comp set’s live ads</div>
+    <div><b>Instagram</b>Followers, posts and Reels for us and the comp set</div>
+    <div><b>Outlook</b>Team calendar, deadlines and sends</div>
+    <div><b>Claude (Anthropic API)</b>The AI Advisor, agent briefings and Ask</div>
+  </div>
+  <p class="sm muted" style="margin-top:8px">Runs on Cloudflare (Workers, a private database and Access sign-in), deployed from GitHub.</p>
   <h4>Privacy</h4><p>Totals only. No guest names, emails or card data are ever stored.</p>
   <h4>Design decisions</h4>
   <div class="dd">
@@ -451,6 +676,7 @@ body{background:radial-gradient(1200px 600px at 85% -10%,rgba(63,127,168,.10),tr
   </div>
   <p class="sm muted" style="margin-top:16px">This demo uses a made-up resort group, Seacliff Collection, with made-up numbers. The real hub is private.</p>
 </div></div>
+<a class="chatnow" href="#ask"><svg width="18" height="18" aria-hidden="true"><use href="#i-ask"/></svg> Chat now</a><button class="totop" type="button" id="totop" aria-label="Back to top">↑ Top</button>
 <div id="tip" role="tooltip"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -482,8 +708,8 @@ const D = {
   },
   seas: [.74,.8,.93,.98,1.05,1.24,1.46,1.41,1.12,1,.86,.94],
   sources: {
-    hotel:["Hotel system","2h ago"], res:["Reservations","2h ago"], events:["Events","3h ago"], email:["Email platform","1h ago"],
-    web:["Website analytics","2h ago"], ads:["Ad reports","4h ago"], social:["Social scan","3 days",true], comp:["Comp set scan","6h ago"]
+    hotel:["OPERA (hotel system)","2h ago"], res:["OpenTable","2h ago"], events:["Tripleseat + iVvy","3h ago"], email:["Ascent360","1h ago"],
+    web:["Google Analytics 4","2h ago"], ads:["Meta + Google Ads","4h ago"], social:["Instagram scan","3 days",true], comp:["Comp set scan","6h ago"]
   },
   pageSources: {today:["hotel","res","events","email","web","social"], advisor:["hotel","res","events","email","web","ads","social","comp"]},
   /* rooms on the books for the next 30/60/90 days, % of rooms sold, this year vs last year */
@@ -628,8 +854,9 @@ V.today = () => {
   const days = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
   const todos = D.todos;
   return `<div class="grid">
-  <div class="c12 hello"><div><h2 style="font-size:26px">${greet}, ${D.user}</h2><p class="muted sm" style="margin:4px 0 0">Wednesday, November 18 · ${S.prop === "all" ? "Seacliff Collection, all properties" : D.props[S.prop].n}</p></div>
-    <div class="wx"><span>${ico("today")} 67° · Clear</span><span>${ico("sunset")} Sunset 4:44 pm</span><span>${ico("wave")} Low tide 1:52 pm</span></div></div>
+  <div class="c12 hello"><div><h2 style="font-size:30px">${greet}, <span class="nm">${D.user}</span></h2><p class="muted sm" style="margin:4px 0 0">Wednesday, November 18 · ${S.prop === "all" ? "Seacliff Collection, all properties" : D.props[S.prop].n}</p></div>
+    <div class="row2" style="gap:8px"><a class="btn ghost sm" href="#summary">Weekly summary</a><label class="sm muted">View for <select class="fsel" data-f="preset" aria-label="Customize Today for a role">${[["mkt","Marketing"],["gm","General manager"],["sales","Sales"]].map(([k,l]) => `<option value="${k}" ${S.preset===k?"selected":""}>${l}</option>`).join("")}</select></label></div>
+    <div class="wx" style="width:100%;justify-content:flex-start"><span>${ico("today")} 67° · Clear</span><span>${ico("sunset")} Sunset 4:44 pm</span><span>${ico("wave")} Low tide 1:52 pm</span></div></div>
   <div class="c12">${head}</div>
   ${S.newOpen ? `<div class="c12 new" role="region" aria-label="What's new since your last visit"><div><b>What’s new since your last visit</b> <span class="muted sm">· Monday 5:40 pm</span><ul>${D.whatsNew.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div><button class="icon-btn x" type="button" data-dismiss-new aria-label="Dismiss what's new"><svg><use href="#i-x"/></svg></button></div>` : ""}
   ${tiles.map(([k, c, line]) => { const m = M(k), md = D.metrics[k];
@@ -649,6 +876,8 @@ V.today = () => {
   ${card("todos","c6","Due this week", `<ul class="list" id="todolist">${todos.map((x,i) => `<li class="${x.done?"done":""}"><button type="button" class="chk" aria-pressed="${x.done}" data-todo="${i}" aria-label="Mark done: ${esc(x.t)}"></button><div class="t"><b style="font-weight:500">${esc(x.t)}</b><span>Due ${x.due}</span></div>${av(x.o)}</li>`).join("")}</ul>
     <form class="addtodo" id="addtodo"><input placeholder="Add a to-do…" aria-label="New to-do" maxlength="90"><select aria-label="Assign to">${Object.entries(D.team).map(([k,v]) => `<option value="${k}">${v[0]}</option>`).join("")}</select><button class="btn sm" type="submit">Add</button></form>`, {sub:`${todos.filter(t=>!t.done).length} open · kept in this page only`})}
   ${card("holiday","c12","Holiday dining vs goal", holidayBars(3), {sub:"Booked covers against last year’s final count", link:["restaurants","Restaurants"]})}
+  <p class="c12 sec-l">More detail</p>
+  ${card("bigpic2","c12","The big picture", `<div class="cnt"><span class="g"><b>${D.advisor.filter(a=>a.s==="good").length}</b> going well</span><span class="w2"><b>${D.advisor.filter(a=>a.s==="watch").length}</b> to watch</span><span class="b2"><b>${D.advisor.filter(a=>a.s==="bad").length}</b> need action</span></div><ul class="list">${D.advisor.filter(a => a.s !== "good").map(a => `<li>${shape(a.s)}<div class="t"><b>${esc(a.f)}:</b> <span>${esc(a.n)}. ${esc(a.why[0])}</span></div></li>`).join("")}</ul>`, {link:["advisor","Advisor"]})}
   </div>`;
 };
 function gauge(ty, ly, lab){
@@ -691,6 +920,463 @@ V.advisor = () => {
   </div>`;
 };
 const msg = b => `<div class="msg"><span class="who" style="background:${b.c}">${b.ini}</span><div class="bub"><header><b>${b.who} agent</b><time>${b.time}</time></header>${b.text}</div></div>`;
+
+/* ============================================================
+   STAGES 2–4: every other page. Data below is fictional and
+   reads from D where totals overlap so pages agree.
+   ============================================================ */
+const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+Object.assign(D.pageSources, {
+  hotels:["hotel","web","email"], restaurants:["res","email"], sales:["events","hotel"], eblasts:["email","hotel","res"],
+  website:["web","ads"], paid:["ads","web","comp"], social:["social","comp"], comp:["comp","ads"], plan:["email","hotel","res"],
+  ask:["hotel","res","events","email","web"], summary:["hotel","res","events","email","web","ads"], security:[], settings:[]});
+Object.assign(S, {sort:{}, ebProp:"all", ebMonth:"all", adTab:"live", adSort:"clicks", cadSort:"age", planView:"month", tiktok:"error", inv:{step:0,name:"",email:"",level:"Editor",pages:["today","hotels","restaurants","eblasts","advisor"]}, confirm:null, myName:"Sarah Mitchell", qa:[]});
+
+/* ---------- shared chart helpers ---------- */
+const colS = s => ({good:"var(--green)", watch:"var(--amber)", bad:"var(--coral)", info:"var(--info)"})[s];
+function bars(rows, f, opt = {}){ // rows: [label, ty, ly, cur]
+  const mx = Math.max(...rows.flatMap(r => [r[1], r[2] || 0])) * 1.05;
+  return `<div class="chart12" style="height:${opt.h || 180}px" role="img" aria-label="${opt.aria || "Bar chart"}">${rows.map(([l, ty, ly, cur], i) => `<div class="m ${cur ? "cur" : ""}"><div class="p">${ly != null ? `<i class="ly" style="height:${ly/mx*100}%" data-tip="${l} last year: ${f(ly)}"></i>` : ""}<i style="height:${ty/mx*100}%;animation-delay:${i*25}ms;${opt.color ? `background:${typeof opt.color === "function" ? opt.color(ty, ly) : opt.color}` : ""}" data-tip="${l}${opt.tyLab ? " " + opt.tyLab : ""}: ${f(ty)}${ly ? ` (${ty >= ly ? "+" : ""}${((ty/ly - 1)*100).toFixed(1)}% vs LY)` : ""}"></i></div><small>${l}</small></div>`).join("")}</div>
+  ${opt.legend === false ? "" : `<div class="legend"><span><i style="background:var(--sea)"></i>${opt.a || "This year"}</span>${rows[0][2] != null ? `<span><i style="background:var(--line)"></i>${opt.b || "Last year"}</span>` : ""}${rows.some(r => r[3]) ? `<span><i style="background:var(--coral)"></i>Current</span>` : ""}</div>`}`;
+}
+function hbars(rows, opt = {}){ // [label, value, color, tip, right]
+  const mx = opt.max || Math.max(...rows.map(r => r[1]));
+  return rows.map(([l, v, c, tip, r]) => `<div class="hbr" ${tip ? `data-tip="${esc(tip)}"` : ""}><span class="l">${l}</span><span class="tr"><i style="width:${Math.max(2, v/mx*100)}%;background:${c || "var(--sea)"}"></i>${opt.line ? `<u style="left:${opt.line/mx*100}%"></u>` : ""}</span><b>${r != null ? r : v}</b></div>`).join("");
+}
+function line(series, labels, opt = {}){
+  const W = 600, H = opt.h || 170, P = 22, all = series.flatMap(s => s.v), mx = Math.max(...all) * 1.05, mn = opt.zero ? 0 : Math.min(...all) * .95;
+  const x = i => P + i * (W - 2*P) / (labels.length - 1), y = v => H - P - (v - mn) / (mx - mn) * (H - 2*P);
+  const paths = series.map(s => `<path d="${s.v.map((v,i) => (i ? "L" : "M") + x(i).toFixed(1) + " " + y(v).toFixed(1)).join(" ")}" fill="none" stroke="${s.c}" stroke-width="2.5" ${s.dash ? 'stroke-dasharray="5 5"' : ""} vector-effect="non-scaling-stroke"/>` + s.v.map((v,i) => `<circle cx="${x(i).toFixed(1)}" cy="${y(v).toFixed(1)}" r="9" fill="transparent" data-tip="${esc(labels[i])} · ${s.n}: ${opt.f ? opt.f(v) : Math.round(v).toLocaleString()}"/><circle cx="${x(i).toFixed(1)}" cy="${y(v).toFixed(1)}" r="2.6" fill="${s.c}" pointer-events="none"/>`).join("")).join("");
+  const ref = opt.ref != null ? `<line x1="${P}" x2="${W-P}" y1="${y(opt.ref)}" y2="${y(opt.ref)}" stroke="var(--coral)" stroke-dasharray="4 4"/><text x="${W-P}" y="${y(opt.ref) - 5}" text-anchor="end" font-size="11" fill="var(--coral)">${opt.refLab}</text>` : "";
+  const lab = labels.map((l,i) => (labels.length <= 13 || i % 2 === 0) ? `<text x="${x(i)}" y="${H - 4}" text-anchor="middle" font-size="11" fill="var(--muted)">${l}</text>` : "").join("");
+  return `<svg class="lc" viewBox="0 0 ${W} ${H}" role="img" aria-label="${opt.aria || "Line chart"}">${ref}${paths}${lab}</svg><div class="legend">${series.map(s => `<span><i style="background:${s.c}"></i>${s.n}</span>`).join("")}</div>`;
+}
+function donut(parts, center, sub, hi){
+  const R = 58, C = 2 * Math.PI * R; let off = 0;
+  const segs = parts.map(([l, v, c], i) => { const len = v / 100 * C, s = `<circle cx="75" cy="75" r="${R}" fill="none" stroke="${c}" stroke-width="${i === hi ? 24 : 18}" stroke-dasharray="${len.toFixed(1)} ${(C - len).toFixed(1)}" stroke-dashoffset="${(-off).toFixed(1)}" transform="rotate(-90 75 75)" data-tip="${l}: ${v}%"/>`; off += len; return s; }).join("");
+  return `<div class="donut"><svg viewBox="0 0 150 150" role="img" aria-label="${esc(sub)}">${segs}<text x="75" y="74" text-anchor="middle" font-family="Fraunces,Georgia" font-size="24" fill="currentColor">${center}</text><text x="75" y="92" text-anchor="middle" font-size="11" fill="currentColor" opacity=".6">${sub}</text></svg><ul>${parts.map(([l, v, c], i) => `<li ${i === hi ? 'style="font-weight:700"' : ""}><i style="background:${c}"></i>${l}<b>${v}%</b></li>`).join("")}</ul></div>`;
+}
+function table(id, cols, rows, opt = {}){
+  const st = S.sort[id] || opt.sort || [null, 1];
+  if (st[0] != null) rows = rows.slice().sort((a, b) => { const A = a[st[0]], B = b[st[0]]; return (typeof A === "number" ? A - B : String(A).localeCompare(String(B))) * st[1]; });
+  return `<div class="tw"><table class="tb"><thead><tr>${cols.map((c, i) => `<th class="${c.r ? "r" : ""}">${c.ns ? c.l : `<button type="button" class="sortb" data-sort="${id}" data-col="${i}" aria-label="Sort by ${c.l}">${c.l}${st[0] === i ? (st[1] > 0 ? " ▲" : " ▼") : ""}</button>`}</th>`).join("")}</tr></thead><tbody>${rows.map((r, ri) => `<tr ${opt.click ? `class="click" tabindex="0" data-row="${id}" data-i="${r._i ?? ri}"` : ""}>${cols.map((c, i) => `<td class="${c.r ? "r" : ""}">${c.f ? c.f(r[i], r) : esc(r[i])}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+}
+const TILES = {AK:[0,0],ME:[11,0],VT:[10,1],NH:[11,1],WA:[1,2],ID:[2,2],MT:[3,2],ND:[4,2],MN:[5,2],IL:[6,2],WI:[7,2],MI:[8,2],NY:[9,2],RI:[10,2],MA:[11,2],OR:[1,3],NV:[2,3],WY:[3,3],SD:[4,3],IA:[5,3],IN:[6,3],OH:[7,3],PA:[8,3],NJ:[9,3],CT:[10,3],CA:[1,4],UT:[2,4],CO:[3,4],NE:[4,4],MO:[5,4],KY:[6,4],WV:[7,4],VA:[8,4],MD:[9,4],DE:[10,4],AZ:[2,5],NM:[3,5],KS:[4,5],AR:[5,5],TN:[6,5],NC:[7,5],SC:[8,5],DC:[9,5],OK:[4,6],LA:[5,6],MS:[6,6],AL:[7,6],GA:[8,6],HI:[0,7],TX:[4,7],FL:[9,7]};
+function tileMap(id, vals, tipf){
+  const mx = Math.max(...Object.values(vals).map(v => v[0])), sel = S["map_" + id];
+  return `<svg class="tmap" viewBox="0 0 480 322" role="img" aria-label="US map">${Object.entries(TILES).map(([st, [c, r]]) => { const v = vals[st], a = v ? .15 + .85 * Math.sqrt(v[0] / mx) : 0;
+    return `<g class="tile ${sel === st ? "sel" : ""}" ${v ? `tabindex="0" role="button" data-map="${id}" data-st="${st}" data-tip="${esc(tipf(st, v))}"` : ""}><rect x="${c*40+1}" y="${r*40+1}" width="37" height="37" rx="7" fill="${v ? `rgba(63,127,168,${a.toFixed(2)})` : "var(--line2)"}"/><text x="${c*40+19.5}" y="${r*40+24}" text-anchor="middle" font-size="11" font-weight="600" fill="${a > .55 ? "#fff" : "var(--muted)"}">${st}</text></g>`; }).join("")}</svg>`;
+}
+function ring(p, size = 46){ const R = size/2 - 5, C = 2*Math.PI*R; return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" role="img" aria-label="${Math.round(p)}% done"><circle cx="${size/2}" cy="${size/2}" r="${R}" fill="none" stroke="var(--line2)" stroke-width="5"/><circle cx="${size/2}" cy="${size/2}" r="${R}" fill="none" stroke="${p >= 100 ? "var(--green)" : "var(--sea)"}" stroke-width="5" stroke-linecap="round" stroke-dasharray="${(C*p/100).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 ${size/2} ${size/2})"/><text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" font-size="11" font-weight="700" fill="currentColor">${Math.round(p)}%</text></svg>`; }
+const kpiTile = (k, c, line) => { const m = M(k), md = D.metrics[k]; return m ? `<button class="card kpi" type="button" data-kpi="${k}" style="--c:${c}"><span class="lab">${md.label}<span class="tag" style="margin-left:auto">Sample data</span></span><span class="v num" data-to="${m.v}" data-f="${md.f}">${fm(m.v, md.f)}</span><span class="row">${pill(m.yoy)}<span class="open">${D.ranges[S.range][0]}</span></span>${line ? `<span class="one">${line}</span>` : ""}</button>` : ""; };
+const simpleKpi = (lab, val, sub, p, c) => `<div class="card kpi" style="--c:${c || "var(--sea)"};cursor:default"><span class="lab">${lab}<span class="tag" style="margin-left:auto">Sample data</span></span><span class="v">${val}</span><span class="row">${p != null ? (typeof p === "number" ? pill(p) : p) : ""}<span class="open">${sub || ""}</span></span></div>`;
+const F = () => D.ranges[S.range][1];
+const actH = () => ["resort","shore"].filter(k => S.prop === "all" || S.prop === k);
+const actR = () => ["driftwood","tidepool"].filter(k => S.prop === "all" || S.prop === k);
+const notHere = (what, kinds) => `<div class="card empty"><b>No ${what} for ${D.props[S.prop].n}</b>Pick “All” or ${kinds} in the property filter.</div>`;
+
+/* ============================================================ HOTELS */
+const HOT = {
+  resort:{adr:[412,398], occ:[78.4,77.9], weeks:[["Nov 23",71,64],["Nov 30",58,55],["Dec 7",52,49],["Dec 14",61,57],["Dec 21",74,70],["Dec 28",88,84],["Jan 4",33,36],["Jan 11",27,34],["Jan 18",36,35],["Jan 25",24,25],["Feb 1",22,21],["Feb 8",29,24],["Feb 15",31,30]]},
+  shore:{adr:[289,296], occ:[74.1,79.6], weeks:[["Nov 23",62,66],["Nov 30",44,50],["Dec 7",31,52],["Dec 14",38,49],["Dec 21",57,61],["Dec 28",79,81],["Jan 4",22,30],["Jan 11",18,27],["Jan 18",28,30],["Jan 25",16,19],["Feb 1",14,15],["Feb 8",21,18],["Feb 15",19,22]]},
+  offers:[["Stay Longer, Save 20%","LONGSTAY","resort",148,612,214600,351,1],["Spa & Sea","SPASEA","resort",96,241,118300,491,1],["Winter Escape","WINTER26","shore",71,203,52400,258,-1],["Fourth Night Free","4THFREE","resort",72,288,86100,299,-1],["Local Escape","SDLOCAL","shore",61,119,31900,268,1],["Park & Stay","PARKSTAY","shore",38,94,24800,264,0],["Holiday Gift Card","GIFT26","resort",0,0,28400,0,1]],
+  channels:{resort:[["Direct web",38,"#3f7fa8"],["Phone & email",14,"#2b8a6c"],["Online travel agents",27,"#c9a46a"],["Groups",12,"#7a5c87"],["GDS / travel advisors",9,"#9aabbd"]], shore:[["Direct web",31,"#3f7fa8"],["Phone & email",11,"#2b8a6c"],["Online travel agents",41,"#c9a46a"],["Groups",8,"#7a5c87"],["GDS / travel advisors",9,"#9aabbd"]]},
+  advice:{resort:["Hold rate in December; the strong weeks don’t need a discount.","Push Spa & Sea in the January e-blast: highest ADR offer at $491.","Jan 11 week is 7 pts behind: start the midweek push by Dec 10."], shore:["Dec 7 and Dec 14 weeks are soft: Winter Escape to SD + LA lists Thursday.","OTA share is up to 41%: add a ‘book direct, park free’ line to the site banner.","Ask Elena for two small corporate groups for early December."]}};
+V.hotels = () => {
+  const hs = actH(); if (!hs.length) return notHere("hotels", "Seacliff Resort or Shoreline Hotel");
+  const nightsM = M("nights"), roomsM = M("rooms");
+  return `<div class="grid">
+   <div class="c6">${kpiTile("rooms","#2f6f9f","Revenue already booked for the period")}</div><div class="c6">${kpiTile("nights","#c08a3e","Room nights booked for the period")}</div>
+   ${hs.map(k => { const H = HOT[k], p = D.props[k], ms = monthly("rooms").map(x => x), part = D.metrics.rooms.by[k][0] / (roomsM.v / F());
+     return card("h-" + k, "c12", `${pdot(k)} ${p.n}`, `<div class="grid" style="gap:14px">
+       <div class="c3 mini"><small>Revenue on the books</small><b>${fm(D.metrics.rooms.by[k][0]*F(),"$")}</b>${pill(D.metrics.rooms.by[k][S.range==="next90"?2:1]*100)}</div>
+       <div class="c3 mini"><small>Room nights</small><b>${fm(D.metrics.nights.by[k][0]*F(),"n")}</b>${pill(D.metrics.nights.by[k][S.range==="next90"?2:1]*100)}</div>
+       <div class="c3 mini"><small>ADR</small><b>$${H.adr[0]}</b>${pill((H.adr[0]/H.adr[1]-1)*100)}</div>
+       <div class="c3 mini"><small>Occupancy · ${p.rooms} rooms</small><b>${H.occ[0]}%</b><span class="pill ${H.occ[0]>=H.occ[1]?"up":"dn"}">${H.occ[0]>=H.occ[1]?"▲":"▼"} ${Math.abs(H.occ[0]-H.occ[1]).toFixed(1)} pts vs last yr</span></div>
+       <div class="c7"><p class="eyebrow">Room revenue by month, 2026 vs 2025</p>${bars(monthly("rooms").map(([ty, ly], i) => [MON[i].slice(0,1) + (i>8?"":""), ty*part, ly*part, i===10]).map((r,i)=>[MON[i],r[1],r[2],r[3]]), v => fm(v,"$"), {aria:"Monthly room revenue"})}</div>
+       <div class="c5"><p class="eyebrow">Booking channels</p>${donut(HOT.channels[k], HOT.channels[k][0][1] + "%", "direct web", 0)}</div>
+       <div class="c12"><p class="eyebrow">Weeks ahead · % of rooms sold vs last year at this point</p><div class="weeks13">${H.weeks.map(([w, ty, ly]) => { const s = ty >= ly + 3 ? "good" : ty >= ly - 4 ? "info" : "bad"; const lab = s === "good" ? "Strong" : s === "info" ? "On pace" : "Needs a push";
+          return `<div class="wk ${s === "info" ? "" : s}" data-tip="Week of ${w}: ${ty}% sold vs ${ly}% last year"><span>${s==="good"?"●":s==="bad"?"■":"◆"}</span><b>${w}</b><span class="ev">${ty}% · LY ${ly}%</span><span class="ev"><b>${lab}</b></span></div>`; }).join("")}</div></div>
+       <div class="c12 advbox"><p class="eyebrow">${ico("advisor")} Hotel Advisor</p><ul>${HOT.advice[k].map(a => `<li>${esc(a)}</li>`).join("")}</ul></div></div>`, {sub:`${p.rooms} rooms · ${D.ranges[S.range][0]}`}); }).join("")}
+   ${card("offers","c12","Offer & promo-code scorecard", table("offers", [{l:"Offer"},{l:"Code",f:v=>`<span class="code">${v}</span>`},{l:"Hotel",f:v=>`${pdot(v)} ${D.props[v].s}`},{l:"Bookings",r:1,f:v=>v||"—"},{l:"Room nights",r:1,f:v=>v||"—"},{l:"Revenue",r:1,f:v=>fm(v,"$")},{l:"ADR",r:1,f:v=>v?"$"+v:"—"},{l:"Trend",r:1,f:v=>v>0?'<span class="shape good">▲</span> Up':v<0?'<span class="shape bad">▼</span> Down':'<span class="shape info">◆</span> Flat'}],
+     HOT.offers.filter(o => hs.includes(o[2])), {sort:[5,-1]}), {sub:"Year to date · tap a column to sort"})}
+  </div>`;
+};
+
+/* ============================================================ RESTAURANTS */
+const REST = {
+  weeks:["Sep 28","Oct 5","Oct 12","Oct 19","Oct 26","Nov 2","Nov 9","Nov 16"],
+  covers:{driftwood:[[2310,2190],[2402,2280],[2381,2301],[2455,2330],[2520,2401],[2448,2350],[2502,2361],[2480,2333]], tidepool:[[1480,1470],[1462,1490],[1430,1480],[1401,1470],[1388,1462],[1375,1460],[1360,1452],[1390,1475]]},
+  market:[[2.1,1.4],[3.4,1.6],[2.2,1.2],[2.8,1.1],[3.1,.9],[2.6,1.0],[3.4,1.2],[2.3,1.1]],
+  days:{driftwood:[["Mon",82,214],["Tue",76,236],["Wed",88,251],["Thu",96,312],["Fri",104,398],["Sat",141,421],["Sun",168,290]], tidepool:[["Mon",64,92],["Tue",61,88],["Wed",72,104],["Thu",80,122],["Fri",94,176],["Sat",118,201],["Sun",126,140]]},
+  ahead:[["Sat Nov 21","driftwood",388,"Wedding block + regular dinner"],["Thu Nov 26","driftwood",412,"Thanksgiving dinner"],["Fri Nov 20","driftwood",346,"Wine dinner overflow"],["Sat Nov 21","tidepool",214,"Live music on the patio"],["Thu Nov 26","tidepool",188,"Thanksgiving brunch"],["Sun Nov 22","tidepool",176,"Football + brunch"]]};
+V.restaurants = () => {
+  const rs = actR(); if (!rs.length) return notHere("restaurants", "Driftwood Grill or Tidepool Bar");
+  const hol = D.holidays.filter(h => rs.includes(h[1]));
+  return `<div class="grid">
+   <div class="c12">${kpiTile("covers","#6b7f3a","Guests seated, including walk-ins")}</div>
+   ${rs.map(k => { const cv = REST.covers[k], last = cv[cv.length-1];
+     return card("r-" + k, "c6", `${pdot(k)} ${D.props[k].n}`, `<div class="row2" style="margin-bottom:6px"><span class="big">${fm(D.metrics.covers.by[k][0]*F(),"n")}</span>${pill(D.metrics.covers.by[k][S.range==="next90"?2:1]*100)}</div>
+      <p class="eyebrow">Covers by week vs last year</p>${bars(REST.weeks.map((w,i) => [w.replace(/^(\w+) /,"$1 "), cv[i][0], cv[i][1], i === cv.length-1]), v => fm(v,"n"), {h:150, aria:"Weekly covers"})}
+      <p class="eyebrow mt">This week by day · lunch and dinner</p><div class="stack">${REST.days[k].map(([d, l, dn]) => { const mx = Math.max(...REST.days[k].map(x => x[1]+x[2])); return `<div class="sc" data-tip="${d}: ${l} lunch · ${dn} dinner"><span class="sb"><i style="height:${dn/mx*100}%;background:var(--sea)"></i><i style="height:${l/mx*100}%;background:var(--sea2)"></i></span><small>${d}</small></div>`; }).join("")}</div><div class="legend"><span><i style="background:var(--sea2)"></i>Lunch</span><span><i style="background:var(--sea)"></i>Dinner</span></div>`, {sub:D.ranges[S.range][0]}); }).join("")}
+   ${card("push","c7","Holiday push board", `${hol.sort((a,b) => new Date(a[2] + " 2026") - new Date(b[2] + " 2026")).map(([name, p, date, booked, goal, per]) => { const pc = booked/goal*100, s = pc >= 100 ? "ahead" : pc >= 85 ? "good" : pc >= 70 ? "watch" : "bad", st2 = s === "ahead" ? "good" : s;
+      return `<div class="hb"><div class="top"><span>${pdot(p)} <b>${name}</b> <span class="muted">· ${date}</span></span>${stat(st2, {ahead:"Ahead",good:"On pace",watch:"Watch",bad:"Behind"}[s])}</div>
+      <div class="tr" data-tip="${booked} booked · goal ${goal} (last year’s final)"><i style="width:${Math.min(100, pc/1.2)}%;background:${colS(st2)}"></i><span class="goal" style="left:${100/1.2}%"></span></div>
+      <div class="sm muted" style="margin-top:4px">${booked} of ${goal} covers · ${Math.round(pc)}% of goal · ~${per} covers a day needed to hit goal</div></div>`; }).join("")}<div class="legend mt"><span><i style="background:var(--ink);width:2px"></i>Goal line = last year’s final covers</span></div>`, {sub:"Soonest first"})}
+   <div class="c5" style="display:flex;flex-direction:column;gap:16px">
+     ${card("pacecards","", "Restaurant pacing", `<ul class="list">${hol.slice(0,4).map(([name,p,date,b,g]) => { const pc = b/g*100, s = pc >= 85 ? "good" : pc >= 70 ? "watch" : "bad"; return `<li>${shape(s)}<div class="t"><b>${name}: ${Math.round(pc)}% of last year</b><span>${pdot(p)} ${D.props[p].s} · ${s==="good"?"On pace":s==="watch"?"A little behind":"Behind"}</span></div></li>`; }).join("")}</ul>`)}
+     ${card("ahead","", "Week ahead: biggest days", `<ul class="list">${REST.ahead.filter(a => rs.includes(a[1])).map(([d,p,n,why]) => `<li><div class="t"><b>${d} · ${n} covers</b><span>${pdot(p)} ${D.props[p].s} · ${why}</span></div></li>`).join("")}</ul>`, {sub:"From the reservation platform"})}
+   </div>
+   ${card("market","c12","Local dining market", line([{n:"Our covers vs last year (%)", c:"var(--sea)", v:REST.market.map(m => m[0])},{n:"Local market index (%)", c:"var(--gold)", v:REST.market.map(m => m[1]), dash:1}], REST.weeks, {f:v => v.toFixed(1) + "%", aria:"Our covers vs local market"}) + `<p class="sm muted">Fictional coastal dining index. We’ve beaten the market 8 weeks running.</p>`, {sub:"Change vs last year, by week"})}
+  </div>`;
+};
+
+/* ============================================================ SALES & EVENTS */
+const SALES = {
+  funnel:[["Inquiry",64,2380000],["Proposal",31,1420000],["Contract",14,690000],["Definite",22,1060000]],
+  years:[["2022",3.1,2.9],["2023",3.6,3.4],["2024",4.0,3.8],["2025",4.4,4.3],["2026",4.9,4.1]],
+  pace:[["Dec",412,388],["Jan",188,214],["Feb",246,231],["Mar",318,302],["Apr",371,349],["May",452,398]],
+  states:{CA:[58,1840000],AZ:[9,212000],NV:[7,188000],TX:[11,402000],WA:[6,151000],OR:[4,96000],CO:[8,244000],UT:[5,118000],IL:[7,264000],NY:[9,371000],MA:[4,142000],FL:[5,133000],GA:[3,88000],NJ:[3,104000],MN:[2,61000],WI:[2,48000],MI:[3,92000],OH:[2,57000],VA:[3,99000],NC:[3,84000],DC:[2,96000],PA:[2,71000],TN:[2,49000],MO:[1,33000],ID:[1,22000],HI:[1,38000]},
+  managers:[["Elena Ruiz","Weddings & social",31,1420000,38],["Diego Marín","Corporate groups",24,1190000,31],["Anna Kowal","Associations & SMERF",12,410000,27]],
+  events:[["Sat Nov 21","Hale–Okafor wedding","Wedding","Event lawn",140,"good"],["Wed Dec 2","Brightline Tech offsite","Corporate","Ballroom",80,"good"],["Sat Dec 5","Coastal Realtors holiday party","Social","Ballroom",210,"watch"],["Fri Dec 11","Nguyen–Park wedding","Wedding","Event lawn",120,"good"],["Sat Dec 12","Harborview Dental gala","Corporate","Ballroom",160,"info"],["Thu Jan 14","SoCal Nurses retreat","Association","Ballroom",95,"watch"],["Sat Feb 13","Valentine’s vow renewal","Wedding","Event lawn",60,"info"]]};
+V.sales = () => {
+  const loc = Object.values(SALES.states).reduce((a,v) => a + v[0], 0);
+  const sel = S.map_groups, sv = sel && SALES.states[sel];
+  return `<div class="grid">
+   <div class="c4">${kpiTile("events","#7a5c87","Hosted on property")}</div>
+   <div class="c4">${simpleKpi("Win rate","34%","last 12 months",`<span class="pill up">▲ 4 pts vs last yr</span>`,"#2b8a6c")}</div>
+   <div class="c4">${simpleKpi("Average lead time","147 days","inquiry → event",`<span class="pill nt">◆ 12 days longer</span>`,"#c9a46a")}</div>
+   ${card("funnel","c6","Pipeline by stage", `<div class="funnel">${SALES.funnel.map(([s,n,v],i) => `<div class="fs" style="--w:${100 - i*14}%" data-tip="${s}: ${n} leads · ${fm(v,"$")}"><b>${s}</b><span>${n} · ${fm(v,"$")}</span></div>`).join("")}</div><p class="sm muted">Next 12 months · weddings, corporate groups and socials</p>`)}
+   ${card("years","c6","Booked vs hosted revenue by year", bars(SALES.years.map(([y,b,h]) => [y, b*1e6, h*1e6, y==="2026"]), v => fm(v,"$"), {a:"Booked", b:"Hosted", h:170, tyLab:"booked", aria:"Booked vs hosted by year"}), {sub:"2026 hosted is year to date"})}
+   ${card("pace6","c6","Event pace, next 6 months", bars(SALES.pace.map(([m,ty,ly]) => [m, ty*1000, ly*1000]), v => fm(v,"$"), {color:(t,l) => t >= l ? "var(--sea)" : "var(--coral)", h:160, aria:"Event pace"}), {sub:"Revenue on the books vs same time last year"})}
+   ${card("mgr","c6","Sales managers", table("mgr", [{l:"Manager"},{l:"Focus"},{l:"Bookings",r:1},{l:"Revenue",r:1,f:v=>fm(v,"$")},{l:"Win rate",r:1,f:v=>v+"%"}], SALES.managers, {sort:[3,-1]}), {sub:"Year to date · fictional team"})}
+   ${card("groups","c12","Where groups come from", `<div class="grid" style="gap:14px"><div class="c8">${tileMap("groups", SALES.states, (st, v) => `${st}: ${v[0]} groups · ${fm(v[1],"$")}`)}</div>
+     <div class="c4"><div class="detail" style="margin:0">${sv ? `<p class="eyebrow">${sel}</p><b class="big">${sv[0]} groups</b><p>${fm(sv[1],"$")} booked since 2022</p><p class="sm muted">Average ${fm(sv[1]/sv[0],"$")} per group.</p>` : `<p class="eyebrow">Tap a state</p><p>California sends <b>${SALES.states.CA[0]}</b> of ${loc} located groups. Texas and New York are the biggest out-of-state markets.</p>`}</div>
+     <p class="sm muted mt">◆ 14 bookings have no location yet, so they’re not on the map.</p></div></div>`, {sub:"Groups booked 2022–2026, by the group’s home state"})}
+   ${card("egrid","c12","Upcoming weddings & groups", table("egrid", [{l:"Date"},{l:"Event"},{l:"Type"},{l:"Space"},{l:"Guests",r:1},{l:"Status",f:v=>stat(v, v==="good"?"Definite":v==="watch"?"Contract out":"Tentative")}], SALES.events), {sub:"Next 90 days"})}
+  </div>`;
+};
+
+/* ============================================================ E-BLASTS */
+const SENDS = [
+  ["2026-11-16","driftwood","Driftwood holiday menu is here",18400,44.1,4.6,96,8900],["2026-11-12","resort","Thanksgiving by the sea",48200,41.2,3.8,46,21400],["2026-11-05","shore","Your winter escape, a block from the sand",22600,37.4,2.9,24,7800],
+  ["2026-10-29","resort","Spa & Sea: two nights of quiet",48100,36.9,2.9,38,18600],["2026-10-22","resort","Stay a fourth night, on us",47900,39.4,3.5,52,24100],["2026-10-15","tidepool","Happy hour just moved earlier",12100,33.1,2.1,64,1900],
+  ["2026-10-08","resort","Holiday parties at Seacliff",12400,44.8,5.6,9,46200],["2026-10-01","shore","Local Escape: San Diego rate",22800,42.3,4.1,31,10200],["2026-09-24","driftwood","Chef’s fall tasting menu",18100,40.2,3.9,71,6400],["2026-09-17","resort","Fall at the coast",47600,35.8,2.6,29,11800]].map((s,i) => ({i, d:s[0], p:s[1], subj:s[2], del:s[3], op:s[4], cl:s[5], bk:s[6], rev:s[7]}));
+const HEAT = {days:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"], blocks:["6–9 am","9–12","12–5 pm","5–9 pm"], v:[[2.4,2.9,2.1,2.6],[4.1,3.3,2.6,2.9],[3.2,3.1,2.4,2.8],[3.4,2.8,2.5,3.8],[2.6,2.2,2.0,2.4],[2.1,2.6,1.9,1.8],[1.8,2.3,2.0,2.7]]};
+const FIRST = [["Christmas Eve dinner","Oct 28","Nov 6",9],["New Year’s Eve","Nov 4","Nov 2",-2],["Holiday gift cards","Oct 21","Oct 30",9],["Thanksgiving","Oct 1","Oct 8",7],["Valentine’s Day","—","Jan 6",null]];
+V.eblasts = () => {
+  const mo = s => MON[+s.d.slice(5,7)-1];
+  const list = SENDS.filter(s => (S.prop === "all" || s.p === S.prop) && (S.ebProp === "all" || s.p === S.ebProp) && (S.ebMonth === "all" || mo(s) === S.ebMonth));
+  const hmx = Math.max(...HEAT.v.flat());
+  const reach = [44100,44800,45200,45900,46400,46900,47300,47600,47900,48100,48200,48600], uns = [1.8,2.1,1.7,2.4,1.9,3.2,2.2,1.6,2.0,1.8,2.3,1.9];
+  return `<div class="grid">
+   <div class="c4">${kpiTile("email","#d9533c","Bookings within 7 days of a click")}</div>
+   <div class="c4">${simpleKpi("Average open rate","39.4%","last 10 sends",`<span class="pill up">▲ 4.1 pts vs last yr</span>`,"#3f7fa8")}</div>
+   <div class="c4">${simpleKpi("Average click rate","3.6%","last 10 sends",`<span class="pill up">▲ 0.7 pts vs last yr</span>`,"#c9a46a")}</div>
+   ${card("sends","c12","Every send", `<div class="row2" style="margin-bottom:10px"><label class="sm">Property <select class="fsel" data-f="ebProp"><option value="all">All</option>${Object.entries(D.props).map(([k,p]) => `<option value="${k}" ${S.ebProp===k?"selected":""}>${p.s}</option>`).join("")}</select></label><label class="sm">Month <select class="fsel" data-f="ebMonth"><option value="all">All</option>${["Sep","Oct","Nov"].map(m => `<option ${S.ebMonth===m?"selected":""}>${m}</option>`).join("")}</select></label><span class="sm muted">${list.length} sends · tap a row for details</span></div>
+     ${list.length ? table("sends", [{l:"Date",f:v=>new Date(v+"T12:00").toLocaleDateString("en-US",{month:"short",day:"numeric"})},{l:"",ns:1,f:v=>pdot(v)},{l:"Subject line",f:v=>`<b>${esc(v)}</b>`},{l:"Delivered",r:1,f:v=>fm(v,"n")},{l:"Open %",r:1,f:v=>v+"%"},{l:"Click %",r:1,f:v=>v+"%"},{l:"Bookings",r:1},{l:"Revenue",r:1,f:v=>fm(v,"$")}], list.map(s => Object.assign([s.d,s.p,s.subj,s.del,s.op,s.cl,s.bk,s.rev], {_i:s.i})), {click:1, sort:[0,-1]}) : `<div class="empty"><b>No sends match</b>Try a different property or month.</div>`}`)}
+   ${card("heat","c6","Best send day & time", `<div class="heat" role="table" aria-label="Click rate by day and time"><span></span>${HEAT.blocks.map(b => `<span class="hh">${b}</span>`).join("")}${HEAT.days.map((d,i) => `<span class="hh">${d}</span>${HEAT.v[i].map((v,j) => `<span class="hc" style="background:rgba(63,127,168,${(.12 + .88*(v/hmx)**2).toFixed(2)});color:${v/hmx>.7?"#fff":"inherit"}" data-tip="${d} ${HEAT.blocks[j]}: ${v}% click rate">${v}%</span>`).join("")}`).join("")}</div><p class="sm muted mt">Click rate by day and time block. <b>Tuesday 6–9 am</b> wins; Thursday evening is best for restaurants.</p>`)}
+   ${card("first","c6","First mentions", `<ul class="list">${FIRST.map(([h,ty,ly,d]) => `<li>${shape(d == null ? "info" : d > 0 ? "good" : "watch")}<div class="t"><b>${h}</b><span>${ty === "—" ? `Not mentioned yet · last year first mentioned ${ly}` : `First mentioned ${ty}, ${Math.abs(d)} days ${d > 0 ? "earlier" : "later"} than 2025 (${ly})`}</span></div></li>`).join("")}</ul>`, {sub:"When each holiday first appeared in an e-blast this year vs last"})}
+   ${card("reach","c6","Subscribers reached per send", line([{n:"Reached", c:"var(--sea)", v:reach}], MON.slice(0,12), {f:v => fm(v,"n"), aria:"Subscribers reached"}), {sub:"Main hotel list, 2026"})}
+   ${card("unsub","c6","Unsubscribes per 1,000", line([{n:"Per 1,000 sent", c:"var(--gold)", v:uns}], MON.slice(0,12), {f:v => v.toFixed(1), ref:3, refLab:"Warning at 3", zero:1, aria:"Unsubscribes"}), {sub:"One spike in June (a 3rd send that week)"})}
+  </div>`;
+};
+function openSend(i){
+  const s = SENDS[i], p = D.props[s.p], opens = Math.round(s.del*s.op/100), clicks = Math.round(s.del*s.cl/100);
+  const links = [["Hero: Book now", .46],["Offer details", .22],["Menu / rooms", .16],["Footer: website", .09],["Social icons", .07]];
+  $("#drawer").innerHTML = `<button class="icon-btn x" type="button" data-close aria-label="Close"><svg><use href="#i-x"/></svg></button><span class="tag">Sample data</span>
+   <h2 id="dr-h">${esc(s.subj)}</h2><p class="muted sm">${pdot(s.p)} ${p.n} · sent ${new Date(s.d+"T12:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})} 7:00 am</p>
+   <div class="ethumb" style="--pc:${p.c}"><div class="eh">${p.s.toUpperCase()}</div><div class="ei"></div><div class="et">${esc(s.subj)}</div><div class="el"></div><div class="el s"></div><div class="eb">BOOK NOW</div><div class="el s"></div></div>
+   <div class="mini4"><div><small>Delivered</small><b>${fm(s.del,"n")}</b></div><div><small>Opens</small><b>${fm(opens,"n")}</b></div><div><small>Clicks</small><b>${fm(clicks,"n")}</b></div><div><small>Revenue</small><b>${fm(s.rev,"$")}</b></div></div>
+   <p class="eyebrow mt">Link click map</p>${hbars(links.map(([l,f]) => [l, Math.round(clicks*f), "var(--sea)", `${Math.round(f*100)}% of clicks`]))}
+   <p class="mt"><b>Attributed revenue:</b> ${fm(s.rev,"$")} from ${s.bk} ${p.kind === "hotel" ? "bookings" : "reservations"} within 7 days of a click · $${(s.rev/s.del).toFixed(2)} per email sent.</p>`;
+  openLayer("drawer");
+}
+
+/* ============================================================ WEBSITE */
+const WEB = {
+  visits:18240, revenue:96800, conv:2.9,
+  split:[["Organic search",41,"#2b8a6c"],["Paid search",22,"#3f7fa8"],["E-blasts",17,"#d9533c"],["Social",12,"#c9a46a"],["Direct & other",8,"#9aabbd"]],
+  pages:[["/offers/stay-longer",4812,"2:41",3.9],["/spa",3966,"2:12",2.4],["/dining/driftwood-grill",3540,"1:48",0],["/weddings",2218,"3:05",4.1],["/rooms/ocean-view",2104,"2:20",3.1],["/shoreline/winter-escape",1876,"1:59",2.2]],
+  devices:[["Phone",64,"#3f7fa8"],["Desktop",31,"#c9a46a"],["Tablet",5,"#9aabbd"]],
+  states:{CA:[9120],AZ:[1240],NV:[860],TX:[1110],WA:[540],OR:[310],CO:[620],UT:[380],IL:[520],NY:[780],MA:[240],FL:[410],GA:[150],NJ:[200],MN:[120],MI:[140],OH:[130],VA:[180],NC:[160],DC:[90],PA:[170],TN:[90],MO:[70],ID:[60],HI:[110],NM:[80],WI:[70],MD:[110],NE:[40],KS:[50],OK:[60],LA:[50],AL:[40],SC:[70],IN:[80],KY:[40],IA:[40],MT:[30],WY:[20],ND:[10],SD:[10],AK:[20],ME:[30],NH:[30],VT:[20],RI:[20],CT:[90],DE:[20],WV:[10],AR:[30],MS:[20]},
+  cities:[["San Diego",5210],["Los Angeles",2980],["Phoenix",840],["Orange County",760],["Las Vegas",520],["Dallas",410],["Denver",380],["New York",360]],
+  abroad:[["Canada",412],["Mexico",288],["United Kingdom",141],["Australia",96]],
+  ages:[["18–24",8],["25–34",24],["35–44",27],["45–54",21],["55–64",13],["65+",7]],
+  interests:[["Luxury travel",38],["Food & dining",34],["Spa & wellness",26],["Weddings",14],["Golf",11]]};
+V.website = () => `<div class="grid">
+   <div class="c3">${simpleKpi("Engaged visits", fm(WEB.visits*F(),"n"), D.ranges[S.range][0], 8.4, "#3f7fa8")}</div>
+   <div class="c3">${kpiTile("web","#c08a3e","Booking-engine bookings")}</div>
+   <div class="c3">${simpleKpi("Booking revenue", fm(WEB.revenue*F(),"$"), D.ranges[S.range][0], 6.9, "#2b8a6c")}</div>
+   <div class="c3">${simpleKpi("Conversion rate", WEB.conv + "%", "visits → bookings", `<span class="pill up">▲ 0.3 pts vs last yr</span>`, "#d9533c")}</div>
+   ${card("split","c5","Where visits come from", donut(WEB.split, "63%", "organic + paid", 0) + `<p class="sm muted">Paid vs organic: <b>22%</b> paid search vs <b>41%</b> organic search.</p>`)}
+   ${card("pages","c7","Top landing pages", table("pages", [{l:"Page",f:v=>`<span class="code">${v}</span>`},{l:"Engaged visits",r:1,f:v=>fm(v,"n")},{l:"Avg time",r:1},{l:"Conversion",r:1,f:v=>v?v+"%":"—"}], WEB.pages, {sort:[1,-1]}), {sub:"Year to date · sortable"})}
+   ${card("vmap","c8","Where visitors are", tileMap("web", WEB.states, (st,v) => `${st}: ${fm(v[0],"n")} visits this month`) + `<p class="sm muted">Darker = more visits this month.</p>`)}
+   <div class="c4" style="display:flex;flex-direction:column;gap:16px">${card("cities","","Top cities", hbars(WEB.cities.map(([c,v]) => [c, v, "var(--sea)", `${c}: ${fm(v,"n")} visits`, fm(v,"n")])))}${card("abroad","","Outside the US", hbars(WEB.abroad.map(([c,v]) => [c, v, "var(--gold)", null, fm(v,"n")])))}</div>
+   ${card("dev","c4","Device", donut(WEB.devices, "64%", "on phones", 0))}
+   ${card("demo","c4","Who visits", `<p class="eyebrow">Age</p>${hbars(WEB.ages.map(([a,v]) => [a, v, "var(--sea)", null, v+"%"]))}<p class="eyebrow mt">Top interests</p>${hbars(WEB.interests.map(([a,v]) => [a, v, "var(--gold)", null, v+"%"]))}`)}
+   ${card("speed","c4","Page speed", `<div class="gauges" style="grid-template-columns:1fr 1fr">${gauge(78, 64, "Mobile score")}${gauge(94, 91, "Desktop score")}</div><ul class="list mt"><li>${shape("good")}<div class="t"><b>Largest paint 2.1s</b><span>Good is under 2.5s</span></div></li><li>${shape("watch")}<div class="t"><b>Layout shift 0.14</b><span>Hero image on /spa jumps; fix the image size</span></div></li><li>${shape("good")}<div class="t"><b>Interaction 160ms</b><span>Good is under 200ms</span></div></li></ul>`, {sub:"Core Web Vitals · tick = last month"})}
+  </div>`;
+
+/* ============================================================ PAID MEDIA */
+const PAID = {
+  ch:[["Search",6200,412000,18900,58,54800],["Meta",4100,980000,12600,31,19700],["Display",1800,1640000,4200,9,6100],["Metasearch",2600,188000,7400,44,21300]],
+  months:[["Jun",61],["Jul",78],["Aug",74],["Sep",58],["Oct",66],["Nov",71]],
+  ours:[
+    {id:1,p:"resort",h:"Stay longer, save 20%",o:"Book 3+ nights",pl:"Instagram",live:1,clicks:2840,ctr:2.6,saves:412,shares:96,bk:31,g:["#2f6f9f","#a9c9dc"],fmt:"Reel"},
+    {id:2,p:"driftwood",h:"Thanksgiving by the water",o:"3-course dinner $95",pl:"Facebook",live:1,clicks:1960,ctr:3.4,saves:288,shares:141,bk:44,g:["#6b7f3a","#e6d7b8"],fmt:"Carousel"},
+    {id:3,p:"shore",h:"Winter Escape",o:"From $219 a night",pl:"Instagram",live:1,clicks:1210,ctr:1.1,saves:96,shares:18,bk:6,g:["#c08a3e","#f3ece0"],fmt:"Image"},
+    {id:4,p:"tidepool",h:"Sunset happy hour, now at 3",o:"$8 cocktails",pl:"Instagram",live:1,clicks:880,ctr:2.2,saves:174,shares:63,bk:0,g:["#2a8f9d","#f7c08a"],fmt:"Reel"},
+    {id:5,p:"resort",h:"Spa & Sea",o:"Two nights + two massages",pl:"Facebook",live:1,clicks:1420,ctr:1.9,saves:204,shares:41,bk:12,g:["#7a5c87","#e3ebf4"],fmt:"Image"},
+    {id:6,p:"resort",h:"Say yes on the sand",o:"Wedding tours open",pl:"Instagram",live:0,clicks:2210,ctr:2.9,saves:690,shares:212,bk:4,g:["#10243b","#c9a46a"],fmt:"Reel"},
+    {id:7,p:"shore",h:"Summer, a block from the beach",o:"Kids eat free",pl:"Facebook",live:0,clicks:3020,ctr:2.4,saves:180,shares:77,bk:38,g:["#3f7fa8","#fbefd4"],fmt:"Carousel"}],
+  agency:["Shifted $900 from Display to Search after Display’s cost per booking hit $200.","Launched the Thanksgiving carousel for Driftwood; it’s the best click rate this quarter (3.4%).","Paused Shoreline’s broad Meta audience and rebuilt it as ‘San Diego + LA, 30–55, travel intent’."],
+  questions:[["Search ROAS is 8.8×, but bookings dipped 6% this month. Is it budget-capped by mid-day?","Search"],["Winter Escape click rate is 1.1%, half our average. Can we test a price-led headline?","Meta"],["Display brings 4,200 clicks but only 9 bookings. What’s it for, and should it move to retargeting only?","Display"],["Cove Point Inn has run the same 30% ad for 12 days. Are we bidding against them on our own name?","Search"],["Shoreline ad bookings fell from 96 to 31 since August while clicks rose. Is the booking tag still firing on the new checkout?","Tracking"],["Can we see October brand vs non-brand cost per booking for each hotel?","Search"]],
+  comp:[
+    {c:"Cove Point Inn",h:"Winter sale: 30% off",o:"30% off 2+ nights",pl:"Meta",days:12,t:"Discount / % off"},
+    {c:"Harbor House Hotel",h:"Your holiday tradition",o:"Free breakfast for two",pl:"Meta",days:118,t:"Holidays & seasonal"},
+    {c:"The Palisades",h:"Spa days are back",o:"$100 spa credit",pl:"Google",days:64,t:"Spa & wellness"},
+    {c:"Sandpiper Resort",h:"Stay 3, pay 2",o:"3rd night free",pl:"Meta",days:97,t:"Free night / stay longer"},
+    {c:"Harbor House Hotel",h:"Brunch with a view",o:"Sunday brunch $58",pl:"Meta",days:41,t:"Dining & drinks"},
+    {c:"Cove Point Inn",h:"Plan your coastal wedding",o:"Tours this weekend",pl:"Google",days:23,t:"Weddings & events"},
+    {c:"The Palisades",h:"Ocean views, all winter",o:"No offer",pl:"Meta",days:132,t:"Brand / view (no offer)"},
+    {c:"Sandpiper Resort",h:"Kids stay free",o:"Under 12 free",pl:"Meta",days:7,t:"Family & kids"}]};
+const tier = a => { const avg = PAID.ours.reduce((s,x) => s + x.ctr, 0) / PAID.ours.length; return a.bk >= 30 || a.ctr >= avg*1.15 ? ["good","▲ Strong"] : a.ctr >= avg*.75 ? ["info","● Average"] : ["bad","▼ Weak"]; };
+const adCard = a => { const [s, lab] = tier(a); return `<article class="ad"><div class="cre" style="background:linear-gradient(150deg,${a.g[0]},${a.g[1]})"><span class="fmt">${a.fmt}</span><b>${esc(a.h)}</b><small>${esc(a.o)}</small><span class="cta">Learn more</span></div>
+  <div class="adb"><div class="row2" style="justify-content:space-between"><span class="sm">${pdot(a.p)} ${D.props[a.p].s}</span><span class="st ${s}">${lab}</span></div><p class="sm muted" style="margin:4px 0 8px">${a.pl} · ${a.live ? "Running now" : "Ended"}</p>
+  <div class="am"><span><small>Clicks</small><b>${fm(a.clicks,"n")}</b></span><span><small>Click rate</small><b>${a.ctr}%</b></span><span><small>Saves</small><b>${a.saves}</b></span><span><small>Shares</small><b>${a.shares}</b></span></div>${a.bk ? `<p class="sm" style="margin:8px 0 0">${a.bk} known bookings</p>` : ""}</div><span class="tag" style="position:absolute;top:10px;right:10px;background:rgba(255,255,255,.85)">Sample data</span></article>`; };
+const compAd = a => { const s = a.days >= 90 ? ["good","▲ " + a.days + " days · likely working"] : a.days >= 30 ? ["info","● " + a.days + " days"] : ["watch","✦ New · " + a.days + " days"];
+  return `<article class="ad cad"><div class="cre" style="background:linear-gradient(150deg,#3b4654,#9aabbd)"><span class="fmt">${a.pl}</span><b>${esc(a.h)}</b><small>${esc(a.o)}</small></div><div class="adb"><b>${a.c}</b><p class="sm muted" style="margin:2px 0 8px">${a.t}</p><span class="st ${s[0]}">${s[1]}</span></div><span class="tag" style="position:absolute;top:10px;right:10px;background:rgba(255,255,255,.85)">Sample data</span></article>`; };
+PAID.advice = [
+  ["This week","coral","Marketing + agency","1. Fix the tracking before changing budgets","Shoreline ad bookings fell from 96 (Aug) to 31 (Oct) while clicks rose. Looks like tracking, not demand.","Ask the agency to check the booking-engine tag on the new checkout page, then compare October bookings in OPERA against ad-reported bookings."],
+  ["Next month’s budget","gold","Marketing","2. Move about $1,800 a month to what books","Seacliff non-brand search cost $2,140 in October for 3 bookings. Brand search returned 11× on the same spend.","Cap non-brand at $800, move $1,800 to brand search and metasearch for Dec 1–14."],
+  ["Next check-in","navy","Marketing + agency","3. Agree what Display is for","Display brings 4,200 clicks but only 9 bookings (0.2%). It’s visibility, not bookings.","Keep $600 for retargeting only and judge it on assisted bookings, not last click."],
+  ["Now","green","Marketing + agency","4. Point the ads at the weeks that need help","Shoreline week of Dec 7: 31% booked vs 52% last year; Jan 11: 18% vs 27%.","Set ad schedules to Dec 1–14 and Jan 4–17 with the Winter Escape and Local Escape offers."],
+  ["December","navy","Marketing","5. Bring back a winter offer ad","Last year’s ‘3rd night free’ static ad drove 185 bookings, the best of any ad.","Rebuild it for Shoreline with the Winter Escape rate; test the static against a 10-second video."],
+  ["Q1 plan","green","Marketing + agency","6. Personalize more of the website","Visitors who saw personalized content booked 3.1× more often.","Add personalized hero banners for returning visitors on /rooms and /offers."]];
+PAID.says = [
+  ["coral","Seacliff: non-brand search costs a lot and rarely books","October ‘coastal resort’ and ‘San Diego hotel’ terms: $2,140 spent, 3 bookings."],
+  ["coral","Shoreline: sharp fall since September","Ad bookings 96 (Aug) → 52 (Sep) → 31 (Oct) while clicks kept rising."],
+  ["green","Seacliff: brand search is the money-maker","October brand search returned 11× ($71K from $6.4K)."],
+  ["green","Driftwood: Facebook carousel is working","Thanksgiving carousel: 3.4% click rate, 44 known reservations."],
+  ["gold","Shoreline: Meta brings clicks, Google brings bookings","Meta 61% of clicks, Google 78% of bookings."],
+  ["green","Seacliff: offers book, videos get clicks","Static offer ads book 4× more than video; video gets 2× the clicks."],
+  ["gold","Tidepool: social is reach, not reservations (yet)","Happy-hour Reel reached 96K, 0 tracked reservations; add an OpenTable link."],
+  ["green","Bookings up 31% on 8% less spend","Year to date vs last year across both hotels."]];
+PAID.timeline = [["Jun","Summer push on both hotels; Display paused at Shoreline."],["Jul","Kids-eat-free carousel launched; best summer click rate."],["Aug","Brand search budget raised 20% for peak weeks."],["Sep","Tracking moved to the new checkout page (likely the October gap)."],["Oct","Non-brand terms broadened; Thanksgiving carousel for Driftwood."],["Nov","$900 moved from Display to Search; Shoreline audience rebuilt."]];
+PAID.channels = [["Google search (brand)","The main booking engine. People searching our name, protected so competitors can’t take the click."],["Google search (non-brand)","Broader ‘San Diego coastal hotel’ terms; reach new guests, judged on cost per booking."],["Meta (Instagram + Facebook)","Visibility and offers; strongest for restaurants and events."],["Metasearch","Rate listings on travel-search sites; lowest cost per booking for the hotels."]];
+S.paidView = S.paidView || "ours"; S.qi = S.qi || 0;
+V.paid = () => {
+  const cc = {coral:"var(--coral)", gold:"var(--gold)", green:"var(--green)", navy:"var(--navy)"};
+  const tot = PAID.ch.reduce((a,c) => [a[0]+c[1], a[1]+c[3], a[2]+c[4], a[3]+c[5]], [0,0,0,0]);
+  const tabs = `<div class="subtabs c12"><button type="button" class="subtab" data-paidview="ours" aria-pressed="${S.paidView==="ours"}"><b>Our paid media</b><span>Spend, bookings, our ads</span></button><button type="button" class="subtab" data-paidview="comp" aria-pressed="${S.paidView==="comp"}"><b>Comp set ads</b><span>${PAID.comp.length} ads they’re running</span></button></div>`;
+  if (S.paidView === "comp"){
+    const byComp = {}; PAID.comp.forEach(a => byComp[a.c] = (byComp[a.c] || 0) + 1);
+    const themes = {}; PAID.comp.forEach(a => themes[a.t] = (themes[a.t] || 0) + 1);
+    const cads = PAID.comp.slice().sort((a,b) => S.cadSort === "age" ? b.days - a.days : a.days - b.days);
+    return `<div class="grid">${tabs}
+     ${card("cbars","c6","Active ads by hotel", hbars(Object.entries(byComp).map(([c,n]) => [c, n, "var(--gold)", null, n])), {sub:"Meta Ad Library + Google Ads Transparency · public, no spend data"})}
+     ${card("cthemes","c6","What they’re promoting", hbars(Object.entries(themes).sort((a,b) => b[1]-a[1]).map(([t,n]) => [t, n, "var(--sea)", null, n])), {sub:"Count of their ads by theme, read from the ad copy"})}
+     ${card("cads","c12","What the comp set is running", `<div class="row2" style="justify-content:space-between;margin-bottom:12px"><span class="sm muted">▲ 90+ days: likely working · ● 30–90 days · ✦ New (under 30 days)</span><div class="seg" role="group" aria-label="Sort competitor ads">${[["age","Longest running"],["new","Newest"]].map(([k,l]) => `<button type="button" data-cadsort="${k}" aria-pressed="${S.cadSort===k}">${l}</button>`).join("")}</div></div><div class="ads">${cads.map(compAd).join("")}</div>`)}
+    </div>`;
+  }
+  const ours = PAID.ours.filter(a => (S.prop === "all" || a.p === S.prop) && (S.adTab === "live" ? a.live : !a.live)).sort((a,b) => b[S.adSort] - a[S.adSort]);
+  const q = PAID.questions;
+  return `<div class="grid">${tabs}
+   <div class="c3">${simpleKpi("Revenue from paid ads, 2026", fm(1.94e6,"$"), "1,121 bookings", 18.2, "#2f6f9f")}</div>
+   <div class="c3">${simpleKpi("Spend", fm(tot[0]*F(),"$"), D.ranges[S.range][0], `<span class="pill nt">◆ −8% vs last yr</span>`, "#d9533c")}</div>
+   <div class="c3">${simpleKpi("Return on ad spend", (tot[3]/tot[0]).toFixed(1) + "×", "every $1 brought back $" + (tot[3]/tot[0]).toFixed(1), `<span class="pill up">▲ 1.4× vs last yr</span>`, "#2b8a6c")}</div>
+   <div class="c3">${simpleKpi("Bookings", fm(tot[2]*F(),"n"), "$" + Math.round(tot[0]/tot[2]) + " ad cost per booking", 31, "#c9a46a")}</div>
+   <div class="c12"><div class="ch-h" style="margin:6px 0 0"><h3 style="font-size:22px">Advisor: what I’d do next <small style="display:inline;margin-left:6px">from the paid data plus the hub’s hotel pace and offers</small></h3></div></div>
+   ${PAID.advice.map(([when, c, who, t, d, todo], i) => `<section class="card c4 advc" style="--c:${cc[c]}" data-card="pa${i}"><div class="top"><span class="when">${when}</span><span>${who}</span></div><h4>${esc(t)}</h4><p>${esc(d)}</p><details><summary>What to do</summary><p>${esc(todo)}</p></details><span class="tag" style="align-self:flex-start">Sample data</span></section>`).join("")}
+   <div class="c12 row2"><a class="btn" href="#ask">Ask the advisor for a full plan</a><span class="sm muted">Claude reads every paid number plus the hub’s hotel pace and offer results.</span></div>
+   ${card("says","c12","What the numbers say", `<div class="says">${PAID.says.map(([c,t,d]) => `<div class="say" style="--c:${cc[c]}"><b>${esc(t)}</b><span>${esc(d)}</span></div>`).join("")}</div>`)}
+   ${card("qs","c12","Questions for the agency", `<div class="row2" style="justify-content:space-between;margin:-4px 0 12px"><span class="sm muted">${q.length} · swipe or use the arrows</span><div class="qnav"><button class="btn ghost sm" type="button" data-qnav="-1" aria-label="Previous question">←</button><span class="sm">${S.qi+1} of ${q.length}</span><button class="btn ghost sm" type="button" data-qnav="1" aria-label="Next question">→</button><button class="btn ghost sm" type="button" id="copyq">Copy all</button></div></div>
+     <div class="qrail" id="qrail">${q.map(([t,c],i) => `<div class="q" id="q${i}"><span class="qt">${i+1} · ${c}${/Tracking/.test(c)||i<1?" (urgent)":""}</span><p>${esc(t)}</p></div>`).join("")}</div>`)}
+   ${card("agtl","c12","What the agency did and why", `<div class="agtl">${PAID.timeline.map(([m,t]) => `<div><b>${m}</b>${esc(t)}</div>`).join("")}</div><p class="eyebrow mt">What each channel is for, in their words</p><div class="chan">${PAID.channels.map(([c,t]) => `<div><b>${c}</b>${esc(t)}</div>`).join("")}</div>`, {sub:"From their monthly notes"})}
+   ${card("bych","c12","By channel", `<div class="smallm">${[["Spend",1,v=>fm(v*F(),"$")],["Impressions",2,v=>fm(v*F(),"n")],["Clicks",3,v=>fm(v*F(),"n")],["Bookings",4,v=>fm(v*F(),"n")],["Revenue",5,v=>fm(v*F(),"$")],["ROAS",6,v=>v.toFixed(1)+"×"]].map(([m, i, f]) => `<div><p class="eyebrow">${m}</p>${hbars(PAID.ch.map(c => { const v = i === 6 ? c[5]/c[1] : c[i]; return [c[0], v, i === 6 ? "var(--green)" : "var(--sea)", `${c[0]} ${m}: ${f(v)}`, f(v)]; }))}</div>`).join("")}</div><p class="sm muted">One chart per measure, never a dual axis. ${D.ranges[S.range][0]}.</p>`)}
+   ${card("pmonth","c5","Revenue from paid ads by month", bars(PAID.months.map(([m,v],i) => [m, v*1000, null, i===5]), v => fm(v,"$"), {h:160, legend:false, aria:"Paid revenue by month"}))}
+   ${card("ourads","c7","Our social ads", `<div class="row2" style="justify-content:space-between;margin-bottom:12px"><div class="seg" role="group" aria-label="Ad status">${[["live","Running now"],["old","Ended & older"]].map(([k,l]) => `<button type="button" data-adtab="${k}" aria-pressed="${S.adTab===k}">${l} (${PAID.ours.filter(a => (S.prop==="all"||a.p===S.prop) && (k==="live"?a.live:!a.live)).length})</button>`).join("")}</div>
+     <div class="seg" role="group" aria-label="Sort ads">${[["clicks","Clicks"],["ctr","Click rate"],["saves","Saves"],["shares","Shares"]].map(([k,l]) => `<button type="button" data-adsort="${k}" aria-pressed="${S.adSort===k}">${l}</button>`).join("")}</div></div>
+     ${ours.length ? `<div class="ads">${ours.map(adCard).join("")}</div>` : `<div class="empty"><b>No ads here</b>Nothing ${S.adTab==="live"?"running":"ended"} for this property.</div>`}
+     <p class="sm muted mt">▲ Strong · ● Average · ▼ Weak click rate vs the hotel’s other ads; known bookers count as strong.</p>`, {sub:"2026 to date · from Meta"})}
+  </div>`;
+};
+document.addEventListener("click", e => {
+  const pv = e.target.closest("[data-paidview]"); if (pv){ S.paidView = pv.dataset.paidview; render(); return; }
+  const qn = e.target.closest("[data-qnav]"); if (qn){ S.qi = (S.qi + +qn.dataset.qnav + PAID.questions.length) % PAID.questions.length; const r = $("#qrail"); render(); const q = $("#q" + S.qi); if (q) $("#qrail").scrollTo({left: q.offsetLeft - $("#qrail").offsetLeft, behavior: reduce ? "auto" : "smooth"}); return; }
+  if (e.target.closest("#copyq")){ const t = PAID.questions.map((q,i) => `${i+1}. ${q[0]}`).join("\n"); try { navigator.clipboard.writeText(t); } catch(_){} toast("Questions copied"); }
+});
+
+/* ============================================================ SOCIAL & PRESS */
+const SOC = {
+  acc:[["Seacliff Resort",48200,4.1,1],["Driftwood Grill",21400,5.2,1],["Shoreline Hotel",11800,3.3,1],["Tidepool Bar",9600,4.4,1],["Harbor House Hotel",61400,2.8,0],["The Palisades",39800,3.4,0],["Sandpiper Resort",27300,4.6,0],["Cove Point Inn",18900,2.2,0]],
+  viral:[["Seacliff Resort","Sunrise from the event lawn (Reel)","412K views",8.4,1],["Driftwood Grill","Chef flaming the dessert (Reel)","188K views",6.1,1],["Sandpiper Resort","Dog-friendly suite tour","240K views",5.2,0],["Tidepool Bar","Sunset in 15 seconds","96K views",3.9,1],["Harbor House Hotel","Holiday lobby reveal","130K views",3.1,0]],
+  press:[["Nov 10","Coastal Living (fictional)","“12 Winter Escapes on the Pacific”","Seacliff Resort"],["Oct 28","SD Dining Guide (fictional)","Driftwood named a top holiday dinner","Driftwood Grill"],["Oct 3","Travel Weekly West (fictional)","Shoreline’s $8M refresh","Shoreline Hotel"]],
+  infl:[["Nov 12","@coastalcouple","2 nights · Seacliff","3 Reels, 210K views","good"],["Oct 30","@sdfoodie","Dinner · Driftwood","1 Reel, 88K views","good"],["Dec 4","@wanderwithmaya","2 nights · Shoreline","Booked","info"]],
+  sched:[["Mon","Reel: Thanksgiving prep","Driftwood"],["Tue","Carousel: Spa & Sea","Seacliff"],["Wed","Story: happy hour","Tidepool"],["Thu","Reel: Winter Escape","Shoreline"],["Fri","Image: wine dinner recap","Driftwood"],["Sat","Story: wedding (with consent)","Seacliff"]]};
+V.social = () => `<div class="grid">
+   ${card("fol","c6","Followers vs the comp set", hbars(SOC.acc.slice().sort((a,b) => b[1]-a[1]).map(([n,f,,o]) => [o ? `<b>${n}</b>` : n, f, o ? "var(--sea)" : "var(--line)", `${n}: ${fm(f,"n")} followers`, fm(f,"n")])), {sub:"Instagram · ours in blue"})}
+   ${card("eng","c6","Engagement rate vs the comp set", hbars(SOC.acc.slice().sort((a,b) => b[2]-a[2]).map(([n,,e,o]) => [o ? `<b>${n}</b>` : n, e, o ? "var(--green)" : "var(--line)", `${n}: ${e}%`, e + "%"])), {sub:"Average of the last 30 posts"})}
+   ${card("viral","c7","Going viral", `<ul class="list">${SOC.viral.map(([w,p,v,x,o]) => `<li><span class="vx ${o?"o":""}">${x}×</span><div class="t"><b>${esc(p)}</b><span>${w}${o?"":" (competitor)"} · ${v}</span></div></li>`).join("")}</ul><p class="sm muted">×  = engagement vs that account’s normal post.</p>`, {sub:"Top posts this month, ours and competitors’"})}
+   ${card("tiktok","c5","Competitor TikTok scan", S.tiktok === "error" ? `<div class="err"><b>■ Couldn’t load this source</b><p class="sm">The scan timed out at 6:10 am. Other numbers on this page are fine.</p><button class="btn sm" type="button" id="retry">Retry</button></div>` : S.tiktok === "loading" ? `<div class="skel" style="grid-template-columns:1fr"><div class="sk" style="height:90px"></div></div>` : `<ul class="list">${[["Sandpiper Resort","42 posts · 3.1% engagement"],["Harbor House Hotel","18 posts · 1.9%"],["The Palisades","9 posts · 2.4%"],["Cove Point Inn","No account"]].map(([n,t]) => `<li>${shape("good")}<div class="t"><b>${n}</b><span>${t}</span></div></li>`).join("")}</ul>`, {sub:"Example of an error state"})}
+   ${card("press","c4","Press coverage", `<ul class="list">${SOC.press.map(([d,o,h,p]) => `<li><div class="t"><b>${esc(h)}</b><span>${d} · ${o} · ${p}</span></div></li>`).join("")}</ul>`)}
+   ${card("infl","c4","Influencer visits", `<ul class="list">${SOC.infl.map(([d,h,w,r,s]) => `<li>${shape(s)}<div class="t"><b>${h}</b><span>${d} · ${w} · ${r}</span></div></li>`).join("")}</ul>`)}
+   ${card("sched","c4","Posting calendar, this week", `<ul class="list">${SOC.sched.map(([d,p,w]) => `<li><span class="code" style="width:38px;text-align:center">${d}</span><div class="t"><b style="font-weight:500">${p}</b><span>${w}</span></div></li>`).join("")}</ul>`)}
+  </div>`;
+
+/* ============================================================ COMP SET */
+const COMP = {
+  offers:[["Cove Point Inn","Winter Sale",30,"2+ nights","Parking","Nov 10 – Jan 31","bad"],["Sandpiper Resort","Stay 3, Pay 2",33,"3 nights","Kids stay free","Nov 1 – Feb 28","watch"],["Harbor House Hotel","Holiday Tradition",15,"1+ night","Breakfast for two, late checkout","Nov 15 – Dec 30","info"],["The Palisades","Spa Days",10,"2+ nights","$100 spa credit","Oct 1 – Jan 15","info"],["Seacliff Resort (us)","Stay Longer, Save 20%",20,"3+ nights","Breakfast, parking","All winter","good"]],
+  perks:["Breakfast","Resort credit","Parking","Late checkout","Spa credit","Resort fee waived","Free cancellation"],
+  grid:{"Seacliff (us)":[1,0,1,1,0,0,1],"Harbor House":[1,0,0,1,0,0,1],"Cove Point":[0,0,1,0,0,0,0],"The Palisades":[0,1,0,0,1,1,1],"Sandpiper":[0,0,0,1,0,1,1]}};
+V.comp = () => `<div class="grid">
+   <div class="c12 callout"><span class="st bad">■ Biggest change this week</span><p><b>Cove Point Inn</b> launched a <b>30% Winter Sale</b> on Nov 10, the deepest discount in the set. Their ad has run 12 days. <a class="lnk" href="#advisor">See the Advisor’s move →</a></p></div>
+   ${COMP.offers.map(([c,o,d,n,p,dt,s]) => card("o-" + c, "c4" + (c.includes("(us)") ? " us" : ""), esc(c), `<p class="big" style="margin:0">${d}% <span class="sm muted" style="font:500 13px var(--sans)">off</span></p><p style="margin:4px 0"><b>${esc(o)}</b></p><p class="sm muted" style="margin:0">${n} · ${esc(p)}<br>${dt}</p>`)).join("")}
+   ${card("depth","c5","Discount depth", hbars(COMP.offers.map(o => [o[0].replace(" (us)",""), o[2], o[0].includes("(us)") ? "var(--sea)" : "var(--gold)", `${o[0]}: ${o[2]}%`, o[2] + "%"]).sort((a,b) => b[1]-a[1])))}
+   ${card("perks","c7","Perk by perk", `<div class="tw"><table class="tb grid-perk"><thead><tr><th>Perk</th>${Object.keys(COMP.grid).map(k => `<th>${k}</th>`).join("")}</tr></thead><tbody>${COMP.perks.map((p,i) => `<tr><td>${p}</td>${Object.values(COMP.grid).map(g => g[i] ? '<td class="yes" aria-label="Included">✓</td>' : '<td class="no" aria-label="Not included">✕</td>').join("")}</tr>`).join("")}</tbody></table></div>`, {sub:"✓ included · ✕ not included"})}
+  </div>`;
+
+/* ============================================================ PLAN */
+const CAMPS = [
+  {id:"c1",n:"Thanksgiving by the sea",p:"driftwood",start:"2026-11-02",end:"2026-11-26",s:"watch",last:1,items:[["E-blast drafted","M","Oct 30",1],["Website banner","M","Nov 2",1],["Social posts","M","Nov 5",1],["Paid ads","S","Nov 6",1],["On-property signage","E","Nov 10",0],["PR pitch","S","Nov 4",1]]},
+  {id:"c2",n:"Winter Escape",p:"shore",start:"2026-11-19",end:"2026-12-20",s:"bad",last:1,items:[["E-blast drafted","M","Nov 18",0],["Website banner","M","Nov 19",0],["Social posts","M","Nov 20",0],["Paid ads","S","Nov 20",1],["On-property signage","E","—",0],["PR pitch","S","Nov 25",0]]},
+  {id:"c3",n:"Christmas Eve dinner",p:"driftwood",start:"2026-11-23",end:"2026-12-24",s:"bad",last:1,items:[["E-blast drafted","M","Nov 20",0],["Website banner","M","Nov 23",0],["Social posts","M","Nov 25",0],["Paid ads","S","Nov 25",0],["On-property signage","E","Dec 1",0],["PR pitch","S","Nov 24",0]]},
+  {id:"c4",n:"Holiday gift cards",p:"resort",start:"2026-11-01",end:"2026-12-24",s:"good",last:1,items:[["E-blast drafted","M","Oct 28",1],["Website banner","M","Nov 1",1],["Social posts","M","Nov 3",1],["Paid ads","S","Nov 3",1],["On-property signage","E","Nov 5",1],["PR pitch","S","—",1]]},
+  {id:"c5",n:"New Year’s Eve at Tidepool",p:"tidepool",start:"2026-12-01",end:"2026-12-31",s:"watch",last:1,items:[["E-blast drafted","M","Nov 27",0],["Website banner","M","Dec 1",0],["Social posts","M","Dec 2",0],["Paid ads","S","Dec 3",0],["On-property signage","E","Dec 5",0],["PR pitch","S","Dec 1",0]]},
+  {id:"c6",n:"Holiday parties retargeting",p:"resort",start:"2026-11-16",end:"2026-12-12",s:"good",last:0,items:[["E-blast drafted","M","Nov 12",1],["Website banner","M","Nov 14",1],["Social posts","M","—",1],["Paid ads","S","Nov 16",1],["On-property signage","E","—",0],["PR pitch","S","—",1]]},
+  {id:"c7",n:"Local Escape midweek",p:"shore",start:"2026-12-28",end:"2027-01-31",s:"info",last:1,items:[["E-blast drafted","M","Dec 20",0],["Website banner","M","Dec 26",0],["Social posts","M","Dec 28",0],["Paid ads","S","Dec 28",0],["On-property signage","E","—",0],["PR pitch","S","—",0]]}];
+const TOUCH = [["Lobby easel: Christmas Eve dinner","E",0],["In-room TV slide: Spa & Sea","M",1],["Check-in stuffer: Driftwood holiday menu","E",1],["Elevator frames: NYE at Tidepool","M",0],["Room-service menu insert: gift cards","E",1]];
+V.plan = () => {
+  const cs = CAMPS.filter(c => S.prop === "all" || c.p === S.prop);
+  const prog = c => c.items.filter(x => x[3]).length / c.items.length * 100;
+  const days = []; const first = new Date(2026, 11, 1), off = (first.getDay() + 6) % 7; for (let i = 0; i < off; i++) days.push(null); for (let d = 1; d <= 31; d++) days.push(d);
+  const on = d => cs.filter(c => { const t = new Date(2026, 11, d); return t >= new Date(c.start + "T00:00") && t <= new Date(c.end + "T23:59"); });
+  return `<div class="grid">
+   ${card("cal","c8","Campaign calendar", `<div class="row2" style="justify-content:space-between;margin-bottom:12px"><span class="sm muted">Built automatically from what ran last year</span><div class="seg" role="group" aria-label="Calendar view">${[["month","December"],["list","List"]].map(([k,l]) => `<button type="button" data-planview="${k}" aria-pressed="${S.planView===k}">${l}</button>`).join("")}</div></div>
+     ${S.planView === "month" ? `<div class="mcal"><span class="dh">Mon</span><span class="dh">Tue</span><span class="dh">Wed</span><span class="dh">Thu</span><span class="dh">Fri</span><span class="dh">Sat</span><span class="dh">Sun</span>${days.map(d => d ? `<div class="mc"><b>${d}</b>${on(d).slice(0,3).map(c => `<button type="button" class="cb" data-camp="${c.id}" style="--pc:${D.props[c.p].c}" data-tip="${esc(c.n)}">${esc(c.n)}</button>`).join("")}</div>` : `<div class="mc empty0"></div>`).join("")}</div>`
+       : `<ul class="list">${cs.map(c => `<li>${ring(prog(c), 40)}<div class="t"><b>${pdot(c.p)} ${esc(c.n)}</b><span>${new Date(c.start+"T12:00").toLocaleDateString("en-US",{month:"short",day:"numeric"})} – ${new Date(c.end+"T12:00").toLocaleDateString("en-US",{month:"short",day:"numeric"})}${c.last ? ' · <span class="st info">◆ Suggested from last year</span>' : ""}</span></div><button class="btn ghost sm" type="button" data-camp="${c.id}">Checklist</button></li>`).join("")}</ul>`}`, {sub:"Tap a campaign to open its checklist"})}
+   ${card("six","c4","Coming up in 6 weeks", `<ul class="list">${cs.map(c => `<li>${shape(c.s)}<div class="t"><b>${esc(c.n)}</b><span>${pdot(c.p)} ${D.props[c.p].s} · ${Math.round(prog(c))}% ready</span></div></li>`).join("")}</ul>`)}
+   ${card("touch","c12","On-property touchpoints", `<ul class="list cols2">${TOUCH.map(([t,o,d],i) => `<li class="${d?"done":""}"><button type="button" class="chk" aria-pressed="${!!d}" data-touch="${i}" aria-label="Mark done: ${esc(t)}"></button><div class="t"><b style="font-weight:500">${esc(t)}</b></div>${av(o)}</li>`).join("")}</ul>`, {sub:"Signs, in-room TV, brochures and check-in stuffers"})}
+  </div>`;
+};
+function openCamp(id){
+  const c = CAMPS.find(x => x.id === id), p = c.items.filter(x => x[3]).length / c.items.length * 100;
+  $("#drawer").innerHTML = `<button class="icon-btn x" type="button" data-close aria-label="Close"><svg><use href="#i-x"/></svg></button><span class="tag">Sample data</span>
+   <h2 id="dr-h">${esc(c.n)}</h2><p class="muted sm">${pdot(c.p)} ${D.props[c.p].n}${c.last ? ' · <span class="st info">◆ Suggested from last year</span>' : ""}</p>
+   <div class="row2" style="margin:12px 0">${ring(p, 64)}<div><b>${c.items.filter(x => x[3]).length} of ${c.items.length} done</b><br>${stat(c.s)}</div></div>
+   <ul class="list">${c.items.map(([t,o,due,d],i) => `<li class="${d?"done":""}"><button type="button" class="chk" aria-pressed="${!!d}" data-citem="${c.id}:${i}" aria-label="Mark done: ${t}"></button><div class="t"><b style="font-weight:500">${t}</b><span>Due ${due}</span></div>${av(o)}</li>`).join("")}</ul>
+   ${c.last ? `<p class="sm muted mt">Last year this ran ${c.n.includes("Thanksgiving") ? "Nov 1–26 and brought in $31K" : "about the same dates"}; dates were copied forward automatically.</p>` : ""}`;
+  openLayer("drawer");
+}
+
+/* ============================================================ ASK */
+const QA = [
+  ["How did Valentine’s e-blasts do vs last year?","Valentine’s e-blasts brought in $42.6K, up 18% on last year, from two sends instead of three. Opens were 43% (last year 37%), and the “by the water” subject line beat the price-led one by 6 points.",[["2026",42.6],["2025",36.1]],"$K","E-blasts · Feb 2026 sends; booking engine"],
+  ["Which hotel week needs the most help?","Shoreline Hotel, week of Dec 7: 31% of rooms sold vs 52% at this point last year, about 190 room nights short. The Dec 14 week is next (38% vs 49%).",[["Dec 7",31],["Dec 14",38],["Jan 11",18],["Jan 4",22]],"% sold","Hotels · weeks ahead (hotel system, 6:00 am)"],
+  ["What’s our best send time?","Tuesday 6–9 am: 4.1% click rate and the most revenue per send. For restaurants, Thursday 5–9 pm (3.8%) wins.",[["Tue 6–9 am",4.1],["Thu 5–9 pm",3.8],["Thu 6–9 am",3.4],["Wed 6–9 am",3.2]],"click %","E-blasts · last 12 months of sends"],
+  ["Are we behind on Thanksgiving?","A little. Thanksgiving dinner at Driftwood is at 72% of last year’s final covers (412 of 572). About 6 covers a day closes the gap; last year 30% of covers came in the final 10 days.",[["Booked",412],["Goal",572]],"covers","Restaurants · reservation platform"],
+  ["Who’s discounting deepest right now?","Sandpiper Resort at 33% (3rd night free) and Cove Point Inn at 30%. We’re at 20% with breakfast and parking, the richest perks in the set.",[["Sandpiper",33],["Cove Point",30],["Seacliff",20],["Harbor House",15]],"% off","Comp set scan · 6:00 am"],
+  ["Which ad is working best?","Driftwood’s Thanksgiving carousel: 3.4% click rate and 44 known bookings. Shoreline’s Winter Escape is weakest at 1.1%, so test a price-led headline.",[["Thanksgiving",3.4],["Stay longer",2.6],["Happy hour",2.2],["Winter Escape",1.1]],"click %","Paid · Meta ad reports"]];
+V.ask = () => card("ask","c12",`Ask the hub <span class="st info" style="vertical-align:3px;margin-left:6px">◆ Scripted demo</span>`, `<p class="sm muted">In the real hub you can ask anything about the numbers. Here, pick a question:</p>
+  <div class="chips">${QA.map((q,i) => `<button type="button" data-q="${i}">${q[0]}</button>`).join("")}</div>
+  <div class="chat" id="chat" aria-live="polite">${S.qa.map(i => qaHTML(i)).join("")}</div>
+  <form class="askin" id="askf"><input id="askq" placeholder="Type a question…" aria-label="Question" autocomplete="off"><button class="btn" type="submit">Ask</button></form>`);
+const qaHTML = (i, typed) => { const [q, a, data, unit, src] = QA[i], mx = Math.max(...data.map(d => d[1]));
+  return `<div class="msg2 me">${esc(q)}</div><div class="msg2 ai"><span class="atext">${typed ? "" : esc(a)}</span><div class="aextra" ${typed ? "hidden" : ""}>${hbars(data.map(([l,v],k) => [l, v, k ? "var(--sea2)" : "var(--sea)", `${l}: ${v} ${unit}`, v]), {max:mx})}<p class="sm muted" style="margin:6px 0 0"><b>Sources:</b> ${src} · sample data</p></div></div>`; };
+function ask(i){
+  S.qa.push(i); $("#chat").insertAdjacentHTML("beforeend", qaHTML(i, true));
+  const el = $("#chat").lastElementChild, t = el.querySelector(".atext"), full = QA[i][1]; let n = 0;
+  el.scrollIntoView({block:"nearest", behavior: reduce ? "auto" : "smooth"});
+  if (reduce){ t.textContent = full; el.querySelector(".aextra").hidden = false; return; }
+  const iv = setInterval(() => { n += 4; t.textContent = full.slice(0, n); if (n >= full.length){ clearInterval(iv); el.querySelector(".aextra").hidden = false; } }, 16);
+}
+
+/* ============================================================ WEEKLY SUMMARY */
+V.summary = () => { const r = M("rooms"), c = M("covers"), e = M("events"), w = M("web"), em = M("email");
+  const k = [["Rooms revenue on the books", r], ["Restaurant covers", c], ["Event revenue hosted", e], ["Website bookings", w], ["E-blast revenue", em]].filter(x => x[1]);
+  return `<article class="card memo"><span class="tag" style="float:right">Sample data</span><p class="eyebrow">Weekly summary · Nov 16–22, 2026 · for leadership</p>
+   <h2>A solid week, with two soft spots in December.</h2>
+   <p class="muted sm">To: General managers, Director of Sales · From: Sarah, Marketing · Generated Monday 6:00 am</p>
+   <div class="memo-k">${k.map(([l, m]) => `<div><small>${l}</small><b>${fm(m.v, D.metrics[Object.keys(D.metrics).find(x => D.metrics[x].label === l)].f)}</b>${pill(m.yoy)}</div>`).join("")}</div>
+   <div class="memo-cols"><div><h4>${shape("good")} Wins</h4><ol><li>E-blast revenue +13%; Thanksgiving send alone drove $21.4K.</li><li>Seacliff Resort pacing +7.4% on rate, not discounting.</li><li>Event win rate 34%, best in 4 years.</li></ol></div>
+   <div><h4>${shape("bad")} Risks</h4><ol><li>Shoreline, week of Dec 7: 31% booked vs 52% last year.</li><li>Christmas Eve at Driftwood: 58% of goal, 5 weeks out.</li><li>Cove Point Inn’s 30% sale is the deepest in the set.</li></ol></div></div>
+   <h4>Next week’s priorities</h4><ol><li>Winter Escape e-blast + $1,200 local search for Shoreline (Thu).</li><li>Lead Monday’s e-blast with Christmas Eve dinner.</li><li>Add parking + breakfast to Stay Longer instead of discounting.</li></ol>
+   <div class="row2 mt"><button class="btn ghost sm" type="button" onclick="window.print()">Print</button><span class="sm muted">Emailed every Monday as a one-pager.</span></div></article>`; };
+
+/* ============================================================ SECURITY */
+V.security = () => `<div class="grid">
+   ${card("who","c6","Who can see it", `<ul class="list"><li>${shape("good")}<div class="t"><b>Invite only</b><span>Only people an admin adds can sign in. There’s no public page and no sign-up.</span></div></li><li>${shape("good")}<div class="t"><b>Page by page</b><span>Each person sees only the pages they’re given (sales managers’ numbers stay private).</span></div></li><li>${shape("good")}<div class="t"><b>Every request is checked</b><span>Without a valid sign-in, every page and data call is locked out.</span></div></li></ul>`)}
+   ${card("signin","c6","How sign-in works", `<ol class="steps2"><li>Type your work email.</li><li>Get a one-time code by email. No passwords to steal or reuse.</li><li>Enter the code. The session expires after 24 hours.</li></ol><p class="sm muted">Emails outside the company domain also have to be on the sign-in allow list.</p>`)}
+   ${card("prot","c12","Protections built in", `<ul class="list cols2">${[["Read-only data pulls","The daily refresh can only read reports. It can’t send email, change bookings, edit systems or change who has access."],["Locked-down database","Only the owner and editors can change comp-set offers, notes and agent briefings, so a viewer can’t plant false data."],["Approved sites only","The comp-set scan opens only competitor websites on a fixed, approved list."],["AI guardrails","Text inside web pages, emails or notes is treated as data, never as instructions. Ask can only look things up in the hub."],["No keys to other systems","The page holds no credentials for OPERA, Tripleseat, iVvy or GA4, so it can’t be used to get into them."],["Fast shut-off","The owner can remove anyone’s access in one step, and every change is logged."]].map(([t,d]) => `<li>${shape("good")}<div class="t"><b>${t}</b><span>${d}</span></div></li>`).join("")}</ul>`)}
+   ${card("holds","c12","What it holds, and what it never holds", `<div class="grid" style="gap:14px"><div class="c6"><p class="eyebrow">${shape("good")} Stores</p><ul class="list">${["Totals: rooms, covers, revenue, visits","Campaign plans, team notes and to-dos","Public competitor offers and ads"].map(x => `<li><div class="t"><b style="font-weight:500">${x}</b></div></li>`).join("")}</ul></div><div class="c6"><p class="eyebrow">${shape("bad")} Never stores</p><ul class="list">${["Guest names","Email addresses or phone numbers","Card or payment data","Anything about a single guest"].map(x => `<li><div class="t"><b style="font-weight:500">${x}</b></div></li>`).join("")}</ul></div></div>`, {sub:"Totals only"})}
+   ${card("log","c12","Access log", table("log", [{l:"When"},{l:"Who"},{l:"Change"}], [["Nov 16, 9:12 am","Sarah","Added Marcus as Editor"],["Nov 12, 4:40 pm","Sarah","Gave Elena access to Sales and Plan"],["Nov 3, 8:05 am","System","Rotated the data-refresh key"],["Oct 28, 2:18 pm","Sarah","Removed a former contractor"],["Oct 20, 10:31 am","Sarah","Turned on the comp set scan"]]), {sub:"Admin changes · fictional"})}
+  </div>`;
+
+/* ============================================================ SETTINGS */
+const PEOPLE = [["Sarah Mitchell","sarah@seacliff.example","Admin","All pages","Jan 6, 2026"],["Marcus Lee","marcus@seacliff.example","Editor","Today, Hotels, Restaurants, E-blasts, Plan","Nov 16, 2026"],["Elena Ruiz","elena@seacliff.example","Editor","Today, Sales, Plan","Mar 2, 2026"],["Diego Marín","diego@seacliff.example","Viewer","Today, Sales","Apr 14, 2026"],["Priya Shah","priya@seacliff.example","Viewer","Weekly summary","Sep 9, 2026"]];
+V.settings = () => { const I = S.inv, steps = ["Name","Email","Access","Review"];
+  const em = I.email.trim().toLowerCase(), dup = PEOPLE.some(p => p[1] === em), outside = em.includes("@") && !em.endsWith("@seacliff.example");
+  let body = "";
+  if (I.step === 0) body = `<div class="field"><label for="iv-name">Their name</label><input id="iv-name" value="${esc(I.name)}" placeholder="e.g. Jordan Lee" autocomplete="off"></div>`;
+  if (I.step === 1) body = `<div class="field"><label for="iv-email">Their work email</label><input id="iv-email" type="email" value="${esc(I.email)}" placeholder="jordan@seacliff.example" autocomplete="off"><div id="hints" aria-live="polite">${hints(em)}</div></div>`;
+  if (I.step === 2) body = `<div class="opts" role="radiogroup" aria-label="Access level">${[["Admin","Everything, including inviting people and settings"],["Editor","See their pages and edit plans, notes and to-dos"],["Viewer","Read-only, just the pages you pick"]].map(([l,d]) => `<button type="button" class="opt" role="radio" data-level="${l}" aria-checked="${I.level===l}"><span class="radio"></span><span><b>${l}</b><span>${d}</span></span></button>`).join("")}</div>
+     <p class="eyebrow mt">Pages they can see</p><div class="toggles">${PAGES_ALL.filter(p => !["security","settings"].includes(p.k)).map(p => `<button type="button" class="tgl" role="switch" aria-checked="${I.pages.includes(p.k)}" data-pg="${p.k}"><span class="sw"></span>${p.l}</button>`).join("")}</div>`;
+  if (I.step === 3) body = `<div class="detail" style="margin:0;max-width:560px"><p><b>Name:</b> ${esc(I.name || "Jordan Lee")}</p><p><b>Email:</b> ${esc(I.email || "jordan@seacliff.example")}</p><p><b>Access:</b> ${I.level}</p><p style="margin:0"><b>Pages:</b> ${I.pages.map(k => PAGES_ALL.find(p => p.k === k).l).join(", ")}</p></div>`;
+  if (I.step === 4) { const txt = `Hi ${(I.name || "Jordan").split(" ")[0]}, you've been invited to the Seacliff marketing hub. Go to hub.seacliff.example, type ${I.email || "jordan@seacliff.example"}, and enter the one-time code we email you. No password needed.`;
+    body = `<div class="detail" style="margin:0;max-width:560px;background:var(--green-bg)"><b style="color:var(--green)">● Invite ready (demo)</b><p class="sm">Nothing was saved or sent. Here are the instructions you’d send:</p><textarea id="invtxt" readonly rows="4">${txt}</textarea><button class="btn sm mt" type="button" id="copyinv">Copy instructions</button></div>`; }
+  return `<div class="grid">
+   ${card("me","c4","Your name", `<form id="nameform" class="field"><label for="myname">Shown on notes and to-dos</label><input id="myname" value="${esc(S.myName)}"><button class="btn sm" type="submit" style="align-self:flex-start">Save</button></form><button class="btn ghost sm mt" type="button" id="welcome">Preview new-user welcome</button>`)}
+   ${card("add","c8","Add a person", `<div class="stepper">${steps.map((t,i) => `<span class="${i===I.step?"on":i<I.step?"dn":""}">${i<I.step?"✓":i+1} ${t}</span>`).join("")}</div>${body}
+     <div class="row2 mt">${I.step > 0 && I.step < 4 ? `<button type="button" class="btn ghost" data-ivstep="-1">Back</button>` : ""}${I.step < 3 ? `<button type="button" class="btn" data-ivstep="1">Next</button>` : I.step === 3 ? `<button type="button" class="btn" data-ivstep="1">Create invite</button>` : `<button type="button" class="btn ghost" data-ivreset>Add another person</button>`}</div>`, {sub:"Invite only · demo, nothing is saved"})}
+   ${card("people","c12","People", `<div class="tw"><table class="tb"><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Pages</th><th>Added</th><th></th></tr></thead><tbody>${PEOPLE.map((p,i) => `<tr><td><b>${p[0]}</b></td><td class="sm">${p[1]}</td><td><span class="st ${p[2]==="Admin"?"info":p[2]==="Editor"?"good":"watch"}">${p[2]}</span></td><td class="sm">${p[3]}</td><td class="sm">${p[4]}</td><td class="r">${i === 0 ? '<span class="sm muted">You</span>' : S.confirm === i ? `<span class="confirm">Remove ${p[0].split(" ")[0]}? <button class="btn sm" type="button" data-rm="${i}">Remove</button> <button class="btn ghost sm" type="button" data-rmcancel>Cancel</button></span>` : `<button class="btn ghost sm" type="button" data-rmask="${i}">Remove</button>`}</td></tr>`).join("")}</tbody></table></div>`)}
+  </div>`; };
+const hints = em => !em ? "" : `${PEOPLE.some(p => p[1] === em) ? `<p class="hint bad">■ ${esc(em)} already has access.</p>` : ""}${em.includes("@") && !em.endsWith("@seacliff.example") ? `<p class="hint watch">▲ Outside the company domain: they’ll also need adding to the sign-in allow list.</p>` : ""}${em.endsWith("@seacliff.example") && !PEOPLE.some(p => p[1] === em) ? `<p class="hint good">● Looks good.</p>` : ""}`;
+
+/* ============================================================ events for the new pages */
+document.addEventListener("click", e => {
+  const t = e.target;
+  const so = t.closest("[data-sort]"); if (so){ const id = so.dataset.sort, c = +so.dataset.col, cur = S.sort[id]; S.sort[id] = [c, cur && cur[0] === c ? -cur[1] : -1]; render(); return; }
+  const row = t.closest("[data-row]"); if (row){ if (row.dataset.row === "sends") openSend(+row.dataset.i); return; }
+  const mp = t.closest("[data-map]"); if (mp){ S["map_" + mp.dataset.map] = S["map_" + mp.dataset.map] === mp.dataset.st ? null : mp.dataset.st; render(); return; }
+  const at = t.closest("[data-adtab]"); if (at){ S.adTab = at.dataset.adtab; render(); return; }
+  const as = t.closest("[data-adsort]"); if (as){ S.adSort = as.dataset.adsort; render(); return; }
+  const cs = t.closest("[data-cadsort]"); if (cs){ S.cadSort = cs.dataset.cadsort; render(); return; }
+  const pv = t.closest("[data-planview]"); if (pv){ S.planView = pv.dataset.planview; render(); return; }
+  const cp = t.closest("[data-camp]"); if (cp) return openCamp(cp.dataset.camp);
+  const ci = t.closest("[data-citem]"); if (ci){ const [id, i] = ci.dataset.citem.split(":"); const it = CAMPS.find(c => c.id === id).items[+i]; it[3] = it[3] ? 0 : 1; openCamp(id); render(); return; }
+  const tp = t.closest("[data-touch]"); if (tp){ TOUCH[+tp.dataset.touch][2] ^= 1; render(); return; }
+  const q = t.closest("[data-q]"); if (q) return ask(+q.dataset.q);
+  if (t.closest("#retry")){ S.tiktok = "loading"; render(); setTimeout(() => { S.tiktok = "ok"; render(); toast("Source reloaded"); }, 1200); return; }
+  const lv = t.closest("[data-level]"); if (lv){ S.inv.level = lv.dataset.level; render(); return; }
+  const pg = t.closest("[data-pg]"); if (pg){ const k = pg.dataset.pg, P = S.inv.pages; S.inv.pages = P.includes(k) ? P.filter(x => x !== k) : [...P, k]; render(); return; }
+  const st = t.closest("[data-ivstep]"); if (st){ const n = $("#iv-name"), em = $("#iv-email"); if (n) S.inv.name = n.value.trim(); if (em) S.inv.email = em.value.trim();
+    if (+st.dataset.ivstep > 0 && S.inv.step === 1 && PEOPLE.some(p => p[1] === S.inv.email.toLowerCase())){ toast("That person already has access"); return; }
+    S.inv.step = Math.max(0, Math.min(4, S.inv.step + +st.dataset.ivstep)); render(); $("#view input")?.focus(); return; }
+  if (t.closest("[data-ivreset]")){ S.inv = {step:0,name:"",email:"",level:"Editor",pages:["today","hotels","restaurants","eblasts","advisor"]}; render(); return; }
+  if (t.closest("#copyinv")){ const ta = $("#invtxt"); ta.select(); try { navigator.clipboard.writeText(ta.value); } catch(_){ document.execCommand("copy"); } toast("Instructions copied"); return; }
+  const ra = t.closest("[data-rmask]"); if (ra){ S.confirm = +ra.dataset.rmask; render(); return; }
+  if (t.closest("[data-rmcancel]")){ S.confirm = null; render(); return; }
+  const rm = t.closest("[data-rm]"); if (rm){ const p = PEOPLE.splice(+rm.dataset.rm, 1)[0]; S.confirm = null; render(); toast(`${p[0]} removed (demo)`); return; }
+  if (t.closest("#welcome")){ openWelcome(); return; }
+});
+document.addEventListener("keydown", e => { if (e.key === "Enter" && e.target.matches("tr[data-row]")) e.target.click();
+  if (e.key === "Enter" && e.target.matches("[data-map]")) e.target.dispatchEvent(new MouseEvent("click", {bubbles:true}));
+  if (e.key === "Enter" && e.target.matches("#iv-name,#iv-email")){ e.preventDefault(); $("[data-ivstep='1']")?.click(); } });
+document.addEventListener("input", e => { if (e.target.id === "iv-email"){ S.inv.email = e.target.value; $("#hints").innerHTML = hints(e.target.value.trim().toLowerCase()); } });
+document.addEventListener("change", e => { const f = e.target.closest(".fsel"); if (f){ S[f.dataset.f] = f.value; render(); } });
+document.addEventListener("submit", e => {
+  if (e.target.id === "askf"){ const v = $("#askq").value.toLowerCase().trim(); $("#askq").value = ""; if (!v) return;
+    const i = QA.findIndex(q => q[0].toLowerCase().split(/\W+/).filter(w => w.length > 4).some(w => v.includes(w)));
+    if (i >= 0) ask(i); else { $("#chat").insertAdjacentHTML("beforeend", `<div class="msg2 me">${esc(v)}</div><div class="msg2 ai">In this demo I can only answer the suggested questions above. The real hub answers anything about the live numbers.</div>`); } }
+  if (e.target.id === "nameform"){ S.myName = $("#myname").value.trim() || S.myName; toast("Name saved (demo)"); }
+});
+function openWelcome(){
+  let m = $("#m-welcome");
+  if (!m){ document.body.insertAdjacentHTML("beforeend", `<div class="modal" id="m-welcome" role="dialog" aria-modal="true" aria-labelledby="wl-h"><div class="pan welcome"><span class="mk2">${ico("wave")}</span><h2 id="wl-h">Welcome! What’s your first and last name?</h2><p class="muted">We’ll show it on your notes and to-dos so the team knows who wrote what.</p><form id="wlform" class="field" style="max-width:none"><input placeholder="First name" aria-label="First name" required><input placeholder="Last name" aria-label="Last name" required><button class="btn" type="submit">Continue</button></form><p class="sm muted mt">Preview only · nothing is saved</p></div></div>`); m = $("#m-welcome");
+    $("#wlform").addEventListener("submit", e => { e.preventDefault(); closeLayers(); toast("Welcome screen preview closed"); }); }
+  openLayer("m-welcome");
+}
 
 /* ============================================================ placeholders for later stages */
 const SOON = {hotels:2, restaurants:2, sales:2, eblasts:3, website:3, paid:3, social:3, comp:3, plan:4, ask:4, summary:4, security:4, settings:4};
@@ -750,10 +1436,11 @@ function chrome(){
   $("#morelist").innerHTML = groups.map(g => `<p class="grp">${g}</p>` + PAGES.filter(p => p.g === g && !TABS.includes(p.k)).map(p => { const b = BADGE[p.k]; return `<a href="#${p.k}" data-close><span class="ic">${ico(p.k)}</span><span class="t"><b>${p.l}</b><span>${p.d}</span></span>${b ? stat(b[0], b[1]) : ""}</a>`; }).join("")).join("");
   const opts = [["all","All"], ...Object.entries(D.props).map(([k,p]) => [k, p.s])];
   $("#pf").innerHTML = opts.map(([k,l]) => `<button type="button" data-prop="${k}" aria-pressed="${S.prop===k}">${k==="all" ? "" : pdot(k)}${l}</button>`).join("");
-  $("#pfsel").innerHTML = opts.map(([k,l]) => `<option value="${k}" ${S.prop===k?"selected":""}>${k==="all"?"All properties":l}</option>`).join("");
+  $("#sidesel").innerHTML = $("#pfsel").innerHTML = opts.map(([k,l]) => `<option value="${k}" ${S.prop===k?"selected":""}>${k==="all"?"All properties":l}</option>`).join("");
   $("#range").innerHTML = Object.entries(D.ranges).map(([k,[l]]) => `<button type="button" data-range="${k}" aria-pressed="${S.range===k}">${l}</button>`).join("");
   const p = PAGES.find(x => x.k === S.page);
   $("#title").innerHTML = p.l;
+  const ps = (D.pageSources[S.page] || [])[0]; $("#pulled").innerHTML = ps ? `${D.sources[ps][0].replace(/ \(.*\)/,"")}, pulled <b>${S.justRefreshed ? "just now" : "Nov 18"}</b>` : "";
   const srcs = D.pageSources[S.page] || ["hotel","res","email","web"];
   $("#fresh").innerHTML = `<span class="lead">Data</span>` + srcs.map(k => { const [n, t, old] = D.sources[k]; return `<span class="ch ${old?"old":""}" data-tip="${old ? "Numbers from this source may be stale. Last good refresh 3 days ago." : n + ": updated " + t}"><i></i>${n} · ${old ? "Out of date · " + t : "updated " + t}</span>`; }).join("");
   $("#pace").innerHTML = ["today","advisor","hotels","restaurants","sales"].includes(S.page) ? pacing() : "";
@@ -764,6 +1451,8 @@ function render(animate){
   chrome();
   const v = $("#view");
   v.innerHTML = (V[S.page] || (() => soon(S.page)))();
+  v.dataset.preset = S.preset || "mkt";
+  $("#jump").innerHTML = [...v.querySelectorAll(".card[data-card] > .ch-h h3")].map(h3 => { const t = h3.childNodes[0].textContent.trim(); return t ? `<button type="button" data-jump="${h3.closest("[data-card]").dataset.card}">${esc(t.length > 28 ? t.slice(0,26) + "…" : t)}</button>` : ""; }).join("");
   if (animate){ v.classList.remove("view"); void v.offsetWidth; v.classList.add("view"); }
   countUp(v);
 }
@@ -820,6 +1509,12 @@ document.addEventListener("submit", e => {
   if (f.dataset.note) { const v = f.querySelector("input").value.trim(); if (v) (S.notes[f.dataset.note] ||= []).push(v); S.noteOpen = null; render(); if (v) toast("Note saved for the team (demo)"); }
 });
 $("#pfsel").addEventListener("change", e => { S.prop = e.target.value; render(); });
+$("#sidesel").addEventListener("change", e => { S.prop = e.target.value; render(); });
+document.addEventListener("click", e => { const j = e.target.closest("[data-jump]"); if (!j) return; const el = document.querySelector(`[data-card="${j.dataset.jump}"]`); if (el) scrollTo({top: el.getBoundingClientRect().top + scrollY - 110, behavior: reduce ? "auto" : "smooth"}); });
+$("#totop").addEventListener("click", () => scrollTo({top:0, behavior: reduce ? "auto" : "smooth"}));
+addEventListener("scroll", () => $("#totop").classList.toggle("on", scrollY > 600), {passive:true});
+$("#refresh").addEventListener("click", () => { const b = $("#refresh"); if (b.classList.contains("busy")) return; b.classList.add("busy"); $("#upd").textContent = "Refreshing OPERA, OpenTable, Tripleseat, Ascent360, GA4, Meta…";
+  setTimeout(() => { b.classList.remove("busy"); S.justRefreshed = true; $("#upd").textContent = "Updated just now"; D.sources.social[1] = "3 days"; render(); toast("Refreshed 7 of 8 sources · Instagram scan still out of date"); }, 1800); });
 $("#sq").addEventListener("input", e => renderSearch(e.target.value));
 $("#sq").addEventListener("keydown", e => { if (e.key === "Enter"){ const a = $("#sres a.hl") || $("#sres a"); if (a){ location.hash = a.getAttribute("href"); closeLayers(); } }
   if (e.key === "ArrowDown" || e.key === "ArrowUp"){ e.preventDefault(); const as = $$("#sres a"), i = as.findIndex(a => a.classList.contains("hl")); as.forEach(a => a.classList.remove("hl")); const n = as[(i + (e.key === "ArrowDown" ? 1 : -1) + as.length) % as.length]; if (n) n.classList.add("hl"); } });
