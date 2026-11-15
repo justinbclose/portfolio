@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Portfolio Visitors</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=Azeret+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F3EC;--surface:#FFFFFF;--surface-2:#ECEBDF;--text:#23261C;--muted:#5C604F;--line:#DEDCCB;
+  --brand:#2F3524;--on-brand:#F5F5EF;--gold:#D3A877;--gold-ink:#8A6424;--sage:#8D9765;--accent:#2F3524;--on-accent:#F5F5EF;
+  --c-new:#C9733A;--c-ret:#2E7D8C;--good:#2F8A45;--warn:#A9741B;--tint:14%;--land:#E6E5D8;--land-line:#FFFFFF;
+  --shadow:0 1px 2px rgba(35,38,28,.05),0 6px 20px -8px rgba(35,38,28,.16);
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --sans:"Hanken Grotesk",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"Azeret Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --gl:max(16px,env(safe-area-inset-left,0px));--gr:max(16px,env(safe-area-inset-right,0px));--sb:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;
+  --bg:#12150E;--surface:#1B1F16;--surface-2:#252A1E;--text:#F1F0E6;--muted:#A3A890;--line:#30362A;
+  --brand:#252B1B;--on-brand:#F1F0E6;--gold:#D3A877;--gold-ink:#E2BE8E;--sage:#A3AD7A;--accent:#D3A877;--on-accent:#1B1F16;
+  --c-new:#E08B52;--c-ret:#4FA3B2;--good:#5BBE72;--warn:#E0A84A;--tint:22%;--land:#252A1E;--land-line:#12150E;--shadow:none}}
+:root[data-theme="dark"]{color-scheme:dark;
+  --bg:#12150E;--surface:#1B1F16;--surface-2:#252A1E;--text:#F1F0E6;--muted:#A3A890;--line:#30362A;
+  --brand:#252B1B;--on-brand:#F1F0E6;--gold:#D3A877;--gold-ink:#E2BE8E;--sage:#A3AD7A;--accent:#D3A877;--on-accent:#1B1F16;
+  --c-new:#E08B52;--c-ret:#4FA3B2;--good:#5BBE72;--warn:#E0A84A;--tint:22%;--land:#252A1E;--land-line:#12150E;--shadow:none}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:400 16px/24px var(--sans);-webkit-font-smoothing:antialiased}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:8px}
+.wrap{max-width:720px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 12px) var(--gr) calc(124px + var(--sb)) var(--gl)}
+.micro{font:600 11px/14px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1,h2,h3{margin:0;text-wrap:balance}
+h2{font:700 20px/26px var(--sans);letter-spacing:-.01em}
+
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.upd{display:grid;gap:2px;justify-items:start}
+.upd-t{font:700 17px/22px var(--sans);font-variant-numeric:tabular-nums}
+.upd .chip{height:26px;margin-top:4px}
+.chk{font-size:12.5px;line-height:17px;color:var(--muted);margin-top:4px}
+.chk.warn{color:var(--warn)}
+.chip{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-radius:999px;font:600 12px/1 var(--mono);white-space:nowrap;
+  background:color-mix(in srgb,var(--cc,var(--muted)) var(--tint),transparent);border:1px solid color-mix(in srgb,var(--cc,var(--muted)) 40%,transparent)}
+.chip .sh{color:var(--cc);font-size:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 16px;border-radius:14px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:15px;cursor:pointer;transition:transform .16s var(--ease);box-shadow:var(--shadow);white-space:nowrap}
+.btn:active{transform:scale(.96)}
+.btn.primary{background:var(--accent);border-color:transparent;color:var(--on-accent)}
+.btn.sm{height:40px;padding:0 14px;font-size:14px}
+.btn svg{width:18px;height:18px}
+.btn.spin svg{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* summary */
+.sum{margin-top:12px;background:var(--brand);color:var(--on-brand);border-radius:22px;padding:18px 18px 16px;position:relative;overflow:hidden}
+.sum .big{font:800 64px/60px var(--sans);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.sum .lead{font:600 18px/24px var(--sans);margin-top:6px;max-width:28ch}
+.sum .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.sum .chip{--cc:var(--gold);color:var(--on-brand)}
+.sum .spark{position:absolute;right:14px;top:16px;width:120px;height:44px;opacity:.9}
+.sum .spark path{fill:none;stroke:var(--gold);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.sum .spark .area{fill:color-mix(in srgb,var(--gold) 22%,transparent);stroke:none}
+.sum .sparklbl{position:absolute;right:16px;top:64px;font:600 11px/14px var(--mono);color:color-mix(in srgb,var(--on-brand) 70%,transparent);text-align:right}
+
+.sec{margin-top:26px}
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 10px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:14px 16px;box-shadow:var(--shadow)}
+.stack > * + *{margin-top:10px}
+
+/* receipt card (signature) */
+.rc{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:14px 16px 12px;box-shadow:var(--shadow);animation:up .32s var(--ease) both}
+@keyframes up{from{opacity:0;transform:translateY(8px)}}
+.rc.hot{border-color:color-mix(in srgb,var(--gold) 70%,var(--line))}
+.rc .hd{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.rc .co{font:800 21px/24px var(--sans);letter-spacing:-.01em;min-width:0}
+.st{display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 10px;border-radius:999px;font:600 12px/1 var(--sans);white-space:nowrap;flex:none;
+  background:color-mix(in srgb,var(--cc) var(--tint),transparent);border:1px solid color-mix(in srgb,var(--cc) 45%,transparent)}
+.st b{color:var(--cc);font-size:11px}
+.rc .meta{font:500 12px/18px var(--mono);color:var(--muted);margin-top:4px}
+.strip{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin-top:12px}
+.strip i{display:block;height:8px;border-radius:999px;background:var(--surface-2)}
+.strip i.on{background:var(--gold)}
+.strip i.on.deep{background:var(--sage)}
+.strip-l{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin-top:5px;font:500 9.5px/12px var(--mono);color:var(--muted);letter-spacing:.02em;text-transform:uppercase}
+.strip-l span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.strip-l span.on{color:var(--text)}
+.rc .saw{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.tag{display:inline-flex;align-items:center;height:26px;padding:0 10px;border-radius:999px;font-size:12.5px;font-weight:500;background:var(--surface-2)}
+.tag.star{background:color-mix(in srgb,var(--good) var(--tint),transparent);border:1px solid color-mix(in srgb,var(--good) 40%,transparent);font-weight:600}
+/* where the link was clicked: resume, cover letter, email... */
+.via{margin-top:12px;border-top:1px solid var(--line);padding-top:10px;display:grid;gap:8px}
+.via .micro{margin:0}
+.vrow{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;align-items:start}
+.vdoc{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:999px;font:600 12.5px/1 var(--sans);white-space:nowrap;
+  background:color-mix(in srgb,var(--dc) var(--tint),transparent);border:1px solid color-mix(in srgb,var(--dc) 45%,transparent)}
+.vdoc svg{width:14px;height:14px;color:var(--dc);flex:none}
+.vtxt{font-size:13px;line-height:18px;min-width:0;padding-top:4px}
+.vtxt b{font-weight:600}
+.vtxt .vsaw{display:block;color:var(--muted);font-size:12.5px}
+.vtxt .vbk{color:var(--good);font-weight:600}
+.nudge{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;padding:10px 12px;border-radius:14px;background:color-mix(in srgb,var(--gold) var(--tint),transparent)}
+.nudge p{margin:0;font-size:14px;line-height:19px;font-weight:600}
+
+/* lists */
+.rows{list-style:none;margin:0;padding:0}
+.row{display:grid;grid-template-columns:1fr auto;gap:2px 12px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.row:first-child{border-top:0;padding-top:2px}
+.row .t{font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .n{font:600 14px/20px var(--mono);text-align:right;font-variant-numeric:tabular-nums}
+.row .m{grid-column:1/-1;font-size:13px;line-height:18px;color:var(--muted)}
+.bar{grid-column:1/-1;height:6px;border-radius:999px;background:var(--surface-2);overflow:hidden}
+.bar span{display:block;height:100%;border-radius:999px;background:var(--sage);transform-origin:left;animation:grow .5s var(--ease) both}
+.rows.cool .bar span{background:var(--c-ret)}
+@keyframes grow{from{transform:scaleX(0)}}
+.visit{display:grid;grid-template-columns:58px 1fr;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.visit:first-child{border-top:0;padding-top:2px}
+.visit .w{font:600 12px/18px var(--mono);color:var(--gold-ink)}
+.visit .w span{display:block;color:var(--muted);font-weight:500}
+.visit .p{font-weight:700}
+.visit .m{font-size:13px;line-height:18px;color:var(--muted)}
+
+/* empty / waiting */
+.empty{padding:18px 6px;text-align:center}
+.empty svg{width:36px;height:36px;color:var(--gold)}
+.empty h3{font:700 18px/22px var(--sans);margin:6px 0 2px}
+.empty p{margin:0 auto;color:var(--muted);font-size:14px;line-height:20px;max-width:38ch}
+.steps{list-style:none;margin:12px 0 0;padding:0;text-align:left}
+.steps li{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-top:1px solid var(--line);font-size:14px;line-height:20px}
+.steps li:first-child{border-top:0}
+.steps b{font:600 12px/20px var(--mono);flex:none;width:52px}
+.steps .ok b{color:var(--good)}.steps .wait b{color:var(--warn)}
+
+/* range + chart */
+.seg{display:inline-flex;padding:3px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line)}
+.seg button{border:0;background:none;height:38px;min-width:54px;padding:0 14px;border-radius:999px;font:600 13px/1 var(--mono);color:var(--muted);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--text);color:var(--bg)}
+.chart{position:relative}
+.chart svg{display:block;width:100%;overflow:visible}
+.chart .ax{font:500 10.5px var(--mono);fill:var(--muted)}
+.chart .gl{stroke:var(--line)}
+.tip{position:absolute;pointer-events:none;background:var(--text);color:var(--bg);border-radius:12px;padding:7px 10px;font-size:13px;line-height:18px;white-space:nowrap;transform:translate(-50%,-100%);opacity:0;transition:opacity .16s var(--ease);z-index:5}
+.tip b{font-family:var(--mono)}.tip.on{opacity:1}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin-top:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.botbox{margin-top:10px;display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:16px;border:1px dashed var(--line);background:var(--surface-2)}
+.botbox .bn{font:800 24px/28px var(--sans);font-variant-numeric:tabular-nums;min-width:28px}
+.botbox .bt{font-size:13px;line-height:18px;color:var(--muted)}
+.botbox .bt b{color:var(--text);font-weight:600}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:10px 12px;box-shadow:var(--shadow)}
+.kpi .v{font:800 28px/32px var(--sans);font-variant-numeric:tabular-nums;margin-top:2px}
+.kpi .v small{font:600 12px/1 var(--mono);color:var(--muted);margin-left:2px}
+.mapbox{border-radius:14px;overflow:hidden;background:var(--surface-2)}
+.mapbox svg{display:block;width:100%;height:auto}
+.mapbox path{fill:var(--land);stroke:var(--land-line);stroke-width:.7}
+.mapbox circle{fill:var(--gold);fill-opacity:.75;stroke:var(--brand);stroke-width:1.5;cursor:pointer}
+.mapbox circle.sel{fill:var(--brand);stroke:var(--gold);fill-opacity:1}
+.callout{margin-top:10px;display:flex;justify-content:space-between;gap:10px;padding:10px 14px;border-radius:14px;background:var(--surface-2);font-weight:600}
+.callout span:last-child{font-family:var(--mono);color:var(--gold-ink)}
+.toggle{border:0;background:none;color:var(--gold-ink);font-weight:600;font-size:14px;padding:10px 0;min-height:44px;cursor:pointer}
+.note{color:var(--muted);font-size:13px;line-height:18px;margin:4px 0 0}
+
+/* floating nav + fab */
+.tabs{position:fixed;left:var(--gl);right:var(--gr);bottom:calc(18px + var(--sb));z-index:30;max-width:520px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);padding:4px;
+  background:color-mix(in srgb,var(--surface) 86%,transparent);-webkit-backdrop-filter:blur(20px) saturate(1.4);backdrop-filter:blur(20px) saturate(1.4);border:1px solid var(--line);border-radius:26px;box-shadow:0 12px 32px -10px rgba(0,0,0,.28)}
+.tabs a{min-height:60px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--muted);text-decoration:none;font:600 12px/1 var(--sans);border-radius:22px;position:relative}
+.tabs a svg{width:24px;height:24px}
+.tabs a[aria-current="page"]{color:var(--text);background:var(--surface-2)}
+.tabs a[aria-current="page"] svg{color:var(--gold-ink)}
+.badge{position:absolute;top:6px;left:calc(50% + 6px);min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:var(--gold);color:#23261C;font:600 11px/18px var(--mono);text-align:center}
+.fab{position:fixed;right:var(--gr);bottom:calc(18px + var(--sb) + 84px);z-index:31;width:58px;height:58px;border-radius:20px;border:0;background:var(--brand);color:var(--gold);display:grid;place-items:center;box-shadow:0 10px 24px -8px rgba(0,0,0,.45);cursor:pointer}
+.fab svg{width:26px;height:26px;transition:transform .28s var(--ease)}
+.fab[aria-expanded="true"] svg{transform:rotate(45deg)}
+@media (min-width:760px){.fab,.pop{right:max(var(--gr),calc(50% - 344px))}}
+.pop{position:fixed;right:var(--gr);bottom:calc(18px + var(--sb) + 152px);z-index:31;width:min(320px,calc(100% - 32px));background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:8px;box-shadow:0 20px 40px -12px rgba(0,0,0,.35);opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .28s var(--ease),transform .28s var(--ease)}
+.pop.on{opacity:1;transform:none;pointer-events:auto}
+.pop .micro{padding:8px 10px 4px;margin:0}
+.pop .opt{display:flex;width:100%;align-items:center;justify-content:space-between;gap:10px;min-height:48px;padding:0 10px;border:0;background:none;border-radius:12px;cursor:pointer;text-align:left;font-weight:600}
+.pop .opt span{font:500 11px/1 var(--mono);color:var(--muted)}
+.pop form{display:grid;grid-template-columns:1fr auto;gap:6px;padding:6px 4px 4px}
+.pop form #appco{grid-column:1 / -1}
+.pop input,.pop select{min-width:0;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--text);padding:0 12px;font-size:16px}
+.pop .out{display:none;padding:4px}.pop .out.on{display:block}.pop .out input{width:100%;font:500 13px var(--mono)}
+.scrim{position:fixed;inset:0;z-index:29;display:none}.scrim.on{display:block}
+.lock{max-width:400px;margin:14vh auto 0;text-align:center}
+.lock .mark{width:64px;height:64px;border-radius:20px;background:var(--brand);color:var(--gold);display:grid;place-items:center;margin:0 auto 16px}
+.lock .mark svg{width:30px;height:30px}
+.lock form{display:flex;gap:8px;margin-top:18px}
+.lock input{flex:1;min-width:0;height:48px;border-radius:14px;border:1px solid var(--line);background:var(--surface);padding:0 14px;font-size:16px}
+.lock .err{color:#B3402E;font-size:14px;min-height:20px;margin-top:10px}
+.skel{height:120px;border-radius:20px;background:linear-gradient(90deg,var(--surface-2),var(--surface),var(--surface-2));background-size:200% 100%;animation:sh 1.2s linear infinite;margin-top:12px}
+@keyframes sh{to{background-position:-200% 0}}
+.foot{margin-top:28px;font-size:12px;line-height:18px;color:var(--muted)}
+.foot button{border:0;background:none;color:var(--gold-ink);font-weight:600;padding:10px 0;min-height:44px;cursor:pointer}
+.toast{position:fixed;left:50%;bottom:calc(18px + var(--sb) + 84px);transform:translate(-50%,8px);background:var(--text);color:var(--bg);padding:10px 14px;border-radius:14px;font-size:14px;opacity:0;transition:opacity .16s var(--ease),transform .16s var(--ease);z-index:40;max-width:calc(100% - 120px);text-align:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.pbar{position:fixed;left:0;right:0;top:0;z-index:50;padding-top:env(safe-area-inset-top,0px);pointer-events:none;opacity:0;transition:opacity .18s var(--ease)}
+.pbar.on{opacity:1}
+.pbar .track{height:6px;background:color-mix(in srgb,var(--gold) 22%,transparent)}
+.pbar .fill{height:100%;width:0;background:var(--gold);transition:width .25s var(--ease)}
+.pbar .lbl{position:absolute;right:12px;top:calc(env(safe-area-inset-top,0px) + 10px);background:var(--text);color:var(--bg);font:600 12px/1 var(--mono);padding:6px 9px;border-radius:999px}
+.rmsg{margin-top:10px;display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-radius:14px;font-size:14px;line-height:19px}
+.rmsg.err{background:color-mix(in srgb,#B3402E 14%,transparent);border:1px solid color-mix(in srgb,#B3402E 45%,transparent)}
+.rmsg.info{background:var(--surface-2);border:1px solid var(--line)}
+.rmsg b{font-weight:700}
+.rmsg button{margin-left:auto;border:0;background:none;color:inherit;font-weight:600;padding:0 0 0 8px;min-height:24px;cursor:pointer}
+.view[hidden],.tabs[hidden],.fab[hidden],[hidden]{display:none!important}
+@media (max-width:360px){.sum .big{font-size:52px;line-height:50px}.sum .spark,.sum .sparklbl{display:none}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-refresh" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-14.6-4.5L4 8"/><path d="M4 3v5h5"/><path d="M4 13a8 8 0 0 0 14.6 4.5L20 16"/><path d="M20 21v-5h-5"/></g></symbol>
+  <symbol id="i-receipt" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12l4 4L14 8"/><path d="M10 16l1 0 9-8"/></g></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></g></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></g></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></g></symbol>
+</svg>
+
+<div class="pbar" id="pbar" aria-hidden="true"><div class="track"><div class="fill" id="pfill"></div></div><span class="lbl" id="plbl">0%</span></div>
+<div class="wrap">
+  <div id="waiting" hidden></div>
+
+  <div id="app" hidden>
+    <header class="top">
+      <span id="fresh"></span>
+      <button class="btn" id="refresh" type="button" aria-label="Refresh data"><svg><use href="#i-refresh"/></svg>Refresh</button>
+    </header>
+    <div id="rmsg" role="status" aria-live="polite"></div>
+
+    <section class="view" id="v-receipts" aria-label="Receipts">
+      <div class="sum" id="summary"></div>
+      <div class="sec">
+        <div class="sec-h"><h2 id="h-receipts">Who opened your link</h2><span class="micro">Last 90 days</span></div>
+        <div class="stack" id="receipts"></div>
+      </div>
+      <div class="sec">
+        <div class="sec-h"><h2 id="h-latest">Latest visits</h2><span class="micro">Last 4 days</span></div>
+        <div class="card" id="latest"></div>
+      </div>
+    </section>
+
+    <section class="view" id="v-traffic" aria-label="Traffic" hidden>
+      <div class="sec" style="margin-top:14px;display:flex;justify-content:space-between;align-items:center;gap:10px">
+        <div class="seg" role="group" aria-label="Date range" id="range"><button type="button" data-r="7" aria-pressed="false">7D</button><button type="button" data-r="30" aria-pressed="true">30D</button><button type="button" data-r="90" aria-pressed="false">90D</button></div>
+      </div>
+      <div class="sec" style="margin-top:12px"><div class="kpis" id="kpis"></div></div>
+      <div class="botbox" id="botbox" hidden></div>
+      <div class="sec"><div class="sec-h"><h2 id="h-daily">Visitors by day</h2><span class="micro" id="daily-sum"></span></div>
+        <div class="card"><div class="chart" id="daily"></div><div class="legend"><span><i style="background:var(--c-new)"></i>New</span><span><i style="background:var(--c-ret)"></i>Returning</span></div></div></div>
+      <div class="sec"><div class="sec-h"><h2 id="h-channels">How they found you</h2><span class="micro">Visitors</span></div><div class="card"><ul class="rows" id="channels"></ul></div></div>
+      <div class="sec"><div class="sec-h"><h2 id="h-map">Where they are</h2>
+        <div class="seg" role="group" aria-label="Map area" id="mapseg"><button type="button" data-m="us" aria-pressed="true">US</button><button type="button" data-m="world" aria-pressed="false">World</button></div></div>
+        <div class="card"><div class="mapbox" id="map"></div><div class="callout"><span id="co-t">Tap a dot</span><span id="co-n"></span></div></div></div>
+      <div class="sec"><div class="sec-h"><h2 id="h-cities">Cities</h2><span class="micro">Visitors</span></div><div class="card"><ul class="rows" id="cities"></ul></div></div>
+      <div class="sec"><div class="sec-h"><h2 id="h-orgs">Networks</h2><span class="micro">Visitors</span></div>
+        <div class="card"><ul class="rows" id="orgs"></ul><button class="toggle" id="isp-toggle" type="button"></button>
+          <p class="note">A company shows up here only when someone visits from its office network. Home Wi-Fi, phone carriers, VPNs and iCloud Private Relay count as internet providers.</p></div></div>
+      <div class="sec"><div class="sec-h"><h2 id="h-countries">Countries</h2><span class="micro">Visitors</span></div><div class="card"><ul class="rows cool" id="countries"></ul></div></div>
+      <div class="sec"><div class="sec-h"><h2 id="h-devices">Phone vs desktop</h2><span class="micro">Visitors</span></div><div class="card"><ul class="rows" id="devices"></ul></div></div>
+      <div class="sec"><div class="sec-h"><h2 id="h-browsers">Browsers</h2><span class="micro">Visitors</span></div><div class="card"><ul class="rows cool" id="browsers"></ul></div></div>
+    </section>
+
+    <section class="view" id="v-content" aria-label="Content" hidden>
+      <div class="sec" style="margin-top:14px"><div class="sec-h"><h2 id="h-actions">Actions</h2><span class="micro" id="c-range"></span></div><div class="card"><ul class="rows" id="actions"></ul></div></div>
+      <div class="sec"><div class="sec-h"><h2 id="h-work">Work opened</h2><span class="micro">People</span></div><div class="card"><ul class="rows" id="work"></ul></div></div>
+      <div class="sec"><div class="sec-h"><h2 id="h-reach">Sections reached</h2><span class="micro">% of visitors</span></div><div class="card"><ul class="rows cool" id="reach"></ul></div></div>
+      <div class="sec"><div class="sec-h"><h2 id="h-scroll">Scroll depth</h2><span class="micro">% of visitors</span></div><div class="card"><ul class="rows cool" id="scroll"></ul></div></div>
+      <div class="sec"><div class="sec-h"><h2 id="h-sources">Every source</h2><span class="micro">Visits</span></div><div class="card"><ul class="rows cool" id="sources"></ul></div></div>
+    </section>
+
+    <p class="foot">Data from Google Analytics 4 for justinbclose.com. GitHub pulls it every 2 hours, and it's copied here 3 times a day. Refresh loads the newest copy. Your own visits from home Wi-Fi and from browsers opened with <span style="font-family:var(--mono)">?me=1</span> aren't counted.</p>
+  </div>
+  <div id="loading"><div class="skel"></div><div class="skel" style="height:200px"></div></div>
+</div>
+
+<nav class="tabs" id="tabs" aria-label="Views" hidden>
+  <a href="#receipts" data-v="receipts" aria-current="page"><svg><use href="#i-receipt"/></svg>Receipts<span class="badge" id="tab-badge" hidden></span></a>
+  <a href="#traffic" data-v="traffic"><svg><use href="#i-chart"/></svg>Traffic</a>
+  <a href="#content" data-v="content"><svg><use href="#i-eye"/></svg>Content</a>
+</nav>
+<button class="fab" id="fab" type="button" aria-label="Make a tracked link" aria-expanded="false" aria-controls="pop" hidden><svg><use href="#i-plus"/></svg></button>
+<div class="scrim" id="scrim"></div>
+<div class="pop" id="pop" role="dialog" aria-label="Make a tracked link">
+  <p class="micro">New application link</p>
+  <form id="appform"><input id="appco" placeholder="Company name" aria-label="Company name" autocomplete="off">
+    <select id="appsrc" aria-label="Where the link will go"><option value="email">In an email</option><option value="resume">On a resume</option><option value="cover_letter">In a cover letter</option><option value="linkedin">In a LinkedIn message</option><option value="application_form">In an application form</option></select>
+    <button class="btn primary sm" type="submit">Copy</button></form>
+  <p class="micro">Other links</p>
+  <button class="opt" type="button" data-ref="li">LinkedIn profile <span>?ref=li</span></button>
+  <button class="opt" type="button" data-ref="resume">Resume <span>?ref=resume</span></button>
+  <button class="opt" type="button" data-ref="sig">Email signature <span>?ref=sig</span></button>
+  <div class="out" id="out"><input id="outurl" readonly aria-label="Tracked link"></div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+<script>
+(() => {
+"use strict";
+const $ = s => document.querySelector(s);
+const store = { get(k){ try { return localStorage.getItem(k); } catch { return null; } }, set(k,v){ try { v==null ? localStorage.removeItem(k) : localStorage.setItem(k,v); } catch {} } };
+let S = null, RANGE = "30", MAPMODE = "us", SHOW_ISP = false, MAPS = {};
+const fmt = n => (n == null || isNaN(n)) ? "—" : Math.round(n).toLocaleString("en-US");
+const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
+const dur = s => { s = Math.round(s || 0); if (s < 60) return s + "s"; const m = Math.floor(s / 60), r = s % 60; return m + ":" + String(r).padStart(2, "0"); };
+function h(tag, attrs, ...kids){ const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) { if (v == null || v === false) continue; if (k === "class") el.className = v; else if (k === "style") el.style.cssText = v; else el.setAttribute(k, v); }
+  for (const c of kids.flat()) { if (c == null || c === false) continue; el.append(c.nodeType ? c : document.createTextNode(String(c))); } return el; }
+const icon = id => { const s = document.createElementNS("http://www.w3.org/2000/svg", "svg"); const u = document.createElementNS("http://www.w3.org/2000/svg", "use"); u.setAttribute("href", "#" + id); s.append(u); return s; };
+function toast(t){ const el = $("#toast"); el.textContent = t; el.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove("on"), 2600); }
+const empty = (t, p) => h("div", { class: "empty" }, icon("i-receipt"), h("h3", null, t), h("p", null, p));
+
+// Stats live in the artifact's own data store (written by the scheduled sync); stats.json is the fallback.
+let DB = null;
+async function getDB(){ if (DB) return DB; try { if (window.claude && claude.use) DB = await Promise.race([claude.use("db"), new Promise(r => setTimeout(() => r(null), 10000))]); } catch { DB = null; } return DB; }
+async function fetchStats(){
+  const db = await getDB();
+  if (db) { try { const snap = await db.doc("stats/latest").get(); const d = snap && (typeof snap.data === "function" ? snap.data() : (snap.data || snap));
+      if (d && d.generated_at) return JSON.parse(JSON.stringify(d)); } catch {} }  // the store's data is read-only; work on a copy
+  const r = await fetch("stats.json", { cache: "no-store" }); if (!r.ok) throw new Error("none"); return r.json(); }
+
+// Company display names live in this tracker's private data store (meta/names), not in the code,
+// because the code is also kept in Justin's public GitHub repo. Anything not listed is spelled out from its code.
+let APP_NAMES = {};
+const SMALL = new Set(["and", "of", "at", "the", "in", "for"]);
+const appName = s => APP_NAMES[s] || String(s).split("-").filter(Boolean).map((w, i) => i && SMALL.has(w) ? w : w.length <= 2 ? w.toUpperCase() : w[0].toUpperCase() + w.slice(1)).join(" ");
+async function loadNames(){ try { const db = await getDB(); if (!db) return; const snap = await db.doc("meta/names").get(); const d = snap && (typeof snap.data === "function" ? snap.data() : (snap.data || snap));
+    if (d && d.names && typeof d.names === "object") APP_NAMES = { ...d.names }; } catch {} }
+const EV = { click_book_call: "Book a call", click_email: "Email link", copy_email: "Copied email", click_linkedin: "LinkedIn", contact_form_submit: "Contact form sent",
+  lightbox_open: "Opened an image", reels_open: "Opened reels" };
+const WORK = { work_email: "Email", work_social: "Social", work_print: "Print", work_web: "Web", work_brand: "Brand" };
+const REACH = { view_highlights: "Highlights", view_about: "About", view_experience: "Timeline", view_work: "Work", view_photos: "Photos", view_reels: "Reels", view_contact: "Contact" };
+// Where an application link was clicked (utm_source). "application" = older ?ref=app- links that don't say which document.
+const DOC = { resume: ["Resume", "your resume", "#A8861B", "i-doc"], cover_letter: ["Cover letter", "your cover letter", "#8D9765", "i-doc"],
+  email: ["Email", "your email", "#2E7D8C", "i-mail"], linkedin: ["LinkedIn", "a LinkedIn message", "#2F6FE0", "i-chat"],
+  application_form: ["Application form", "an application form", "#C9733A", "i-doc"], application: ["Older link", "an older link", "#66727D", "i-link"] };
+const docOf = src => DOC[(src || "").toLowerCase()] || [src || "Unknown", src || "an unknown place", "#66727D", "i-link"];
+const appLink = (code, src) => SITE + "?utm_source=" + encodeURIComponent(src) + "&utm_medium=job_app&utm_campaign=" + encodeURIComponent(code);
+const DOC_ICONS = { "i-doc": "M7 3h7l5 5v13H7zM14 3v5h5M10 13h6M10 17h6", "i-mail": "M3 6h18v12H3zM3 7l9 6 9-6", "i-chat": "M4 5h16v11H9l-5 4z", "i-link": "M10 14a4 4 0 0 0 6 0l3-3a4 4 0 0 0-6-6l-1 1M14 10a4 4 0 0 0-6 0l-3 3a4 4 0 0 0 6 6l1-1" };
+const docIcon = id => { const s = document.createElementNS("http://www.w3.org/2000/svg", "svg"); s.setAttribute("viewBox", "0 0 24 24"); s.setAttribute("fill", "none"); s.setAttribute("stroke", "currentColor");
+  s.setAttribute("stroke-width", "2"); s.setAttribute("stroke-linecap", "round"); s.setAttribute("stroke-linejoin", "round"); s.setAttribute("aria-hidden", "true");
+  const p = document.createElementNS("http://www.w3.org/2000/svg", "path"); p.setAttribute("d", DOC_ICONS[id] || DOC_ICONS["i-link"]); s.append(p); return s; };
+const DEV = { mobile: "Phone", desktop: "Desktop", tablet: "Tablet", "smart tv": "TV" };
+const CH_COLOR = { "LinkedIn": "#2F6FE0", "Job applications": "#E24A24", "Direct": "#66727D", "Search": "#2F9142", "Old Canva link": "#7C5CFF", "Resume": "#A8861B", "Email signature": "#1A8CA8", "Instagram": "#D6457A", "Email": "#1A8CA8", "Other": "#66727D" };
+function channel(src, med){ const s = (src || "").toLowerCase(), m = (med || "").toLowerCase();
+  if (m === "job_app" || s === "application") return "Job applications"; if (s === "resume") return "Resume";
+  if (s === "email" && m === "signature") return "Email signature"; if (s.includes("linkedin") || s.includes("lnkd")) return "LinkedIn";
+  if (s.includes("canva")) return "Old Canva link"; if (["google","bing","duckduckgo","yahoo","ecosia"].includes(s) && m === "organic") return "Search";
+  if (s === "(direct)") return "Direct"; if (s.includes("instagram")) return "Instagram"; if (s.includes("mail") || m === "email") return "Email"; return "Other"; }
+const US_ABBR = {"Alabama":"AL","Alaska":"AK","Arizona":"AZ","Arkansas":"AR","California":"CA","Colorado":"CO","Connecticut":"CT","Delaware":"DE","District of Columbia":"DC","Florida":"FL","Georgia":"GA","Hawaii":"HI","Idaho":"ID","Illinois":"IL","Indiana":"IN","Iowa":"IA","Kansas":"KS","Kentucky":"KY","Louisiana":"LA","Maine":"ME","Maryland":"MD","Massachusetts":"MA","Michigan":"MI","Minnesota":"MN","Mississippi":"MS","Missouri":"MO","Montana":"MT","Nebraska":"NE","Nevada":"NV","New Hampshire":"NH","New Jersey":"NJ","New Mexico":"NM","New York":"NY","North Carolina":"NC","North Dakota":"ND","Ohio":"OH","Oklahoma":"OK","Oregon":"OR","Pennsylvania":"PA","Rhode Island":"RI","South Carolina":"SC","South Dakota":"SD","Tennessee":"TN","Texas":"TX","Utah":"UT","Vermont":"VT","Virginia":"VA","Washington":"WA","West Virginia":"WV","Wisconsin":"WI","Wyoming":"WY"};
+const place = (city, region, cid) => { const c = city && city !== "(not set)" ? city : null; const r = cid === "US" ? (US_ABBR[region] || region) : (region && region !== "(not set)" ? region : cid);
+  return c ? `${c}, ${r || cid}` : (r || "Unknown location"); };
+const pDate = s => new Date(+s.slice(0,4), +s.slice(4,6) - 1, +s.slice(6,8), s.length > 8 ? +s.slice(8,10) : 0);
+function ago(d){ const m = Math.round((Date.now() - d) / 60000); if (m < 60) return m <= 1 ? "Just now" : m + "m ago"; const hh = Math.round(m / 60); if (hh < 24) return hh + "h ago"; const dd = Math.round(hh / 24); return dd === 1 ? "Yesterday" : dd + "d ago"; }
+const shortDate = d => d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+function dayWord(d){ const t = new Date(); t.setHours(0,0,0,0); const x = new Date(d); x.setHours(0,0,0,0); const n = Math.round((t - x) / 864e5);
+  return n <= 0 ? "today" : n === 1 ? "yesterday" : n < 7 ? x.toLocaleDateString("en-US", { weekday: "long" }) : shortDate(x); }
+
+
+const ymd = d => d.getFullYear() + String(d.getMonth() + 1).padStart(2, "0") + String(d.getDate()).padStart(2, "0");
+const SECTIONS = [["view_highlights", "Top"], ["view_about", "About"], ["view_experience", "Timeline"], ["view_work", "Work"], ["view_photos", "Photos"], ["view_contact", "Contact"]];
+
+function rows(el, items, opt = {}){ el.replaceChildren();
+  if (!items.length) { el.append(h("li", null, empty(opt.emptyT || "Nothing yet", opt.emptyP || "This fills in as people visit."))); return; }
+  const max = opt.max || Math.max(...items.map(i => i.v), 1);
+  items.forEach(i => el.append(h("li", { class: "row" }, h("span", { class: "t", title: i.t }, i.t), h("span", { class: "n" }, i.label != null ? i.label : fmt(i.v)),
+    i.m ? h("span", { class: "m" }, i.m) : null, h("span", { class: "bar" }, h("span", { style: `width:${Math.max(2, i.v / max * 100)}%` }))))); }
+function series(days, off = 0){ const map = {};
+  (S.daily || []).forEach(r => { const o = map[r.date] || (map[r.date] = { n: 0, r: 0 }); if (r.newVsReturning === "new") o.n += r.activeUsers; else if (r.newVsReturning === "returning") o.r += r.activeUsers; });
+  const t = new Date(); t.setHours(0,0,0,0); const out = [];
+  for (let i = days - 1 + off; i >= off; i--) { const d = new Date(t); d.setDate(d.getDate() - i); const o = map[ymd(d)] || { n: 0, r: 0 }; out.push({ d, n: o.n, r: o.r, v: o.n + o.r }); }
+  return out; }
+
+/* ---------- receipts (signature) ---------- */
+function receiptList(){
+  const last = {}, lastSrc = {};
+  (S.applications || []).forEach(a => { const k = a.sessionCampaignName, d = pDate(a.date);
+    if (!last[k] || d > last[k]) { last[k] = d; lastSrc[k] = new Set(); }
+    if (+d === +last[k] && a.sessionSource) lastSrc[k].add(a.sessionSource); });
+  const det = S.appDetail || {};
+  const keys = new Set([...Object.keys(det), ...Object.keys(last)]);
+  return [...keys].map(k => { const d = det[k] || { sessions: 0, users: 0, engSec: 0, events: {}, places: [] }; const ev = d.events || {};
+    const booked = (ev.click_book_call || 0) > 0, emailed = (ev.click_email || 0) + (ev.copy_email || 0) + (ev.contact_form_submit || 0) > 0;
+    const hot = booked || d.sessions >= 3 || d.users >= 2 || d.engSec >= 180;
+    const status = booked ? ["★", "Booked a call", "var(--good)"] : hot ? ["▲", d.users >= 2 ? "Shared inside" : "Came back", "var(--gold)"] : ["●", "Opened", "var(--sage)"];
+    const via = Object.entries(d.via || {}).map(([src, v]) => ({ src, ...v })).sort((a, b) => (b.sessions || 0) - (a.sessions || 0));
+    return { k, d, ev, last: last[k] || null, lastSrc: [...(lastSrc[k] || [])], via, booked, emailed, hot, status };
+  }).sort((a, b) => (b.booked - a.booked) || (b.hot - a.hot) || ((b.last || 0) - (a.last || 0)));
+}
+function renderReceipts(){
+  const list = receiptList(), el = $("#receipts"); el.replaceChildren();
+  const week = list.filter(r => r.last && Date.now() - r.last < 7 * 864e5).length, badge = $("#tab-badge"); badge.hidden = !week; badge.textContent = week;
+  if (!list.length) { el.append(h("div", { class: "card" }, empty("No application links opened yet", "When someone at a company clicks your portfolio link, their card shows up here: whether they clicked it in your resume, cover letter, email or LinkedIn message, how long they read, and what they looked at."))); return list; }
+  list.forEach((r, i) => {
+    const sec = SECTIONS.map(([e]) => (r.ev[e] || 0) > 0), read = sec.filter(Boolean).length;
+    const where = (r.d.places || []).slice().sort((a, b) => b.sessions - a.sessions)[0];
+    const fromTxt = r.lastSrc.length ? " from " + r.lastSrc.map(x => docOf(x)[1]).join(" and ") : "";
+    const meta = [r.last ? `Last opened ${dayWord(r.last)}${fromTxt}` : null, `${r.d.sessions || 0} visit${r.d.sessions === 1 ? "" : "s"}`, r.d.users > 1 ? `${r.d.users} people` : null, r.d.engSec ? `${dur(r.d.engSec)} reading` : null].filter(Boolean).join(" · ");
+    const saw = [];
+    Object.keys(WORK).forEach(w => { if (r.ev[w]) saw.push(WORK[w] + " work"); });
+    if (r.ev.lightbox_open) saw.push(`${r.ev.lightbox_open} image${r.ev.lightbox_open > 1 ? "s" : ""}`);
+    if (r.ev.reels_open) saw.push("Reels");
+    if (r.ev.click_linkedin) saw.push("Your LinkedIn");
+    const nudge = r.booked ? null : r.hot ? (r.d.users >= 2 ? "It was passed to someone else. Good time to follow up." : `They came back ${r.d.sessions}×. Good time to follow up.`) : null;
+    el.append(h("article", { class: "rc" + (r.hot ? " hot" : ""), style: `animation-delay:${Math.min(i, 8) * 30}ms`, "aria-label": appName(r.k) },
+      h("div", { class: "hd" }, h("h3", { class: "co" }, appName(r.k)), h("span", { class: "st", style: `--cc:${r.status[2]}` }, h("b", null, r.status[0]), r.status[1])),
+      h("div", { class: "meta" }, meta + (where ? ` · ${place(where.city, where.region, where.countryId)}, ${DEV[where.deviceCategory] || where.deviceCategory}` : "")),
+      h("div", { class: "strip", role: "img", "aria-label": `Read ${read} of 6 sections` }, sec.map(on => h("i", { class: on ? "on" : "" }))),
+      h("div", { class: "strip-l", "aria-hidden": "true" }, SECTIONS.map(([, l], j) => h("span", { class: sec[j] ? "on" : "" }, l))),
+      (saw.length || r.booked || r.emailed) ? h("div", { class: "saw" }, r.booked ? h("span", { class: "tag star" }, "★ Tapped Book a call") : null, r.emailed ? h("span", { class: "tag star" }, "Tried to email you") : null, saw.map(s => h("span", { class: "tag" }, s))) : null,
+      viaBlock(r),
+      nudge ? h("div", { class: "nudge" }, h("p", null, nudge), h("button", { class: "btn sm", type: "button", "data-copy": r.k }, "Copy link")) : null));
+  });
+  el.querySelectorAll("button[data-copy]").forEach(b => b.addEventListener("click", () => copyLink(appLink(b.dataset.copy, "email"), appName(b.dataset.copy) + " follow-up email")));
+  return list;
+}
+// One row per document the link was clicked in: visits, reading time, and what they looked at from it.
+function viaBlock(r){
+  if (!r.via.length) return null;
+  const seen = ev => { const out = [];
+    SECTIONS.forEach(([e, l]) => { if ((ev[e] || 0) > 0) out.push(l); });
+    Object.keys(WORK).forEach(w => { if (ev[w]) out.push(WORK[w] + " work"); });
+    if (ev.reels_open) out.push("Reels"); if (ev.lightbox_open) out.push("Images");
+    return out; };
+  return h("div", { class: "via" }, h("p", { class: "micro" }, "Clicked from"),
+    r.via.map(v => { const [label, , color, ic] = docOf(v.src), ev = v.events || {}, saw = seen(ev);
+      const booked = (ev.click_book_call || 0) > 0;
+      const line = [`${fmt(v.sessions || 0)} visit${v.sessions === 1 ? "" : "s"}`, v.users > 1 ? `${v.users} people` : null, v.engSec ? `${dur(v.engSec)} reading` : null].filter(Boolean).join(" · ");
+      return h("div", { class: "vrow" },
+        h("span", { class: "vdoc", style: `--dc:${color}` }, docIcon(ic), label),
+        h("div", { class: "vtxt" }, h("b", null, line), booked ? h("span", { class: "vbk" }, " · ★ Booked a call") : null,
+          h("span", { class: "vsaw" }, saw.length ? "Looked at " + saw.join(", ") : "Opened the page")));
+    }));
+}
+function renderSummary(list){
+  const opened = list.length, booked = list.filter(r => r.booked).length, hot = list.filter(r => r.hot && !r.booked).length;
+  const d30 = series(30), v30 = d30.reduce((a, d) => a + d.v, 0);
+  const el = $("#summary"); el.replaceChildren(
+    h("div", { class: "big" }, fmt(opened)),
+    h("div", { class: "lead" }, opened === 1 ? "company opened your portfolio" : "companies opened your portfolio"),
+    h("div", { class: "row" }, booked ? h("span", { class: "chip" }, `★ ${booked} booked a call`) : null, hot ? h("span", { class: "chip" }, `▲ ${hot} worth a follow-up`) : null, h("span", { class: "chip" }, `${fmt(v30)} visitor-days · 30d`), ((S.ranges["30"] || {}).bots || {}).users ? h("span", { class: "chip" }, `${fmt(S.ranges["30"].bots.users)} bots removed`) : null));
+  if (d30.some(d => d.v)) { const W = 120, H = 44, x = d3.scaleLinear().domain([0, 29]).range([2, W - 2]), y = d3.scaleLinear().domain([0, d3.max(d30, d => d.v) || 1]).range([H - 2, 4]);
+    const svg = d3.select(el).append("svg").attr("class", "spark").attr("viewBox", `0 0 ${W} ${H}`).attr("aria-hidden", "true");
+    svg.append("path").attr("class", "area").attr("d", d3.area().x((d, i) => x(i)).y0(H).y1(d => y(d.v)).curve(d3.curveMonotoneX)(d30));
+    svg.append("path").attr("d", d3.line().x((d, i) => x(i)).y(d => y(d.v)).curve(d3.curveMonotoneX)(d30));
+    el.append(h("div", { class: "sparklbl" }, "Visitors, 30 days")); }
+}
+function renderLatest(){
+  const el = $("#latest"); el.replaceChildren();
+  const list = (S.recent || []).slice().sort((a, b) => b.dateHour.localeCompare(a.dateHour)).slice(0, 12);
+  if (!list.length) { el.append(empty("No visits in the last 4 days", "New visits show up here after the next sync.")); return; }
+  list.forEach(r => { const ch = channel(r.sessionSource, r.sessionMedium), d = pDate(r.dateHour), dw = dayWord(d);
+    const how = ch === "Job applications" ? `${appName(r.sessionCampaignName)} · from ${docOf(r.sessionSource)[1]}` : ch === "Other" ? r.sessionSource : ch;
+    el.append(h("div", { class: "visit" }, h("div", { class: "w" }, d.toLocaleTimeString("en-US", { hour: "numeric" }).replace(" ", ""), h("span", null, dw === "today" ? "Today" : dw === "yesterday" ? "Yday" : d.toLocaleDateString("en-US", { weekday: "short" }))),
+      h("div", null, h("div", { class: "p" }, place(r.city, r.region, r.countryId)), h("div", { class: "m" }, `${how} · ${DEV[r.deviceCategory] || r.deviceCategory} · ${dur((r.userEngagementDuration || 0) / Math.max(1, r.sessions))} on site`)))); });
+}
+
+/* ---------- traffic + content ---------- */
+function renderTraffic(){
+  const R = S.ranges[RANGE], T = R.totals || {}, users = T.activeUsers || 0, nvr = R.newVsReturning || {};
+  $("#kpis").replaceChildren(
+    h("div", { class: "kpi" }, h("span", { class: "micro" }, "Visitors"), h("div", { class: "v" }, fmt(users))),
+    h("div", { class: "kpi" }, h("span", { class: "micro" }, "Returning"), h("div", { class: "v" }, fmt(nvr.returning || 0), h("small", null, `/${fmt((nvr.new || 0) + (nvr.returning || 0))}`))),
+    h("div", { class: "kpi" }, h("span", { class: "micro" }, "Avg time"), h("div", { class: "v" }, dur(users ? (T.userEngagementDuration || 0) / users : 0))));
+  const B = R.bots || { users: 0, cities: [] }, bb = $("#botbox");
+  bb.hidden = false;
+  bb.replaceChildren(h("span", { class: "bn" }, fmt(B.users)), h("span", { class: "bt" }, h("b", null, B.users === 1 ? "Bot filtered out" : "Bots filtered out"),
+    B.users ? ` · from data centers in ${B.cities.map(c => c.city).slice(0, 3).join(", ")}. Not counted anywhere on this dashboard.` : " · Link-preview crawlers and data-center traffic are removed automatically."));
+  renderDaily();
+  rows($("#channels"), (R.channels || []).map(c => ({ t: c.channel, v: c.activeUsers, m: `${fmt(c.sessions)} visits` })), { emptyT: "No visits yet", emptyP: "Sources show up once people open your links." });
+  rows($("#cities"), (R.cities || []).filter(c => c.city !== "(not set)").sort((a, b) => b.activeUsers - a.activeUsers).slice(0, 20).map(c => ({ t: place(c.city, c.region, c.countryId), v: c.activeUsers })));
+  rows($("#countries"), (R.countries || []).sort((a, b) => b.activeUsers - a.activeUsers).slice(0, 15).map(c => ({ t: c.country, v: c.activeUsers })));
+  rows($("#devices"), (R.devices || []).sort((a, b) => b.activeUsers - a.activeUsers).map(d => ({ t: DEV[d.deviceCategory] || d.deviceCategory, v: d.activeUsers, m: `${pct(d.activeUsers, users)}%` })));
+  rows($("#browsers"), (R.browsers || []).sort((a, b) => b.activeUsers - a.activeUsers).slice(0, 8).map(d => ({ t: d.browser, v: d.activeUsers })));
+  renderOrgs(); if (!$("#v-traffic").hidden) renderMap();
+}
+function renderContent(){
+  const R = S.ranges[RANGE], users = (R.totals || {}).activeUsers || 0, E = R.events || {}, u = e => (E[e] || {}).users || 0, c = e => (E[e] || {}).count || 0;
+  $("#c-range").textContent = `People · taps · ${RANGE}d`;
+  rows($("#actions"), Object.keys(EV).map(e => ({ t: EV[e], v: u(e), label: `${fmt(u(e))} · ${fmt(c(e))}` })).sort((a, b) => b.v - a.v));
+  rows($("#work"), Object.keys(WORK).map(e => ({ t: WORK[e], v: u(e), m: users ? `${pct(u(e), users)}% of visitors` : null })).sort((a, b) => b.v - a.v));
+  rows($("#reach"), Object.keys(REACH).map(e => ({ t: REACH[e], v: pct(u(e), users), label: pct(u(e), users) + "%" })), { max: 100 });
+  rows($("#scroll"), [25, 50, 75, 100].map(p => ({ t: `${p}% of the page`, v: pct(u("scroll_" + p), users), label: pct(u("scroll_" + p), users) + "%" })), { max: 100 });
+  rows($("#sources"), (R.sources || []).sort((a, b) => b.sessions - a.sessions).slice(0, 30).map(s => ({ t: s.sessionMedium === "job_app" ? `${appName(s.sessionCampaignName)} · ${docOf(s.sessionSource)[0]}` : `${s.sessionSource} / ${s.sessionMedium}`, v: s.sessions })));
+}
+function renderDaily(){
+  const el = $("#daily"); el.replaceChildren(); const data = series(+RANGE), total = data.reduce((a, d) => a + d.v, 0);
+  $("#daily-sum").textContent = total ? `${fmt(total)} visitor-days` : "";
+  if (!total) { el.append(empty("No visitors in this range yet", "Bars appear day by day once people visit.")); return; }
+  const W = Math.max(280, el.clientWidth || 320), H = 160, m = { t: 8, r: 4, b: 22, l: 26 }, days = data.length;
+  const x = d3.scaleBand().domain(d3.range(days)).range([m.l, W - m.r]).paddingInner(days > 40 ? .2 : .3);
+  const y = d3.scaleLinear().domain([0, d3.max(data, d => d.v) || 1]).nice(4).range([H - m.b, m.t]);
+  const svg = d3.select(el).append("svg").attr("viewBox", `0 0 ${W} ${H}`).attr("height", H).attr("role", "img").attr("aria-label", "Visitors per day, new and returning");
+  svg.append("g").selectAll("line").data(y.ticks(4)).join("line").attr("class", "gl").attr("x1", m.l).attr("x2", W - m.r).attr("y1", d => y(d)).attr("y2", d => y(d));
+  svg.append("g").selectAll("text").data(y.ticks(4)).join("text").attr("class", "ax").attr("x", m.l - 6).attr("y", d => y(d) + 4).attr("text-anchor", "end").text(d => d);
+  const every = days <= 7 ? 1 : days <= 30 ? 7 : 15;
+  svg.append("g").selectAll("text").data(data.map((d, i) => [d, i]).filter(([, i]) => (days - 1 - i) % every === 0)).join("text").attr("class", "ax")
+    .attr("x", ([, i]) => x(i) + x.bandwidth() / 2).attr("y", H - 5).attr("text-anchor", "middle").text(([d]) => days <= 7 ? d.d.toLocaleDateString("en-US", { weekday: "short" }) : shortDate(d.d));
+  const bw = x.bandwidth(), r = Math.min(4, bw / 2), bp = (x0, y0, w, hh, rr) => hh <= 0 ? "" : `M${x0},${y0 + hh}V${y0 + rr}Q${x0},${y0} ${x0 + rr},${y0}H${x0 + w - rr}Q${x0 + w},${y0} ${x0 + w},${y0 + rr}V${y0 + hh}Z`;
+  data.forEach((d, i) => { let base = y(0);
+    if (d.r) { const hh = y(0) - y(d.r); svg.append("path").attr("fill", "var(--c-ret)").attr("d", bp(x(i), base - hh, bw, hh, d.n ? 0 : r)); base -= hh + (d.n ? 2 : 0); }
+    if (d.n) { const hh = y(0) - y(d.n) - (d.r ? 2 : 0); svg.append("path").attr("fill", "var(--c-new)").attr("d", bp(x(i), base - hh, bw, Math.max(1, hh), r)); } });
+  const tip = h("div", { class: "tip" }); el.append(tip);
+  data.forEach((d, i) => svg.append("rect").attr("x", x(i) - x.step() * x.paddingInner() / 2).attr("width", x.step()).attr("y", m.t).attr("height", H - m.t - m.b).attr("fill", "transparent")
+    .on("pointerenter click", () => { tip.replaceChildren(h("div", null, d.d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })), h("div", null, h("b", null, fmt(d.v)), ` visitors · ${fmt(d.n)} new · ${fmt(d.r)} back`));
+      const cw = el.clientWidth; tip.style.left = Math.min(Math.max((x(i) + bw / 2) / W * cw, 110), cw - 110) + "px"; tip.style.top = y(d.v) / H * el.querySelector("svg").clientHeight - 6 + "px"; tip.classList.add("on"); })
+    .on("pointerleave", e => { if (e.pointerType === "mouse") tip.classList.remove("on"); }));
+}
+function renderOrgs(){
+  const all = (S.ranges[RANGE].orgs || []).slice().sort((a, b) => b.users - a.users), co = all.filter(o => !o.isp), isp = all.filter(o => o.isp);
+  rows($("#orgs"), (SHOW_ISP ? co.concat(isp) : co).map(o => ({ t: o.org, v: o.users, m: o.isp ? "Internet provider" : null })),
+    { emptyT: all.length ? "Only internet providers so far" : "No networks yet", emptyP: all.length ? "Everyone so far visited from home, mobile or VPN networks." : "Network names appear after the first visits." });
+  const b = $("#isp-toggle"); b.hidden = !isp.length; b.textContent = SHOW_ISP ? "Hide internet providers" : `Show ${isp.length} internet provider${isp.length === 1 ? "" : "s"}`;
+}
+async function renderMap(){
+  const el = $("#map"), R = S.ranges[RANGE]; let topo;
+  try { if (!MAPS[MAPMODE]) MAPS[MAPMODE] = await (await fetch(MAPMODE === "us" ? "map-us.json" : "map-world.json")).json(); topo = MAPS[MAPMODE]; }
+  catch { el.replaceChildren(empty("Map didn’t load", "Tap Refresh to try again.")); return; }
+  const W = Math.max(280, el.clientWidth || 340), H = Math.round(W * (MAPMODE === "us" ? .62 : .52));
+  const land = topojson.feature(topo, MAPMODE === "us" ? topo.objects.states : topo.objects.countries);
+  const proj = MAPMODE === "us" ? d3.geoAlbersUsa().fitExtent([[6, 6], [W - 6, H - 6]], land) : d3.geoEqualEarth().fitExtent([[6, 6], [W - 6, H - 6]], { type: "Sphere" });
+  el.replaceChildren(); const svg = d3.select(el).append("svg").attr("viewBox", `0 0 ${W} ${H}`).attr("role", "img").attr("aria-label", "Map of visitor cities");
+  svg.append("g").selectAll("path").data(land.features).join("path").attr("d", d3.geoPath(proj));
+  const pts = (R.cities || []).filter(c => c.lat != null).map(c => ({ ...c, p: proj([c.lon, c.lat]) })).filter(c => c.p).sort((a, b) => b.activeUsers - a.activeUsers);
+  const rs = d3.scaleSqrt().domain([0, d3.max(pts, p => p.activeUsers) || 1]).range([0, Math.max(14, W / 26)]);
+  const sel = (c, node) => { svg.selectAll("circle").classed("sel", false); if (node) d3.select(node).classed("sel", true); $("#co-t").textContent = place(c.city, c.region, c.countryId); $("#co-n").textContent = `${fmt(c.activeUsers)} visitor${c.activeUsers === 1 ? "" : "s"}`; };
+  svg.append("g").selectAll("circle").data(pts).join("circle").attr("cx", d => d.p[0]).attr("cy", d => d.p[1]).attr("r", d => Math.max(5, rs(d.activeUsers))).attr("tabindex", 0)
+    .attr("aria-label", d => `${place(d.city, d.region, d.countryId)}: ${d.activeUsers} visitors`).on("click", function(e, d){ sel(d, this); })
+    .on("keydown", function(e, d){ if (e.key === "Enter" || e.key === " ") { e.preventDefault(); sel(d, this); } });
+  if (pts[0]) sel(pts[0], svg.select("circle").node()); else { $("#co-t").textContent = "No mapped visitors yet"; $("#co-n").textContent = ""; }
+}
+
+function nextCheck(){ // the sync runs at :21 past every even UTC hour
+  const n = new Date(); const t = new Date(n); t.setUTCMinutes(21, 0, 0); while (t <= n || t.getUTCHours() % 2) t.setUTCHours(t.getUTCHours() + 1);
+  return t.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }); }
+function render(){
+  const g = new Date(S.generated_at), hrs = (Date.now() - g) / 36e5;
+  const fr = hrs <= 4 ? ["●", "Fresh", "var(--good)"] : hrs <= 12 ? ["◆", "Getting old", "var(--warn)"] : ["■", "Stale", "#B3402E"];
+  const when = g.toLocaleString("en-US", { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+  $("#fresh").replaceChildren(h("div", { class: "upd" },
+    h("span", { class: "micro" }, "Last updated"),
+    h("span", { class: "upd-t" }, when),
+    h("span", { class: "chip", style: `--cc:${fr[2]}` }, h("span", { class: "sh" }, fr[0]), `${fr[1]} · ${ago(g)}`),
+    S.synced_at ? h("span", { class: "chk" }, `Checked for new visits ${ago(new Date(S.synced_at))} · next check ${nextCheck()}`) : null,
+    S.sync_note ? h("span", { class: "chk warn" }, S.sync_note) : null));
+  const fails = [];
+  const safe = (name, fn) => { try { return fn(); } catch (e) { fails.push(name); console.error(name, e); } };
+  const list = safe("receipts", renderReceipts) || [];
+  safe("summary", () => renderSummary(list)); safe("latest", renderLatest); safe("traffic", renderTraffic); safe("content", renderContent);
+  if (fails.length) say("err", [h("span", null, h("b", null, "Part of the page didn’t draw. "), `Sections: ${fails.join(", ")}. The rest is up to date. Tap Refresh to try again.`)]);
+}
+
+/* ---------- waiting for first data (no placeholders) ---------- */
+function showWaiting(){
+  $("#loading").hidden = true; const el = $("#waiting"); el.hidden = false;
+  el.replaceChildren(h("div", { class: "sum" }, h("div", { class: "lead", style: "margin-top:0;font-size:22px;line-height:28px" }, "Waiting for your first real visitors"),
+      h("p", { style: "margin:8px 0 0;opacity:.85;font-size:14px;line-height:20px" }, "No sample numbers. This page fills in after the first sync finds real visits.")),
+    h("div", { class: "card", style: "margin-top:12px" }, h("ul", { class: "steps" },
+      h("li", { class: "ok" }, h("b", null, "Done"), "Tracking is live on justinbclose.com"),
+      h("li", { class: "ok" }, h("b", null, "Done"), "Your home Wi-Fi is excluded"),
+      h("li", { class: "wait" }, h("b", null, "Next"), "The next sync copies your first visits here"),
+      h("li", { class: "wait" }, h("b", null, "Then"), "Tap Refresh to see your visitors"))));
+  $("#fab").hidden = false;
+}
+
+/* ---------- views, link maker, boot ---------- */
+const VIEWS = ["receipts", "traffic", "content"];
+function showView(){ const name = VIEWS.includes(location.hash.slice(1)) ? location.hash.slice(1) : "receipts";
+  document.querySelectorAll(".view").forEach(v => v.hidden = v.id !== "v-" + name);
+  document.querySelectorAll(".tabs a").forEach(a => { if (a.dataset.v === name) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
+  if (S && name === "traffic") { renderDaily(); renderMap(); } }
+addEventListener("hashchange", () => { showView(); scrollTo(0, 0); });
+$("#range").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; RANGE = b.dataset.r; store.set("pv_range", RANGE); $("#range").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); renderTraffic(); renderContent(); });
+$("#mapseg").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; MAPMODE = b.dataset.m; $("#mapseg").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); renderMap(); });
+$("#isp-toggle").addEventListener("click", () => { SHOW_ISP = !SHOW_ISP; renderOrgs(); });
+let lastW = innerWidth; addEventListener("resize", () => { if (!S || Math.abs(innerWidth - lastW) < 40) return; lastW = innerWidth; renderSummary(receiptList()); if (!$("#v-traffic").hidden) { renderDaily(); renderMap(); } });
+
+const SITE = "https://justinbclose.com/", pop = $("#pop"), fab = $("#fab"), scrim = $("#scrim");
+const setPop = on => { pop.classList.toggle("on", on); scrim.classList.toggle("on", on); fab.setAttribute("aria-expanded", on); if (!on) $("#out").classList.remove("on"); };
+fab.addEventListener("click", () => setPop(!pop.classList.contains("on"))); scrim.addEventListener("click", () => setPop(false));
+addEventListener("keydown", e => { if (e.key === "Escape") setPop(false); });
+async function copyLink(url, label){ try { await navigator.clipboard.writeText(url); toast(`Copied ${label} link`); setPop(false); }
+  catch { setPop(true); const o = $("#out"); o.classList.add("on"); const i = $("#outurl"); i.value = url; i.focus(); i.select(); toast("Press and hold the link to copy it"); } }
+pop.querySelectorAll(".opt").forEach(b => b.addEventListener("click", () => copyLink(SITE + "?ref=" + b.dataset.ref, b.firstChild.textContent.trim())));
+const slug = s => s.replace(/\(.*?\)/g, "").toLowerCase().normalize("NFKD").replace(/[̀-ͯ]/g, "").replace(/&/g, " and ").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 50);
+$("#appform").addEventListener("submit", e => { e.preventDefault(); const co = $("#appco").value.trim(); if (!co) { $("#appco").focus(); return; } const src = $("#appsrc").value || "email"; copyLink(appLink(slug(co), src), `${co} (${docOf(src)[0].toLowerCase()})`); });
+
+/* Refresh with a progress bar; on failure keep the old data and say so plainly */
+let pTimer = null;
+function progress(p, label){ const bar = $("#pbar"); bar.classList.add("on"); $("#pfill").style.width = p + "%"; $("#plbl").textContent = label || (Math.round(p) + "%"); }
+function progressDone(ok){ clearInterval(pTimer); progress(100, ok ? "100%" : "Failed"); setTimeout(() => { $("#pbar").classList.remove("on"); setTimeout(() => $("#pfill").style.width = "0", 200); }, ok ? 500 : 1200); }
+function say(kind, html){ const el = $("#rmsg"); el.replaceChildren(); if (!kind) return;
+  const box = h("div", { class: "rmsg " + kind }); html.forEach(x => box.append(x)); box.append(h("button", { type: "button", "aria-label": "Dismiss" }, "✕"));
+  box.querySelector("button").addEventListener("click", () => el.replaceChildren()); el.append(box); }
+function withTimeout(pr, ms){ return Promise.race([pr, new Promise((_, rej) => setTimeout(() => rej(new Error("timeout")), ms))]); }
+$("#refresh").addEventListener("click", async () => {
+  const b = $("#refresh"); if (b.classList.contains("spin")) return; b.classList.add("spin"); say(null);
+  const before = S && S.generated_at; let p = 5; progress(p);
+  clearInterval(pTimer); pTimer = setInterval(() => { p = Math.min(p + (90 - p) * 0.08, 90); progress(p); }, 120);
+  try {
+    progress(Math.max(p, 15), "Connecting…"); await withTimeout(getDB(), 11000);
+    progress(Math.max(p, 45), "Loading…"); const fresh = await withTimeout(fetchStats(), 15000); await loadNames();
+    if (!fresh || !fresh.generated_at) throw new Error("empty");
+    progress(Math.max(p, 85), "Drawing…"); if ($("#app").hidden) start(fresh); else { S = fresh; render(); } progressDone(true);
+    if (fresh.generated_at === before) say("info", [h("span", null, h("b", null, "Up to date. "), `You already have the newest numbers (from ${new Date(fresh.generated_at).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}). The next automatic check is at ${nextCheck()}.`)]);
+    else toast("Loaded the newest numbers");
+  } catch (e) {
+    progressDone(false);
+    const when = S ? new Date(S.generated_at).toLocaleString("en-US", { weekday: "short", hour: "numeric", minute: "2-digit" }) : null;
+    say("err", [h("span", null, h("b", null, "Couldn’t refresh. "), e && e.message === "timeout" ? "The data took too long to load. " : "The data couldn’t be loaded. ",
+      when ? `You’re still seeing data from ${when}. Check your connection and tap Refresh again.` : "Check your connection and tap Refresh again.")]);
+  } finally { b.classList.remove("spin"); }
+});
+function start(s){ S = s; ["#loading", "#waiting"].forEach(q => { $(q).hidden = true; }); $("#waiting").replaceChildren(); $("#app").hidden = false; $("#tabs").hidden = false; fab.hidden = false;
+  try { render(); } catch (e) { console.error(e); } try { showView(); } catch (e) { console.error(e); } }
+(async () => {
+  const r = store.get("pv_range"); if (["7", "30", "90"].includes(r)) { RANGE = r; $("#range").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x.dataset.r === r)); }
+  let s0 = null; try { s0 = await fetchStats(); } catch { showWaiting(); return; }
+  await loadNames(); start(s0);
+})();
+})();
+</script>
+</body>
+</html>
