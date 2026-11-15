@@ -350,7 +350,7 @@ body{background:radial-gradient(1200px 600px at 85% -10%,rgba(63,127,168,.10),tr
   .fresh{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-right:-12px;padding-right:12px}.fresh .ch{flex:none}
   .pf{display:none}.pf-sel{display:block;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:0 10px;height:42px;font-weight:600;max-width:100%}
   .search-btn .lbl,.search-btn .kbd{display:none}.search-btn{width:42px;padding:0;justify-content:center}
-  .tabs{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:10px;right:10px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:80;background:var(--navy);border-radius:20px;padding:5px;box-shadow:0 10px 30px rgba(7,19,33,.35)}
+  .tabs{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;position:fixed;left:10px;right:10px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:80;background:var(--navy);border-radius:20px;padding:5px;box-shadow:0 10px 30px rgba(7,19,33,.35)}
   .tabs a,.tabs button{border:0;background:none;color:#a9bed3;display:flex;flex-direction:column;align-items:center;gap:3px;min-height:56px;justify-content:center;border-radius:15px;font-size:11px;font-weight:600;text-decoration:none}
   .tabs svg{width:22px;height:22px}
   .tabs [aria-current=page]{background:rgba(255,255,255,.13);color:#fff}
@@ -586,7 +586,7 @@ function monthly(key){
 }
 
 /* ============================================================ pages registry */
-const PAGES = [
+const PAGES_ALL = [
   {k:"today", l:"Today", g:"Daily", d:"Your morning view: what moved and what needs you"},
   {k:"hotels", l:"Hotels", g:"Business", d:"Rooms on the books, weeks ahead, offers"},
   {k:"restaurants", l:"Restaurants", g:"Business", d:"Covers, holiday push board, market"},
@@ -602,7 +602,10 @@ const PAGES = [
   {k:"summary", l:"Weekly summary", g:"Plan", d:"One-page leadership memo"},
   {k:"security", l:"Security", g:"Admin", d:"Who can see it, what it stores"},
   {k:"settings", l:"Settings", g:"Admin", d:"People, access and invites"}];
-const TABS = ["today","hotels","restaurants","sales"];
+const PAGES = PAGES_ALL;
+const TABS0 = ["today","hotels","restaurants","sales"];
+const BUILT = () => PAGES_ALL.filter(p => V[p.k]);
+let TABS = TABS0;
 const BADGE = {advisor:["bad","3 need action"], hotels:["bad","1 behind"], restaurants:["bad","1 behind"], sales:["good","On track"], eblasts:["good","On track"], website:["good","On track"], paid:["watch","1 to watch"], social:["watch","Out of date"], comp:["bad","New 30% offer"], plan:["watch","2 due this week"], today:["bad","3 need you"], ask:["info","Scripted demo"], summary:["info","Mon 6 am"], security:["good","All good"], settings:["info","5 people"]};
 
 /* card wrapper: title, optional subtitle, link, note button, body */
@@ -723,13 +726,13 @@ function openKPI(k){
 }
 
 /* ============================================================ search */
-const INDEX = [...PAGES.map(p => [p.l, p.d, p.k, "Page"]),
+const INDEX = [...PAGES_ALL.map(p => [p.l, p.d, p.k, "Page"]),
   ["Thanksgiving by the sea","E-blast · Nov 12 · $21.4K","eblasts","E-blast"],["Driftwood holiday menu","E-blast · Nov 16","eblasts","E-blast"],["Shoreline winter escape","E-blast · scheduled Nov 19","eblasts","E-blast"],
   ["Winter Escape","Campaign · Shoreline Hotel · Dec","plan","Campaign"],["Christmas Eve dinner","Campaign · Driftwood Grill","plan","Campaign"],["Stay Longer, Save 20%","Offer · Seacliff Resort","hotels","Offer"],["Valentine’s by the water","Campaign · Feb","plan","Campaign"],
   ["Cove Point Inn","Competitor · 30% winter sale","comp","Competitor"],["Harbor House Hotel","Competitor","comp","Competitor"],["Hale–Okafor wedding","Event · Sat Nov 21 · 140 guests","sales","Event"]];
 function renderSearch(q){
   q = q.trim().toLowerCase();
-  const hits = INDEX.filter(x => !q || (x[0] + " " + x[1]).toLowerCase().includes(q)).slice(0, 9);
+  const hits = INDEX.filter(x => V[x[2]]).filter(x => !q || (x[0] + " " + x[1]).toLowerCase().includes(q)).slice(0, 9);
   $("#sres").innerHTML = hits.length ? hits.map((x, i) => `<li><a href="#${x[2]}" class="${i?"":"hl"}" data-close><span><b>${esc(x[0])}</b><br><span class="sm muted">${esc(x[1])}</span></span><small>${x[3]}</small></a></li>`).join("") : `<li class="empty"><b>No matches</b>Try “Thanksgiving”, “Shoreline” or “Cove Point”.</li>`;
 }
 
@@ -740,6 +743,7 @@ function toast(t){ const el = $("#toast"); el.textContent = t; el.classList.add(
 
 /* ============================================================ render */
 function chrome(){
+  const PAGES = BUILT(); TABS = TABS0.filter(k => V[k]);
   const groups = [...new Set(PAGES.map(p => p.g))];
   $("#sidenav").innerHTML = groups.map(g => `<p class="grp">${g}</p>` + PAGES.filter(p => p.g === g).map(p => `<a href="#${p.k}" ${p.k===S.page?'aria-current="page"':""}>${ico(p.k)}${p.l}${p.k==="advisor"?'<span class="bdg">3</span>':""}</a>`).join("")).join("");
   $("#tabs").innerHTML = TABS.map(k => { const p = PAGES.find(x => x.k === k); return `<a href="#${k}" ${k===S.page?'aria-current="page"':""}>${ico(k)}${k==="restaurants"?"Dining":k==="sales"?"Sales":p.l}</a>`; }).join("") + `<button type="button" data-more ${TABS.includes(S.page)?"":'aria-current="page"'}>${ico("more")}More</button>`;
