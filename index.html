@@ -171,6 +171,7 @@ section{scroll-margin-top:70px}
 .numbers .grid > div{padding-top:22px;border-top:1px solid rgba(211,168,119,.45)}
 
 /* Highlights */
+.hl .hl-go{margin:4px 0 14px;align-self:flex-start}
 .highlights{padding-top:clamp(24px,3vw,44px);padding-bottom:clamp(40px,5vw,72px)}
 .hl-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,44px) clamp(28px,4vw,64px)}
 .hl{position:relative;padding:26px 0 0}
@@ -542,6 +543,7 @@ footer{padding:28px var(--gut) 40px;display:flex;justify-content:space-between;f
   <div class="wrap">
     <div class="chapter"><span class="label">Highlights</span><h2 id="hl-title">What I’ve done</h2></div>
     <ol class="hl-list">
+      <li class="hl reveal"><p class="hl-n">8<span class="u">→</span>1</p><h3>Built a marketing dashboard with an AI Advisor</h3><p>Pulled 8+ systems (bookings, covers, events, email, web, paid, social and the competition) into one private hub that refreshes every morning and tells the team what to do next.</p><button class="tm hl-go" type="button" data-goto="data"><span class="ico"><svg><use href="#arr"/></svg></span>Try the live demo</button><span class="label">Design, build &amp; data pipelines</span></li>
       <li class="hl reveal"><p class="hl-n">Led<span class="u">.</span></p><h3>Led the Revinate → Ascent360 switch</h3><p>Ran the whole marketing side of our CRM migration: moved all the guest data, rebuilt every eblast template from scratch, managed the vendor relationship with the Ascent360 team and trained coworkers on the platform.</p><span class="label">LJBTC · La Jolla Shores · The Marine Room</span></li>
       <li class="hl reveal"><p class="hl-n" data-count="10" data-prefix="$" data-suffix="K">$10<span class="u">K</span></p><h3>Found free Google Ads money</h3><p>A GA4 audit at Wine to Water turned up about $10,000 in Google Ad Grant credit the nonprofit was entitled to but had never used.</p><span class="label">Wine to Water · 2025</span></li>
       <li class="hl reveal"><p class="hl-n" data-count="5" data-suffix=" mo">5<span class="u"> mo</span></p><h3>Ran marketing as acting Assistant Director</h3><p>Covered the Assistant Director of Marketing role for five months, reporting directly to the Director of Sales &amp; Marketing.</p><span class="label">La Jolla Beach &amp; Tennis Club</span></li>
@@ -921,6 +923,10 @@ $$(".ecar").forEach(c => { const t = c.querySelector(".ecar-track"), dots = [...
 
 /* ---- tap any work image to see it full screen ---- */
 
+
+/* highlight buttons jump to a work category */
+document.addEventListener("click", e => { const b = e.target.closest("[data-goto]"); if(!b) return; showCat(b.dataset.goto, false);
+  const x = document.querySelector(`.exhibit[data-cats~="${b.dataset.goto}"]`); if(x) scrollTo({top: x.getBoundingClientRect().top + scrollY - 90, behavior: reduce ? "auto" : "smooth"}); });
 /* dashboard demo: full screen */
 const dov = $("#demo-ov");
 document.addEventListener("click", e => { const b = e.target.closest(".demo-expand"); if(!b) return; const f = dov.querySelector("iframe"); if(!f.src.endsWith(b.dataset.src)) f.src = b.dataset.src; dov.classList.add("open"); document.body.style.overflow = "hidden"; $("#demo-close").focus(); });
@@ -1017,6 +1023,7 @@ $$(".copy").forEach(b => b.addEventListener("click", async () => { const s = b.q
     else if (a.matches(".copy")) ev("copy_email");
     else if (a.matches("#chips .chip")) ev("work_" + a.dataset.f);
     else if (a.id === "wnext" && a.dataset.f) ev("work_" + a.dataset.f);
+    else if (a.matches(".hl-go")) ev("highlight_to_demo");
     else if (a.matches(".demo-expand")) ev("dashboard_demo_expand");
     else if (a.closest(".demo-cta") && href) ev("dashboard_demo_new_tab");
     else if (a.id === "show-reels" && a.getAttribute("aria-expanded") === "false") ev("reels_open");
