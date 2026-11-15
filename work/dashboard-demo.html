@@ -303,7 +303,7 @@ function countUp(root){
   root.querySelectorAll("[data-to]").forEach(el => {
     const to = +el.dataset.to, f = el.dataset.f || "n", done = v => el.textContent = f === "k" ? fmtK(v) : f === "p" ? v.toFixed(1) + "%" : fmtN(v);
     if (reduce) return done(to);
-    const t0 = performance.now(), d = 700;
+    const t0 = performance.now(), d = 320;
     const step = t => { const k = Math.min(1, (t - t0) / d); done(to * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(step); };
     requestAnimationFrame(step);
   });
