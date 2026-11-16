@@ -78,6 +78,9 @@ h2{font:700 20px/26px var(--sans);letter-spacing:-.01em}
 .rc .acts{display:flex;align-items:center;gap:12px;margin-top:10px}
 .rc .lnk{border:0;background:none;color:var(--muted);font:500 13px var(--sans);text-decoration:underline;cursor:pointer;min-height:44px;padding:0 4px}
 .sentlbl{margin:18px 2px 2px}
+.rc.scan{box-shadow:none;border-style:dashed}
+.scanbox{margin-top:12px;padding:12px 14px;border-radius:14px;background:var(--surface-2,color-mix(in srgb,var(--muted) 10%,transparent));font-size:14px;line-height:20px}
+.scanbox b{font-weight:600}
 .rc.hot{border-color:color-mix(in srgb,var(--gold) 70%,var(--line))}
 .rc .hd{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
 .rc .co{font:800 21px/24px var(--sans);letter-spacing:-.01em;min-width:0}
@@ -382,6 +385,11 @@ function dayWord(d){ const t = new Date(); t.setHours(0,0,0,0); const x = new Da
 
 
 const ymd = d => d.getFullYear() + String(d.getMonth() + 1).padStart(2, "0") + String(d.getDate()).padStart(2, "0");
+// A real reader scrolls, opens something, or stays a while. Quick visits with none of that are almost always a company's
+// email security opening every link to check it's safe, not a person.
+const READ_EVENTS = ["scroll_25", "scroll_50", "scroll_75", "scroll_100", "view_about", "view_experience", "view_work", "view_photos", "view_contact",
+  "reels_open", "lightbox_open", "click_book_call", "click_email", "copy_email", "click_linkedin", "contact_form_submit"];
+const isReal = (ev, engSec) => (engSec || 0) >= 20 || READ_EVENTS.some(e => (ev[e] || 0) > 0) || Object.keys(ev).some(e => e.startsWith("work_") && ev[e] > 0);
 const SECTIONS = [["view_highlights", "Top"], ["view_about", "About"], ["view_experience", "Timeline"], ["view_work", "Work"], ["view_photos", "Photos"], ["view_contact", "Contact"]];
 
 function rows(el, items, opt = {}){ el.replaceChildren();
@@ -414,21 +422,22 @@ function receiptList(){
   Object.keys(last).forEach(k0 => { const k = alias[k0]; if (!k) return; if (!last[k] || last[k0] > last[k]) { last[k] = last[k0]; lastSrc[k] = lastSrc[k0]; } delete last[k0]; delete lastSrc[k0]; });
   const keys = new Set([...Object.keys(det), ...Object.keys(last), ...Object.keys(sent).filter(k => !hidden[k])]);
   return [...keys].map(k => { const d = det[k] || { sessions: 0, users: 0, engSec: 0, events: {}, places: [] }; const ev = d.events || {}, sn = sent[k] || null;
-    const opened = (d.sessions || 0) > 0 || !!last[k];
+    const clicked = (d.sessions || 0) > 0 || !!last[k], real = clicked && isReal(ev, d.engSec), scan = clicked && !real, opened = real;
     const booked = (ev.click_book_call || 0) > 0, emailed = (ev.click_email || 0) + (ev.copy_email || 0) + (ev.contact_form_submit || 0) > 0;
-    const hot = booked || d.sessions >= 3 || d.users >= 2 || d.engSec >= 180;
-    const status = booked ? ["★", "Booked a call", "var(--good)"] : hot ? ["▲", d.users >= 2 ? "Shared inside" : "Came back", "var(--gold)"] : opened ? ["●", "Opened", "var(--sage)"] : ["○", "Not opened yet", "var(--muted)"];
+    const hot = real && (booked || d.sessions >= 3 || d.users >= 2 || d.engSec >= 180);
+    const status = booked ? ["★", "Booked a call", "var(--good)"] : hot ? ["▲", d.users >= 2 ? "Shared inside" : "Came back", "var(--gold)"] : real ? ["●", "Read it", "var(--sage)"] : scan ? ["◌", "Security scan", "var(--muted)"] : ["○", "Not opened yet", "var(--muted)"];
     const via = Object.entries(d.via || {}).map(([src, v]) => ({ src, ...v })).sort((a, b) => (b.sessions || 0) - (a.sessions || 0));
-    return { k, d, ev, last: last[k] || null, lastSrc: [...(lastSrc[k] || [])], via, booked, emailed, hot, status, opened, sn, sentAt: sn && sn.sentAt ? new Date(sn.sentAt) : null };
-  }).sort((a, b) => (b.booked - a.booked) || (b.hot - a.hot) || (b.opened - a.opened) || ((b.last || b.sentAt || 0) - (a.last || a.sentAt || 0)));
+    return { k, d, ev, last: last[k] || null, lastSrc: [...(lastSrc[k] || [])], via, booked, emailed, hot, status, opened, scan, sn, sentAt: sn && sn.sentAt ? new Date(sn.sentAt) : null };
+  }).sort((a, b) => (b.booked - a.booked) || (b.hot - a.hot) || (b.opened - a.opened) || (b.scan - a.scan) || ((b.last || b.sentAt || 0) - (a.last || a.sentAt || 0)));
 }
 function renderReceipts(){
   const list = receiptList(), el = $("#receipts"); el.replaceChildren();
-  const week = list.filter(r => r.last && Date.now() - r.last < 7 * 864e5).length, badge = $("#tab-badge"); badge.hidden = !week; badge.textContent = week;
+  const week = list.filter(r => r.opened && r.last && Date.now() - r.last < 7 * 864e5).length, badge = $("#tab-badge"); badge.hidden = !week; badge.textContent = week;
   if (!list.length) { el.append(h("div", { class: "card" }, empty("No application links sent yet", "Every tracked link you send shows up here: from JobPulse resumes and cover letters, your sent email, and links you copy with +. When someone clicks one, you'll see where they clicked it, how long they read, and what they looked at."))); return list; }
-  const waitingN = list.filter(r => !r.opened).length;
+  const waitingN = list.filter(r => !r.opened && !r.scan).length, scanN = list.filter(r => r.scan).length;
   list.forEach((r, i) => {
-    if (!r.opened) { if (i === list.length - waitingN) el.append(h("p", { class: "micro sentlbl" }, `Sent, not opened yet · ${waitingN}`));
+    if (r.scan && i === list.length - waitingN - scanN) el.append(h("p", { class: "micro sentlbl" }, `Link checked, nobody reading yet · ${scanN}`));
+    if (!r.opened && !r.scan) { if (i === list.length - waitingN) el.append(h("p", { class: "micro sentlbl" }, `Sent, not opened yet · ${waitingN}`));
       const sentMeta = [r.sentAt ? `Sent ${dayWord(r.sentAt)}` : "Sent", r.sn && r.sn.where && r.sn.where.length ? r.sn.where.join(" + ") : null, r.sn && r.sn.role ? r.sn.role : null].filter(Boolean).join(" · ");
       el.append(h("article", { class: "rc wait", style: `animation-delay:${Math.min(i, 8) * 30}ms`, "aria-label": (r.sn && r.sn.company) || appName(r.k) },
         h("div", { class: "hd" }, h("h3", { class: "co" }, (r.sn && r.sn.company) || appName(r.k)), h("span", { class: "st", style: `--cc:${r.status[2]}` }, h("b", null, r.status[0]), r.status[1])),
@@ -446,13 +455,16 @@ function renderReceipts(){
     if (r.ev.reels_open) saw.push("Reels");
     if (r.ev.click_linkedin) saw.push("Your LinkedIn");
     const nudge = r.booked ? null : r.hot ? (r.d.users >= 2 ? "It was passed to someone else. Good time to follow up." : `They came back ${r.d.sessions}×. Good time to follow up.`) : null;
-    el.append(h("article", { class: "rc" + (r.hot ? " hot" : ""), style: `animation-delay:${Math.min(i, 8) * 30}ms`, "aria-label": appName(r.k) },
+    const scanNote = r.scan ? h("div", { class: "scanbox" }, h("b", null, "◌ Most likely their email security, not a person. "),
+      `Every visit was quick${r.d.engSec ? "" : " (under a second)"} with no scrolling, which is what happens when a company's system opens each link in incoming email and attachments to check it's safe. It does mean your email got through. If a real person reads it, this card turns green.`) : null;
+    el.append(h("article", { class: "rc" + (r.hot ? " hot" : "") + (r.scan ? " scan" : ""), style: `animation-delay:${Math.min(i, 8) * 30}ms`, "aria-label": appName(r.k) },
       h("div", { class: "hd" }, h("h3", { class: "co" }, appName(r.k)), h("span", { class: "st", style: `--cc:${r.status[2]}` }, h("b", null, r.status[0]), r.status[1])),
       h("div", { class: "meta" }, meta + (where ? ` · ${place(where.city, where.region, where.countryId)}, ${DEV[where.deviceCategory] || where.deviceCategory}` : "")),
       h("div", { class: "strip", role: "img", "aria-label": `Read ${read} of 6 sections` }, sec.map(on => h("i", { class: on ? "on" : "" }))),
       h("div", { class: "strip-l", "aria-hidden": "true" }, SECTIONS.map(([, l], j) => h("span", { class: sec[j] ? "on" : "" }, l))),
       (saw.length || r.booked || r.emailed) ? h("div", { class: "saw" }, r.booked ? h("span", { class: "tag star" }, "★ Tapped Book a call") : null, r.emailed ? h("span", { class: "tag star" }, "Tried to email you") : null, saw.map(s => h("span", { class: "tag" }, s))) : null,
       viaBlock(r),
+      scanNote,
       nudge ? h("div", { class: "nudge" }, h("p", null, nudge), h("button", { class: "btn sm", type: "button", "data-copy": r.k }, "Copy link")) : null));
   });
   el.querySelectorAll("button[data-copy]").forEach(b => b.addEventListener("click", () => copyLink(appLink(b.dataset.copy, "email"), appName(b.dataset.copy) + " follow-up email")));
@@ -474,7 +486,7 @@ function viaBlock(r){
       return h("div", { class: "vrow" },
         h("span", { class: "vdoc", style: `--dc:${color}` }, docIcon(ic), label),
         h("div", { class: "vtxt" }, h("b", null, line), booked ? h("span", { class: "vbk" }, " · ★ Booked a call") : null,
-          h("span", { class: "vsaw" }, saw.length ? "Looked at " + saw.join(", ") : "Opened the page")));
+          h("span", { class: "vsaw" }, saw.length ? "Looked at " + saw.join(", ") : isReal(ev, v.engSec) ? "Read the top of the page" : "Quick check, likely email security")));
     }));
 }
 function renderSummary(list){
@@ -482,8 +494,8 @@ function renderSummary(list){
   const d30 = series(30), v30 = d30.reduce((a, d) => a + d.v, 0);
   const el = $("#summary"); el.replaceChildren(
     h("div", { class: "big" }, fmt(opened)),
-    h("div", { class: "lead" }, total > opened ? `of ${fmt(total)} ${total === 1 ? "company" : "companies"} you sent a link to ${opened === 1 ? "has" : "have"} opened it` : (opened === 1 ? "company opened your portfolio" : "companies opened your portfolio")),
-    h("div", { class: "row" }, booked ? h("span", { class: "chip" }, `★ ${booked} booked a call`) : null, hot ? h("span", { class: "chip" }, `▲ ${hot} worth a follow-up`) : null, h("span", { class: "chip" }, `${fmt(v30)} visitor-days · 30d`), ((S.ranges["30"] || {}).bots || {}).users ? h("span", { class: "chip" }, `${fmt(S.ranges["30"].bots.users)} bots removed`) : null));
+    h("div", { class: "lead" }, total > opened ? `of ${fmt(total)} ${total === 1 ? "company" : "companies"} you sent a link to ${opened === 1 ? "has" : "have"} really read it` : (opened === 1 ? "company opened your portfolio" : "companies opened your portfolio")),
+    h("div", { class: "row" }, booked ? h("span", { class: "chip" }, `★ ${booked} booked a call`) : null, hot ? h("span", { class: "chip" }, `▲ ${hot} worth a follow-up`) : null, list.some(r => r.scan) ? h("span", { class: "chip" }, `◌ ${list.filter(r => r.scan).length} link-checked only`) : null, h("span", { class: "chip" }, `${fmt(v30)} visitor-days · 30d`), ((S.ranges["30"] || {}).bots || {}).users ? h("span", { class: "chip" }, `${fmt(S.ranges["30"].bots.users)} bots removed`) : null));
   if (d30.some(d => d.v)) { const W = 120, H = 44, x = d3.scaleLinear().domain([0, 29]).range([2, W - 2]), y = d3.scaleLinear().domain([0, d3.max(d30, d => d.v) || 1]).range([H - 2, 4]);
     const svg = d3.select(el).append("svg").attr("class", "spark").attr("viewBox", `0 0 ${W} ${H}`).attr("aria-hidden", "true");
     svg.append("path").attr("class", "area").attr("d", d3.area().x((d, i) => x(i)).y0(H).y1(d => y(d.v)).curve(d3.curveMonotoneX)(d30));
